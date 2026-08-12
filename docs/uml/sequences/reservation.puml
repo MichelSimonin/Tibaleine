@@ -1,0 +1,41 @@
+@startuml
+' ----------------------------------------------------------------------------
+' Diagramme de séquence — Réservation d'une sortie
+' Source : Cahier des charges V2 §4 (Règles métier / Réservation), CR-01/Q01,
+'          CR-01/Q03, CR-01/Q06, CR-01 §3, CR-02 §1
+' ----------------------------------------------------------------------------
+
+title Réservation d'une sortie
+
+actor "Client" as Client
+actor "Patron" as Patron
+participant "Système" as Systeme
+participant "Prestataire de paiement" as Paiement
+
+Client -> Systeme : Demande de réservation\n(type, date/heure, nb adultes,\nnb enfants, email, téléphone)
+activate Systeme
+Systeme -> Systeme : Vérifie la disponibilité\n(capacité du bateau, min 6 personnes,\nune sortie baleine par créneau)
+Systeme --> Client : Récapitulatif — attente de validation
+deactivate Systeme
+
+Systeme -> Patron : Nouvelle demande de réservation
+activate Patron
+Patron -> Systeme : Confirme la réservation
+deactivate Patron
+
+Systeme --> Client : Réservation confirmée
+Client -> Systeme : Paiement en ligne
+activate Systeme
+Systeme -> Paiement : Demande de paiement (montant)
+Paiement --> Systeme : Paiement accepté
+Systeme --> Client : Confirmation + paiement enregistré
+deactivate Systeme
+
+note right of Systeme
+  Règles :
+  - réservation min 2 personnes (CR-01 §3)
+  - confirmation dans la journée (CR-01/Q06)
+  - paiement uniquement en ligne (CR-01/Q07)
+end note
+
+@enduml
