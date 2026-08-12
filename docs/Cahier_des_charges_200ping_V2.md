@@ -235,6 +235,9 @@ Connexion
 Consultation des réservations
 ```
 
+Pour l’inscription :
+Mot de passe à 8 caractères minimum avec des caractères spéciaux.
+
 ---
 
 # 5. Besoins non fonctionnels
