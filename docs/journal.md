@@ -81,8 +81,6 @@ décoratif : c'est ce qui permet de distinguer un arbitrage d'un acquiescement.
 
 **Critiques de l'IA acceptées.**
 
-- Aucune : l'IA n'intervient pas en J1.
-
 **Critiques de l'IA refusées, et pourquoi.**
 
 - Sans objet.
@@ -105,11 +103,11 @@ décoratif : c'est ce qui permet de distinguer un arbitrage d'un acquiescement.
 
 **Critiques de l'IA acceptées.**
 
-- Aucune : l'IA n'intervient pas en J1.
+- Generation du diagramme de sequence et le MCD, source des besoins fonctionnels et une partie des besoins fonctionnels.
 
 **Critiques de l'IA refusées, et pourquoi.**
 
-- Sans objet.
+- formattage en markdown qui a rajouté des elements aux cahiers des charges.
 
 **Erreurs produites par l'IA et détectées.**
 
@@ -117,6 +115,6 @@ décoratif : c'est ce qui permet de distinguer un arbitrage d'un acquiescement.
 
 **Ce qui a été généré aujourd'hui.**
 
-- Rien.
+- Generation du diagramme de sequence et le MCD, source des besoins fonctionnels et une partie des besoins fonctionnels.
 
 ## **Questions ouvertes pour le client.**
