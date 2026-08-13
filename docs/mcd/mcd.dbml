@@ -1,0 +1,80 @@
+// ============================================================================
+// MCD — TI Baleine App
+// ----------------------------------------------------------------------------
+// Sources   : Cahier des charges V2.0 (mis à jour 12/08/2026), CR-01, CR-02, CR-03
+// Rôles     : utilisateur | employe | administrateur (décision équipe corrigée 12/08/2026)
+// Décisions équipe (12/08/2026) : compte client OUI ; enfant 4-11 ans, adulte
+//            12 ans et +, accès interdit aux moins de 4 ans ; nom/prénom ajoutés
+//            et mot de passe rendu optionnel (MCD LucidChart).
+// Clientèle hôtel (CR-03) : modélisée en table Hotel séparée (décision équipe
+//            12/08/2026) — remise -15 %, 6 places max/créneau, paiement fin de
+//            mois, pas de privatisation.
+//
+// Relations (cardinalités Merise) :
+//   Utilisateur (0,n) -------- effectue -------- (1,1) Reservation
+//   Sortie      (0,n) -------- concerne -------- (1,1) Reservation
+//   Bateau      (0,n) -------- est organisée sur (1,1) Sortie
+//   Reservation (0,1) -------- donne lieu à ----- (1,1) Paiement
+//   Bateau      (0,1) -------- est tarifé en ----- (1,1) Tarif   (privatisation)
+//   Utilisateur (0,1) -------- a pour profil hôtel (1,1) Hotel
+// ============================================================================
+
+Table Utilisateur {
+  id int [pk, increment]
+  nom varchar                             // décision équipe 12/08/2026 (MCD LucidChart)
+  prenom varchar                          // décision équipe 12/08/2026 (MCD LucidChart)
+  email varchar [not null, unique]        // CR-01/Q01 — email demandé à la réservation
+  mot_de_passe varchar                    // nullable (MCD LucidChart) — mot de passe optionnel
+  telephone varchar                       // CR-01/Q03 — laissé à la réservation, appel si annulation
+  role varchar [not null, default: 'utilisateur'] // 'utilisateur' (client) | 'employe' (lecture seule) | 'administrateur' (accès complet)
+}
+
+Table Bateau {
+  id int [pk, increment]
+  nom varchar [not null]                  // CR-01 §3 — Ti Kap, Grand Bleu
+  capacite int [not null]                 // CR-01/Q02 — 12 ou 24 places
+}
+
+Table Sortie {
+  id int [pk, increment]
+  type varchar [not null]                 // CR-01/Q01 — baleine | dauphin | privatisation
+  date date [not null]                    // CR-01/Q23 — tous les jours
+  heure_depart time [not null]            // CR-01 §3 — créneaux 7h / 10h / 14h
+  duree time [not null]                   // CR-01 §3 — 2h30 baleine, 2h dauphin
+  bateau int [not null, ref: > Bateau.id] // une sortie est organisée sur un seul bateau (1,1)
+}
+
+Table Reservation {
+  id int [pk, increment]
+  etat varchar [not null, default: 'en_attente'] // en_attente | confirmée | refusée | annulée
+  motif_annulation varchar                // renseigné si demande d'annulation (envoi du motif)
+  nb_adultes int [not null]               // CR-01/Q01
+  nb_enfants int [not null]               // CR-01/Q01 — enfant : 4 à 11 ans
+  utilisateur int [not null, ref: > Utilisateur.id] // une réservation = un utilisateur (1,1)
+  sortie int [not null, ref: > Sortie.id] // une réservation = une sortie (1,1)
+  // Règles : min 2 personnes/réservation ; min 6 personnes/bateau ;
+  //          modification possible uniquement si etat = en_attente
+}
+
+Table Paiement {
+  id int [pk, increment]
+  montant decimal [not null]              // calculé depuis Tarif (CR-01 §3)
+  reservation int [unique, ref: > Reservation.id] // une réservation donne lieu à 0..1 paiement
+  // Statut / référence de la transaction : à préciser (pas de prestataire fixe, ADR-001 : Stripe)
+}
+
+Table Tarif {
+  id int [pk, increment]
+  type_sortie varchar [not null]          // baleine | dauphin | privatisation
+  categorie varchar                       // adulte | enfant (null pour privatisation)
+  bateau int [ref: > Bateau.id]           // tarif privatisation lié au bateau (600 Ti Kap / 1100 Grand Bleu)
+  montant decimal [not null]              // CR-01 §3 : 65/40 baleine, 50/30 dauphin
+}
+
+Table Hotel {
+  id int [pk, increment]
+  utilisateur int [not null, unique, ref: > Utilisateur.id] // 1 compte utilisateur = 0..1 hôtel (CR-03)
+  remise decimal [not null, default: 0.15]   // remise -15 % sur le total (CR-03 §3)
+  places_max int [not null, default: 6]      // 6 places max par créneau (CR-03 contrainte 02)
+  paiement_fin_de_mois boolean [not null, default: true] // paiement en fin de mois (CR-03 §3)
+}
