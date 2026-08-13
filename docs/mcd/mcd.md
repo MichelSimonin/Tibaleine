@@ -135,6 +135,77 @@ sont des règles portées par la `Réservation` (état + motif), voir §5.
 | **est tarifé en** | BATEAU (0,1) | TARIF (1,1) | un bateau a au plus un tarif de privatisation ; un tarif de privatisation concerne un seul bateau |
 | **a pour profil hôtel** | UTILISATEUR (0,1) | HOTEL (1,1) | un utilisateur a au plus un profil hôtel ; un hôtel correspond à un seul compte utilisateur |
 
+### 3.1 Représentation visuelle (Mermaid)
+
+Le schéma ci-dessous se **rend nativement dans l'aperçu Markdown de VS Code**
+(`Ctrl+Shift+V` ou bouton « Ouvrir l'aperçu ») — aucune extension à installer.
+Il reprend les 7 entités avec leurs clés et les associations listées ci-dessus.
+
+```mermaid
+erDiagram
+    UTILISATEUR {
+        int id PK
+        varchar nom
+        varchar prenom
+        varchar email UK
+        varchar mot_de_passe
+        varchar telephone
+        varchar role
+    }
+    BATEAU {
+        int id PK
+        varchar nom
+        int capacite
+    }
+    SORTIE {
+        int id PK
+        varchar type
+        date date
+        time heure_depart
+        time duree
+        int bateau FK
+    }
+    RESERVATION {
+        int id PK
+        varchar etat
+        varchar motif_annulation
+        int nb_adultes
+        int nb_enfants
+        int utilisateur FK
+        int sortie FK
+    }
+    PAIEMENT {
+        int id PK
+        decimal montant
+        int reservation FK
+    }
+    TARIF {
+        int id PK
+        varchar type_sortie
+        varchar categorie
+        int bateau FK
+        decimal montant
+    }
+    HOTEL {
+        int id PK
+        int utilisateur FK
+        decimal remise
+        int places_max
+        boolean paiement_fin_de_mois
+    }
+
+    UTILISATEUR ||--o{ RESERVATION : "effectue"
+    SORTIE ||--o{ RESERVATION : "concerne"
+    BATEAU ||--o{ SORTIE : "est organisée sur"
+    RESERVATION |o--|| PAIEMENT : "donne lieu à"
+    BATEAU |o--|| TARIF : "est tarifé en (privatisation)"
+    UTILISATEUR |o--|| HOTEL : "a pour profil hôtel"
+```
+
+**Lecture des cardinalités (Mermaid) :** `||` = exactement un · `o{` = zéro ou
+plusieurs · `o|` = zéro ou un. Par exemple `BATEAU ||--o{ SORTIE` se lit : un
+bateau accueille 0..n sorties, une sortie est organisée sur un seul bateau.
+
 ---
 
 ## 4. Schéma des tables (DBML)
