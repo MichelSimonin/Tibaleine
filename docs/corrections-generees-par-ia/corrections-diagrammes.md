@@ -33,7 +33,7 @@ Fichier examiné : `docs/cas_utilisation/Tibaleine cas d'utilisation.drawio`.
 
 ## 2. MCD
 
-Fichiers examinés : `docs/mcd/mcd.md` et `docs/mcd/mcd.dbml`.
+Fichiers examinés : `docs/mcd/mcd-V1.md` et `docs/mcd/mcd-V1.dbml`.
 
 ### Corrections prioritaires
 

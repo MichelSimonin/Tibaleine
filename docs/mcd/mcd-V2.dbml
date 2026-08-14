@@ -1,0 +1,114 @@
+// ============================================================================
+// MCD — TI Baleine App — V2
+// ----------------------------------------------------------------------------
+// Sources   : Cahier des charges V2.0 (mis à jour 12/08/2026), CR-01, CR-02,
+//             CR-03 + SPEC brouillons : SPEC-BOOK-01/02, SPEC-CANCEL-01/02/03
+// Rôles     : utilisateur | employe | administrateur (décision équipe 12/08/2026)
+// Décisions équipe (12/08/2026) : compte client OUI ; enfant 4-11 ans, adulte
+//            12 ans et +, accès interdit aux moins de 4 ans ; nom/prénom ajoutés
+//            et mot de passe rendu optionnel (MCD LucidChart).
+// Clientèle hôtel (CR-03) : table Hotel séparée — remise -15 %, 6 places max,
+//            paiement fin de mois, pas de privatisation.
+//
+// Changements V1 → V2 (14/08/2026, confirmés équipe) :
+//   - Reservation.etat : + 'payee' (SPEC-BOOK-01)
+//   - Sortie.etat + Sortie.avertissement_envoye_le : avertissement météo la
+//     veille à 18h puis annulation ≥ 2h avant, par créneau (SPEC-CANCEL-02)
+//   - Nouvelle table Notification : trace des envois SMS / email / pop-up site
+//     (SPEC-BOOK-01, SPEC-CANCEL-02/03)
+//   - Paiement.statut : suit les scénarios de remboursement (SPEC-CANCEL-01/02/03)
+//   - (retiré : pas de type_annulation sur Reservation — décision équipe 14/08/2026)
+//
+// Relations (cardinalités Merise) :
+//   Utilisateur (0,n) -------- effectue -------- (1,1) Reservation
+//   Sortie      (0,n) -------- concerne -------- (1,1) Reservation
+//   Bateau      (0,n) -------- est organisée sur (1,1) Sortie
+//   Reservation (0,1) -------- donne lieu à ----- (1,1) Paiement
+//   Bateau      (0,1) -------- est tarifé en ----- (1,1) Tarif   (privatisation)
+//   Utilisateur (0,1) -------- a pour profil hôtel (1,1) Hotel
+//   Utilisateur (0,n) -------- reçoit -------- (0,1) Notification
+//   Reservation (0,n) -------- concerne -------- (0,1) Notification
+//   Sortie      (0,n) -------- avertit -------- (0,1) Notification
+// ============================================================================
+
+Table Utilisateur {
+  id int [pk, increment]
+  nom varchar                             // décision équipe 12/08/2026 (MCD LucidChart)
+  prenom varchar                          // décision équipe 12/08/2026 (MCD LucidChart)
+  email varchar [not null, unique]        // CR-01/Q01 — email demandé à la réservation
+  mot_de_passe varchar                    // nullable (MCD LucidChart) — mot de passe optionnel
+  telephone varchar                       // CR-01/Q03 — laissé à la réservation, appel si annulation
+  role varchar [not null, default: 'utilisateur'] // 'utilisateur' (client) | 'employe' (lecture seule) | 'administrateur' (accès complet)
+}
+
+Table Bateau {
+  id int [pk, increment]
+  nom varchar [not null]                  // CR-01 §3 — Ti Kap, Grand Bleu
+  capacite int [not null]                 // CR-01/Q02 — 12 ou 24 places
+}
+
+Table Sortie {
+  id int [pk, increment]
+  type varchar [not null]                 // CR-01/Q01 — baleine | dauphin | privatisation
+  date date [not null]                    // CR-01/Q23 — tous les jours
+  heure_depart time [not null]            // CR-01 §3 — créneaux 7h / 10h / 14h
+  duree time [not null]                   // CR-01 §3 — 2h30 baleine, 2h dauphin
+  bateau int [not null, ref: > Bateau.id] // une sortie est organisée sur un seul bateau (1,1)
+  etat varchar [not null, default: 'planifiee'] // SPEC-CANCEL-02 — planifiee | averie | annulee (décision par créneau)
+  avertissement_envoye_le datetime        // SPEC-CANCEL-02 — avertissement 18h la veille (nullable)
+}
+
+Table Reservation {
+  id int [pk, increment]
+  etat varchar [not null, default: 'en_attente'] // en_attente | confirmée | refusée | payée | annulée (SPEC-BOOK-01)
+  motif_annulation varchar                // renseigné si demande d'annulation (envoi du motif)
+  nb_adultes int [not null]               // CR-01/Q01
+  nb_enfants int [not null]               // CR-01/Q01 — enfant : 4 à 11 ans
+  utilisateur int [not null, ref: > Utilisateur.id] // une réservation = un utilisateur (1,1)
+  sortie int [not null, ref: > Sortie.id] // une réservation = une sortie (1,1)
+  // Règles : min 2 personnes/réservation ; min 6 personnes/bateau ;
+  //          modification possible uniquement si etat = en_attente ;
+  //          réservation bloquée 2h avant le départ (SPEC-BOOK-01 cas 2)
+}
+
+Table Paiement {
+  id int [pk, increment]
+  montant decimal [not null]              // calculé depuis Tarif (CR-01 §3)
+  statut varchar [not null, default: 'paye'] // SPEC-CANCEL-01/02/03 — paye | rembourse_partiel | rembourse_total
+  reservation int [unique, ref: > Reservation.id] // une réservation donne lieu à 0..1 paiement
+  // Référence de la transaction : à préciser (pas de prestataire fixe, ADR-001 : Stripe)
+}
+
+Table Tarif {
+  id int [pk, increment]
+  type_sortie varchar [not null]          // baleine | dauphin | privatisation
+  categorie varchar                       // adulte | enfant (null pour privatisation)
+  bateau int [ref: > Bateau.id]           // tarif privatisation lié au bateau (600 Ti Kap / 1100 Grand Bleu)
+  montant decimal [not null]              // CR-01 §3 : 65/40 baleine, 50/30 dauphin
+}
+
+Table Hotel {
+  id int [pk, increment]
+  utilisateur int [not null, unique, ref: > Utilisateur.id] // 1 compte utilisateur = 0..1 hôtel (CR-03)
+  remise decimal [not null, default: 0.15]   // remise -15 % sur le total (CR-03 §3)
+  places_max int [not null, default: 6]      // 6 places max par créneau (CR-03 contrainte 02)
+  paiement_fin_de_mois boolean [not null, default: true] // paiement en fin de mois (CR-03 §3)
+}
+
+Table Notification {
+  id int [pk, increment]
+  type varchar [not null]                 // SPEC-BOOK-01 / SPEC-CANCEL-02/03 —
+                                          //   avertissement | annulation | confirmation_demande | creneau_indisponible
+  canal varchar [not null]                // sms | email | popup_site
+  date_envoi datetime [not null]          // SPEC-CANCEL-02 — avertissement 18h la veille ; annulation ≥ 2h avant
+  contenu varchar                         // texte du message envoyé (trace)
+  utilisateur int [ref: > Utilisateur.id] // destinataire (nullable : pop-up site sans destinataire individuel)
+  reservation int [ref: > Reservation.id] // réservation concernée (confirmation, annulation, créneau indisponible)
+  sortie int [ref: > Sortie.id]           // créneau concerné (avertissement / annulation par créneau)
+  // Règles : email de confirmation de prise en charge au client + SMS au patron
+  //          (SPEC-BOOK-01) ; avertissement puis annulation par créneau (SPEC-CANCEL-02) ;
+  //          nouveau client après avertissement : pas de SMS/mail mais pop-up site
+  //          (SPEC-CANCEL-02 cas 1) ; hôtel : pas de notification, appel direct
+  //          (SPEC-CANCEL-02 cas 2) ; client annulant après avertissement :
+  //          remboursement intégral (SPEC-CANCEL-03)
+}
