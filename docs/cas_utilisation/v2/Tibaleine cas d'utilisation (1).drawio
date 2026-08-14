@@ -112,13 +112,10 @@
             <mxPoint x="430" y="160" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="Y8q0CpH5zhD7rXOpvSQk-34" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;font size=&quot;1&quot;&gt;Condition :&lt;/font&gt;&lt;div&gt;&lt;font size=&quot;1&quot;&gt;Informations valides&lt;/font&gt;&lt;/div&gt;" vertex="1">
-          <mxGeometry height="40" width="100" x="460" y="20" as="geometry" />
-        </mxCell>
         <mxCell id="Y8q0CpH5zhD7rXOpvSQk-35" edge="1" parent="1" source="Y8q0CpH5zhD7rXOpvSQk-34" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" value="">
           <mxGeometry height="50" relative="1" width="50" as="geometry">
-            <mxPoint x="422" y="270" as="sourcePoint" />
-            <mxPoint x="490" y="100" as="targetPoint" />
+            <mxPoint x="110" y="150" as="sourcePoint" />
+            <mxPoint x="180" y="220" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="Y8q0CpH5zhD7rXOpvSQk-36" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;font-size: 9px;&quot;&gt;Condition :&lt;/font&gt;&lt;div&gt;&lt;font size=&quot;1&quot;&gt;Informations valides&lt;/font&gt;&lt;/div&gt;" vertex="1">
@@ -175,7 +172,7 @@
             <mxPoint x="460" y="1570" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="Y8q0CpH5zhD7rXOpvSQk-59" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;" value="Saisie informations compte hotel" vertex="1">
+        <mxCell id="Y8q0CpH5zhD7rXOpvSQk-59" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;" value="Saisie informations" vertex="1">
           <mxGeometry height="50" width="160" x="540" y="1755" as="geometry" />
         </mxCell>
         <mxCell id="Y8q0CpH5zhD7rXOpvSQk-60" edge="1" parent="1" source="Y8q0CpH5zhD7rXOpvSQk-52" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="Y8q0CpH5zhD7rXOpvSQk-59" value="Include">
@@ -229,7 +226,7 @@
             <mxPoint x="460" y="450" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="Y8q0CpH5zhD7rXOpvSQk-80" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;" value="Annuler une annulation&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+        <mxCell id="Y8q0CpH5zhD7rXOpvSQk-80" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;" value="Annuler une réservation&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="40" width="120" x="540" y="1820" as="geometry" />
         </mxCell>
         <mxCell id="Y8q0CpH5zhD7rXOpvSQk-81" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;" value="Accepter" vertex="1">
@@ -368,12 +365,33 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="yrhCMiO2oQXrQz1rsrIJ-9" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;" value="Authentification" vertex="1">
-          <mxGeometry height="40" width="120" x="10" y="1990" as="geometry" />
+          <mxGeometry height="40" width="120" x="270" y="2150" as="geometry" />
         </mxCell>
-        <mxCell id="yrhCMiO2oQXrQz1rsrIJ-10" edge="1" parent="1" source="yrhCMiO2oQXrQz1rsrIJ-9" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" value="Include">
+        <mxCell id="yrhCMiO2oQXrQz1rsrIJ-10" edge="1" parent="1" source="yrhCMiO2oQXrQz1rsrIJ-9" style="endArrow=none;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="yrhCMiO2oQXrQz1rsrIJ-7" value="Include">
           <mxGeometry height="50" relative="1" width="50" as="geometry">
             <mxPoint x="60" y="1950" as="sourcePoint" />
             <mxPoint x="150" y="1950" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Y8q0CpH5zhD7rXOpvSQk-34" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;font size=&quot;1&quot;&gt;Condition :&lt;/font&gt;&lt;div&gt;&lt;font size=&quot;1&quot;&gt;Au moins deux places restantes&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="40" width="100" x="60" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="yrhCMiO2oQXrQz1rsrIJ-12" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;font size=&quot;1&quot;&gt;Condition :&lt;/font&gt;&lt;div&gt;&lt;font size=&quot;1&quot;&gt;Informations valides&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="40" width="100" x="340" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="yrhCMiO2oQXrQz1rsrIJ-13" edge="1" parent="1" style="endArrow=none;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="yrhCMiO2oQXrQz1rsrIJ-12" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="390" y="140" as="sourcePoint" />
+            <mxPoint x="340" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yrhCMiO2oQXrQz1rsrIJ-14" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;font size=&quot;1&quot;&gt;Condition :&lt;/font&gt;&lt;div&gt;&lt;font size=&quot;1&quot;&gt;Au moins deux places restantes&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="110" x="100" y="730" as="geometry" />
+        </mxCell>
+        <mxCell id="yrhCMiO2oQXrQz1rsrIJ-15" edge="1" parent="1" source="yrhCMiO2oQXrQz1rsrIJ-14" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="70" y="740" as="sourcePoint" />
+            <mxPoint x="160" y="820" as="targetPoint" />
           </mxGeometry>
         </mxCell>
       </root>
