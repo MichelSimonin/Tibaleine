@@ -7,13 +7,13 @@
 // Décisions équipe (12/08/2026) : compte client OUI ; enfant 4-11 ans, adulte
 //            12 ans et +, accès interdit aux moins de 4 ans ; nom/prénom ajoutés
 //            et mot de passe rendu optionnel (MCD LucidChart).
-// Clientèle hôtel (CR-03) : table Hotel séparée — remise -15 %, 6 places max,
-//            paiement fin de mois, pas de privatisation.
+// Clientèle hôtel (CR-03) : représentée par un Utilisateur ordinaire. Règles : remise -15 %,
+//            6 places max, paiement fin de mois, pas de privatisation.
 //
 // Changements V1 → V2 (14/08/2026, confirmés équipe) :
 //   - Reservation.etat : + 'payee' (SPEC-BOOK-01)
-//   - Sortie.etat + Sortie.avertissement_envoye_le : avertissement météo la
-//     veille à 18h puis annulation ≥ 2h avant, par créneau (SPEC-CANCEL-02)
+//   - Sortie.etat : avertissement météo la veille à 18h puis annulation ≥ 2h
+//     avant, par créneau (SPEC-CANCEL-02)
 //   - Nouvelle table Notification : trace des envois SMS / email / pop-up site
 //     (SPEC-BOOK-01, SPEC-CANCEL-02/03)
 //   - Paiement.statut : suit les scénarios de remboursement (SPEC-CANCEL-01/02/03)
@@ -25,7 +25,6 @@
 //   Bateau      (0,n) -------- est organisée sur (1,1) Sortie
 //   Reservation (0,1) -------- donne lieu à ----- (1,1) Paiement
 //   Bateau      (0,1) -------- est tarifé en ----- (1,1) Tarif   (privatisation)
-//   Utilisateur (0,1) -------- a pour profil hôtel (1,1) Hotel
 //   Utilisateur (0,n) -------- reçoit -------- (0,1) Notification
 //   Reservation (0,n) -------- concerne -------- (0,1) Notification
 //   Sortie      (0,n) -------- avertit -------- (0,1) Notification
@@ -55,7 +54,6 @@ Table Sortie {
   duree time [not null]                   // CR-01 §3 — 2h30 baleine, 2h dauphin
   bateau int [not null, ref: > Bateau.id] // une sortie est organisée sur un seul bateau (1,1)
   etat varchar [not null, default: 'planifiee'] // SPEC-CANCEL-02 — planifiee | averie | annulee (décision par créneau)
-  avertissement_envoye_le datetime        // SPEC-CANCEL-02 — avertissement 18h la veille (nullable)
 }
 
 Table Reservation {
@@ -85,14 +83,6 @@ Table Tarif {
   categorie varchar                       // adulte | enfant (null pour privatisation)
   bateau int [ref: > Bateau.id]           // tarif privatisation lié au bateau (600 Ti Kap / 1100 Grand Bleu)
   montant decimal [not null]              // CR-01 §3 : 65/40 baleine, 50/30 dauphin
-}
-
-Table Hotel {
-  id int [pk, increment]
-  utilisateur int [not null, unique, ref: > Utilisateur.id] // 1 compte utilisateur = 0..1 hôtel (CR-03)
-  remise decimal [not null, default: 0.15]   // remise -15 % sur le total (CR-03 §3)
-  places_max int [not null, default: 6]      // 6 places max par créneau (CR-03 contrainte 02)
-  paiement_fin_de_mois boolean [not null, default: true] // paiement en fin de mois (CR-03 §3)
 }
 
 Table Notification {

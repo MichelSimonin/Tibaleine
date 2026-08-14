@@ -11,9 +11,9 @@
 
 > **Changements V1 → V2 (confirmés équipe 14/08/2026) :**
 > - `Réservation.état` : ajout de l'état **`payée`** (SPEC-BOOK-01) ;
-> - `Sortie` : ajout d'un **état** (`planifiée` / `avertie` / `annulée`) et de
->   `avertissement_envoye_le` — avertissement météo la veille à 18 h, annulation
->   ≥ 2 h avant le départ, **par créneau** (SPEC-CANCEL-02) ;
+> - `Sortie` : ajout d'un **état** (`planifiée` / `avertie` / `annulée`) —
+>   avertissement météo la veille à 18 h, annulation ≥ 2 h avant le départ,
+>   **par créneau** (SPEC-CANCEL-02) ;
 > - nouvelle entité **`Notification`** : trace des envois SMS / email / pop-up
 >   site (SPEC-BOOK-01, SPEC-CANCEL-02/03) ;
 > - `Paiement` : ajout du **`statut`** de remboursement (SPEC-CANCEL-01/02/03) ;
@@ -40,7 +40,6 @@
 | **Réservation** | « Faire une réservation », « Attente de validation → Confirmation / Refus → Paiement », « Demande d'annulation », « Modification … uniquement possible lorsque la demande est encore en attente » |
 | **Paiement** | « Paiement en ligne (client) », « Confirmation → Paiement » |
 | **Tarif** | CR-01 §3 : « 65 € adulte 40 € enfant pour baleine, 50 € adulte et 30 € enfant pour dauphin. Privatisation … 600 € ti kap et 1 100 € pour grand bleu » |
-| **Hotel** | CR-03 §3 : « rajouter une clientèle hôtel qui pourrait réserver des créneaux baleines ou dauphins et payer en fin de mois » ; remise -15 %, max 6 places/créneau, pas de privatisation |
 | **Notification** | SPEC-BOOK-01 (email de confirmation + SMS au patron), SPEC-CANCEL-02 (avertissement 18 h / annulation ≥ 2 h), SPEC-CANCEL-03 (annulation client après avertissement) — alertes météo et notifications client |
 
 La **demande d'annulation** et la **modification** ne sont pas des entités : ce
@@ -71,8 +70,7 @@ sont des règles portées par la `Réservation` (état + motif), voir §5.
 | Date | « Les horaires sont tous les jours de la semaine » ; CR-01/Q23 (tous les jours) |
 | Horaire de départ | CR-01 §3 : créneaux 7 h, 10 h et 14 h |
 | Durée | CR-01 §3 : 2 h 30 (baleine), 2 h (dauphin) |
-| État | SPEC-CANCEL-02 : `planifiée` → `avertie` (avertissement 18 h la veille) → `annulée` (≥ 2 h avant) ; décision **par créneau** (le 7 h peut être annulé, le 10 h maintenu) |
-| Avertissement envoyé le | SPEC-CANCEL-02 : date/heure de l'avertissement (nullable) |
+| État | SPEC-CANCEL-02 : `planifiée` → `avertie` (avertissement 18 h la veille) → `annulée` (≥ 2 h avant) ; décision **par créneau** (le 7 h peut être annulé, le 10 h maintenu). La date de l'avertissement se déduit des `Notification` de type `avertissement` liées au créneau. |
 
 > Une sortie baleine par créneau (CR-02 §1, CR-01/Q19) ; question ouverte n°1 du
 > cahier : les types ne sont **pas** définis en avance en fonction du jour
@@ -125,21 +123,6 @@ sont des règles portées par la `Réservation` (état + motif), voir §5.
 | Bateau | CR-01 §3 : tarif de privatisation par bateau (600 € Ti Kap / 1 100 € Grand Bleu) |
 | Montant | CR-01 §3 : 65/40 € baleine, 50/30 € dauphin |
 
-### HOTEL
-
-| Attribut | Justification |
-|---|---|
-| Identifiant | identifiant technique |
-| Utilisateur (compte) | CR-03 §3 : création d'un compte hôtel ; un hôtel correspond à un compte utilisateur |
-| Remise | CR-03 §3 : « remise de -15 % sur la totalité en fin de mois » |
-| Places max | CR-03 contrainte 02 : « 6 places maximum par créneau pour l'hôtel » |
-| Paiement fin de mois | CR-03 §3 : « payer en fin de mois » |
-
-> ⚠️ Le paiement en fin de mois de l'hôtel est un **paiement différé**, que le
-> cahier des charges V2 exclut pour les clients (« Paiement en espèce, chèque,
-> différé »). À clarifier : l'exclusion concerne-t-elle uniquement les clients
-> particuliers ? (voir §7.3)
-
 ### NOTIFICATION
 
 | Attribut | Justification |
@@ -172,7 +155,6 @@ sont des règles portées par la `Réservation` (état + motif), voir §5.
 | **donne lieu à** | RÉSERVATION (0,1) | PAIEMENT (1,1) | une réservation donne lieu à 0..1 paiement ; un paiement règle une seule réservation |
 | **est organisée sur** | SORTIE (1,1) | BATEAU (0,n) | une sortie est organisée sur un seul bateau ; un bateau accueille 0..n sorties |
 | **est tarifé en** | BATEAU (0,1) | TARIF (1,1) | un bateau a au plus un tarif de privatisation ; un tarif de privatisation concerne un seul bateau |
-| **a pour profil hôtel** | UTILISATEUR (0,1) | HOTEL (1,1) | un utilisateur a au plus un profil hôtel ; un hôtel correspond à un seul compte utilisateur |
 | **reçoit** | UTILISATEUR (0,n) | NOTIFICATION (0,1) | un utilisateur reçoit 0..n notifications ; une notification est adressée à 0..1 utilisateur (null pour pop-up site) |
 | **concerne** | RÉSERVATION (0,n) | NOTIFICATION (0,1) | une réservation est concernée par 0..n notifications ; une notification concerne 0..1 réservation |
 | **avertit** | SORTIE (0,n) | NOTIFICATION (0,1) | une sortie (créneau) est objet de 0..n notifications ; une notification concerne 0..1 sortie |
@@ -207,7 +189,6 @@ erDiagram
         time duree
         int bateau FK
         varchar etat
-        datetime avertissement_envoye_le
     }
     RESERVATION {
         int id PK
@@ -231,13 +212,6 @@ erDiagram
         int bateau FK
         decimal montant
     }
-    HOTEL {
-        int id PK
-        int utilisateur FK
-        decimal remise
-        int places_max
-        boolean paiement_fin_de_mois
-    }
     NOTIFICATION {
         int id PK
         varchar type
@@ -254,7 +228,6 @@ erDiagram
     BATEAU ||--o{ SORTIE : "est organisée sur"
     RESERVATION |o--|| PAIEMENT : "donne lieu à"
     BATEAU |o--|| TARIF : "est tarifé en (privatisation)"
-    UTILISATEUR |o--|| HOTEL : "a pour profil hôtel"
     UTILISATEUR o|--o{ NOTIFICATION : "reçoit"
     RESERVATION o|--o{ NOTIFICATION : "concerne"
     SORTIE o|--o{ NOTIFICATION : "avertit"
@@ -273,7 +246,7 @@ fichier texte à ouvrir dans dbdiagram.io ou via l'extension « Database Markup
 Language » de VS Code. Les relations y sont exprimées en `ref` avec les
 cardinalités (0,n / 1,n / 1,1), cf. aussi les cardinalités Merise du §3.
 
-Tables : `Utilisateur`, `Bateau`, `Sortie`, `Reservation`, `Paiement`, `Tarif`, `Hotel`, `Notification`.
+Tables : `Utilisateur`, `Bateau`, `Sortie`, `Reservation`, `Paiement`, `Tarif`, `Notification`.
 
 ---
 

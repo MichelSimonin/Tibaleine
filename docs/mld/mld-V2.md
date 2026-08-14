@@ -15,8 +15,9 @@
 > charges, les comptes-rendus (CR-01, CR-02, CR-03) et les SPEC brouillons
 > (`SPEC-BOOK-01/02`, `SPEC-CANCEL-01/02/03`).
 >
-> **Changements V1 → V2 :** état `payée` sur `Reservation` · état + avertissement
-> sur `Sortie` · table `Notification` · `Paiement.statut` (voir §1).
+> **Changements V1 → V2 :** état `payée` sur `Reservation` · état sur `Sortie`
+> (date d'avertissement dérivable via `Notification.date_envoi`) · table
+> `Notification` · `Paiement.statut` (voir §1).
 >
 > **Légende :** 🔑 = clé primaire (PK) · 🔗 = clé étrangère (FK) · ⬚ = nullable
 
@@ -26,7 +27,7 @@
 
 Le diagramme ci-dessous se **rend nativement dans l'aperçu Markdown de VS Code**
 (`Ctrl+Shift+V` ou bouton « Ouvrir l'aperçu ») — aucune extension à installer.
-Il reprend les 8 tables avec leurs clés et les associations du schéma DBML V2.
+Il reprend les 7 tables avec leurs clés et les associations du schéma DBML V2.
 
 ```mermaid
 erDiagram
@@ -52,7 +53,6 @@ erDiagram
         time duree
         int bateau FK
         varchar etat
-        datetime avertissement_envoye_le
     }
     RESERVATION {
         int id PK
@@ -76,13 +76,6 @@ erDiagram
         int bateau FK
         decimal montant
     }
-    HOTEL {
-        int id PK
-        int utilisateur FK
-        decimal remise
-        int places_max
-        boolean paiement_fin_de_mois
-    }
     NOTIFICATION {
         int id PK
         varchar type
@@ -99,7 +92,6 @@ erDiagram
     BATEAU ||--o{ SORTIE : "est organisée sur"
     RESERVATION |o--|| PAIEMENT : "donne lieu à"
     BATEAU |o--|| TARIF : "est tarifé en (privatisation)"
-    UTILISATEUR |o--|| HOTEL : "a pour profil hôtel"
     UTILISATEUR o|--o{ NOTIFICATION : "reçoit"
     RESERVATION o|--o{ NOTIFICATION : "concerne"
     SORTIE o|--o{ NOTIFICATION : "avertit"
@@ -113,7 +105,7 @@ bateau accueille 0..n sorties, une sortie est organisée sur un seul bateau.
 
 ## 2. Tables détaillées
 
-8 tables : `Utilisateur`, `Bateau`, `Sortie`, `Reservation`, `Paiement`, `Tarif`, `Hotel`, `Notification`.
+7 tables : `Utilisateur`, `Bateau`, `Sortie`, `Reservation`, `Paiement`, `Tarif`, `Notification`.
 
 ### 2.1 Utilisateur
 
@@ -147,8 +139,7 @@ Compte client / salarié / administrateur.
 | `heure_depart` | `time` | `NOT NULL` | CR-01 §3 — créneaux 7 h / 10 h / 14 h |
 | `duree` | `time` | `NOT NULL` | CR-01 §3 — 2 h 30 baleine, 2 h dauphin |
 | 🔗 `bateau` | `int` | `NOT NULL` → `Bateau.id` | une sortie est organisée sur un seul bateau (1,1) |
-| `etat` | `varchar` | `NOT NULL`, défaut `'planifiee'` | SPEC-CANCEL-02 — `planifiee` \| `averie` \| `annulee` (décision par créneau) |
-| `avertissement_envoye_le` | `datetime` | ⬚ | SPEC-CANCEL-02 — avertissement 18 h la veille |
+| `etat` | `varchar` | `NOT NULL`, défaut `'planifiee'` | SPEC-CANCEL-02 — `planifiee` \| `averie` \| `annulee` (décision par créneau) ; la date d'avertissement se déduit des `Notification` (type `avertissement`) |
 
 ### 2.4 Reservation
 
@@ -189,20 +180,7 @@ Compte client / salarié / administrateur.
 | 🔗 `bateau` | `int` | → `Bateau.id` | tarif privatisation lié au bateau (600 Ti Kap / 1100 Grand Bleu) |
 | `montant` | `decimal` | `NOT NULL` | CR-01 §3 : 65/40 baleine, 50/30 dauphin |
 
-### 2.7 Hotel
-
-| Colonne | Type | Contraintes | Commentaire |
-|---|---|---|---|
-| 🔑 `id` | `int` | auto-incrément | identifiant technique |
-| 🔗 `utilisateur` | `int` | `NOT NULL`, `UNIQUE` → `Utilisateur.id` | 1 compte utilisateur = 0..1 hôtel (CR-03) |
-| `remise` | `decimal` | `NOT NULL`, défaut `0.15` | remise -15 % sur le total (CR-03 §3) |
-| `places_max` | `int` | `NOT NULL`, défaut `6` | 6 places max par créneau (CR-03 contrainte 02) |
-| `paiement_fin_de_mois` | `boolean` | `NOT NULL`, défaut `true` | paiement en fin de mois (CR-03 §3) |
-
-> En cas d'annulation météo : l'hôtel est **appelé directement**, ses réservations
-> annulées ne sont pas comptabilisées en fin de mois (SPEC-CANCEL-02 cas 2).
-
-### 2.8 Notification
+### 2.7 Notification
 
 | Colonne | Type | Contraintes | Commentaire |
 |---|---|---|---|
@@ -231,7 +209,6 @@ Compte client / salarié / administrateur.
 | **est organisée sur** | `Bateau` (0,n) | `Sortie` (1,1) | un bateau accueille 0..n sorties ; une sortie est organisée sur un seul bateau |
 | **donne lieu à** | `Reservation` (0,1) | `Paiement` (1,1) | une réservation donne lieu à 0..1 paiement ; un paiement règle une seule réservation |
 | **est tarifé en** | `Bateau` (0,1) | `Tarif` (1,1) | un bateau a au plus un tarif de privatisation ; un tarif de privatisation concerne un seul bateau |
-| **a pour profil hôtel** | `Utilisateur` (0,1) | `Hotel` (1,1) | un utilisateur a au plus un profil hôtel ; un hôtel correspond à un seul compte utilisateur |
 | **reçoit** | `Utilisateur` (0,n) | `Notification` (0,1) | un utilisateur reçoit 0..n notifications ; une notification est adressée à 0..1 utilisateur (null pour pop-up site) |
 | **concerne** | `Reservation` (0,n) | `Notification` (0,1) | une réservation est concernée par 0..n notifications ; une notification concerne 0..1 réservation |
 | **avertit** | `Sortie` (0,n) | `Notification` (0,1) | une sortie est objet de 0..n notifications ; une notification concerne 0..1 sortie |
@@ -247,7 +224,6 @@ Compte client / salarié / administrateur.
 | FK | `Reservation.sortie` | `Sortie.id` | (1,1) |
 | FK | `Paiement.reservation` | `Reservation.id` | (0,1) — `UNIQUE` |
 | FK | `Tarif.bateau` | `Bateau.id` | (0,1) — privatisation uniquement |
-| FK | `Hotel.utilisateur` | `Utilisateur.id` | (0,1) — `UNIQUE` |
 | FK | `Notification.utilisateur` | `Utilisateur.id` | (0,1) — nullable (pop-up site) |
 | FK | `Notification.reservation` | `Reservation.id` | (0,1) |
 | FK | `Notification.sortie` | `Sortie.id` | (0,1) |
