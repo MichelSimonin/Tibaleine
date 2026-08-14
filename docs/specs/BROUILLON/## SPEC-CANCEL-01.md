@@ -20,6 +20,7 @@ Ce que cette spécification couvre, et surtout **ce qu'elle ne couvre pas**. Nom
 explicitement les cas voisins traités ailleurs, avec leur ID.
 
 - Ne couvre pas l'annulation à l'initiative du prestataire → `SPEC-CANCEL-02`
+- Ne couvre pas l'annulation à l'initiative du client avec avertissement → `SPEC-CANCEL-03`
 - Ne couvre pas la réduction du nombre de participants → `SPEC-<DOM>-0x`
 
 ### Scénarios nominaux

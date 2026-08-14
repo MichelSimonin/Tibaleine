@@ -1,4 +1,4 @@
-## SPEC-CANCEL-02 — Annulation de la réservation à l'initiative du prestataire
+## SPEC-CANCEL-03 — Annulation de la réservation à l'initiative du client suite à un avertissement du prestataire
 
 **Exigence :** REQ-0xx
 **Statut :** brouillon | revue IA faite | validée
@@ -19,8 +19,8 @@ pourrait », pas de « idéalement ».
 Ce que cette spécification couvre, et surtout **ce qu'elle ne couvre pas**. Nommer
 explicitement les cas voisins traités ailleurs, avec leur ID.
 
-- Ne couvre pas l'annulation à l'initiative du client → `SPEC-CANCEL-01`
-- Ne couvre pas l'annulation à l'initiative du client avec avertissement → `SPEC-CANCEL-03`
+- Ne couvre pas l'annulation à l'initiative du prestataire → `SPEC-CANCEL-02`
+- Ne couvre pas l'annulation à l'initiative du client (sans avertissement) → `SPEC-CANCEL-01`
 - Ne couvre pas la réduction du nombre de participants → `SPEC-<DOM>-0x`
 
 ### Scénarios nominaux
@@ -31,8 +31,8 @@ Et que nous sommes le 11 juillet à 18h00.
 Par cause de mauvais temps probable le lendemain matin, le prestataire 
 envoie un avertissement concernant une possible annulation des sorties 
 le lendemain matin.
-Le prestataire renvoie un message à 5h pour confirmer l'annulation.
-Tous les clients seront intégralement remboursé.
+Deux client ont annulé leurs reservations suite à cet avertissement.
+Ces clients doivent être remboursé intégralement, indépendamment de la décision finale d'annulation.
 ```
 
 ### Cas limites
@@ -42,9 +42,8 @@ distingue une spécification d'une intention.
 
 | # | Situation | Comportement attendu |
 |---|---|---|
-| 1 | un client réserve des places après l'avertissement de 18h | Le nouveau client ne recevra pas un message par sms ou email mais un message d'alerte est affiché sur le site pour avertir les nouveaux clients que les horaires concernés peuvent être annulé |
-| 2 | l'hôtel partenaire avait plusieurs places sur les créneaux annulés | L'hôtel n'est pas concerné par l'envoie de message et sera appelé directement par le prestataire. Les réservations annulés ne seront pas comptabilisé. |
-| 3 | un client avait annulé sa réservation avant l'avertissement | Le client avait annulé sa réservation avant avertissement et intervention du prestataire. L'annulation sera géré comme une annulation classique à l'initiative du client. |
+| 1 | un client avait annulé sa réservation avant l'avertissement | Le client avait annulé sa réservation avant avertissement et intervention du prestataire. L'annulation sera géré comme une annulation classique à l'initiative du client. |
+| 2 | la sortie n'est finalement pas annulé | Le client peut recommencer une procédure de réservation classique.  |
 
 
 ### Ce qui n'est pas défini
@@ -58,10 +57,9 @@ Assumé et daté. Une zone grise déclarée vaut mieux qu'une zone grise ignoré
 Chacun doit être vérifiable sans interprétation, et donne lieu à au moins un cas
 de test.
 
-- [ ] AC-1 — Le prestataire peut envoyer son message d'avertissement à 18h la veille
-- [ ] AC-2 — Le prestataire peut envoyer son message d'annulation au moins 2h avant le départ
-- [ ] AC-3 — Les clients recoivent les messages d'avertissement et d'annulation
-- [ ] AC-4 — Le prestataire peut annuler les réservations impactés.
+- [ ] AC-1 — Les clients recoivent les messages d'avertissement et d'annulation.
+- [ ] AC-4 — Les clients peuvent annuler leurs réservations s'ils sont concernés.
+- [ ] AC-5 — Les clients sont remboursé intégralement.
 
 ### Revue IA
 
