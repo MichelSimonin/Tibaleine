@@ -58,8 +58,8 @@ Chacun doit être vérifiable sans interprétation, et donne lieu à au moins un
 de test.
 
 - [ ] AC-1 — Les clients recoivent les messages d'avertissement et d'annulation.
-- [ ] AC-4 — Les clients peuvent annuler leurs réservations s'ils sont concernés.
-- [ ] AC-5 — Les clients sont remboursé intégralement.
+- [ ] AC-2 — Les clients peuvent annuler leurs réservations s'ils sont concernés.
+- [ ] AC-3 — Les clients sont remboursé intégralement.
 
 ### Revue IA
 
