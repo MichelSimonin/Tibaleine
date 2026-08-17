@@ -1,0 +1,33 @@
+@startuml
+' ----------------------------------------------------------------------------
+' Diagramme de séquence — Consultation des réservations (employé, lecture seule)
+' Source : Cahier des charges V2 §4 (Parcours employé), décision équipe
+'          (rôle 'employe', corrigée le 12/08/2026)
+' ----------------------------------------------------------------------------
+
+title Consultation des réservations (employé)
+
+actor "Employé" as Employe
+participant "Système" as Systeme
+
+Employe -> Systeme : Connexion
+activate Systeme
+Systeme -> Systeme : Vérification des rôles (employe)
+Systeme --> Employe : Accès à la vue de suivi (lecture seule)
+deactivate Systeme
+
+Employe -> Systeme : Consulte les réservations\n(date, bateau, type, statut…)
+Systeme --> Employe : Liste des réservations
+
+alt tentative de modification
+  Employe -> Systeme : Tente de modifier une réservation
+  Systeme --> Employe : Accès refusé — modification réservée à l'administrateur
+end
+
+note right of Systeme
+  Rôle 'employe':
+  - consulte les réservations (suivi administrateur)
+  - ne peut pas modifier — contrairement à l'administrateur
+end note
+
+@enduml

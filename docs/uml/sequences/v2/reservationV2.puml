@@ -12,27 +12,53 @@ actor "Patron" as Patron
 participant "Système" as Systeme
 participant "Prestataire de paiement" as Paiement
 
-Client -> Systeme : Demande de réservation\n(type, date/heure, nb adultes,\nnb enfants, email, téléphone)
+Client -> Systeme : Demande de réservation
+Systeme --> Systeme : Bloque 2 places pendant 15 min
+
+Client -> Systeme : Envoie des informations (type, date/heure, nb places x,\nnb enfants, email, téléphone)
 activate Systeme
-Systeme -> Systeme : Vérifie la disponibilité\n(capacité du bateau, min 6 personnes,\nune sortie baleine par créneau)
+
+Systeme --> Systeme : Vérifie la disponibilité\n(capacité du bateau,\nune sortie baleine par créneau)
 deactivate Systeme
+Systeme --> Systeme : Bloque x places pendant 15 min
 
 
 
 
 
 
-Systeme --> Client : Valide la demande de réservation
+Systeme -> Client : Valide la demande de réservation
+
+alt Paiement dans les 15 mins
 Client -> Systeme : Paiement en ligne
 activate Systeme
 Systeme -> Paiement : Demande de paiement (montant)
+
+
+alt Paiement refusé
+Paiement -> Systeme : Paiement refusé
+Systeme -> Client : Renvoie une erreur de paiement
+end 
+
+
+alt Paiement accepté
 Paiement --> Systeme : Paiement accepté
+Systeme -> Systeme : Réservation en état "Payé"
 Systeme --> Client : Confirmation + paiement enregistré
 deactivate Systeme
 
 Systeme --> Client : Réservation confirmée
 Systeme -> Client: Envoie du récapitulatif par email
 Systeme -> Patron: Envoie d'une notification de réservation par sms
+end
+else Paiement après 15 min
+Systeme --> Systeme : Libère x places
+Systeme -> Systeme : Annule la procédure de paiement
+Systeme -> Client : Notifie de l'annulation
+
+end
+
+
 
 
 note right of Systeme

@@ -1,0 +1,42 @@
+@startuml
+' ----------------------------------------------------------------------------
+' Diagramme de séquence — Réservation d'un créneau par l'hôtel
+' Source : CR-03 §3 (clientèle hôtel), CR-03 contraintes 02 et 03
+' ----------------------------------------------------------------------------
+
+title Réservation d'un créneau par l'hôtel
+
+actor "Hôtel" as Hotel
+actor "Patron" as Patron
+participant "Système" as Systeme
+
+alt Hotel reserve sur le site par le site 
+Hotel -> Systeme : Demande de créneaus \ntype, date, nb de places
+Systeme --> Systeme : Vérifie la disponibilité\n(capacité du bateau,\nune sortie baleine par créneau)
+Systeme -> Hotel : Valide la demande de réservation
+Systeme --> Hotel : Réservation confirmée
+Systeme --> Hotel: Envoie du récapitulatif par email
+Systeme --> Patron: Envoie d'une notification de réservation par sms
+
+else Hotel reserve avec le patron
+Hotel -> Patron : Demande de créneau (appel, email…)\ntype, date, nb de places
+Patron -> Systeme : Crée la réservation pour l'hôtel
+Systeme --> Patron : Réservation créée
+Systeme -> Hotel : Réservation confirmée
+Systeme --> Hotel: Envoie du récapitulatif par email
+end 
+
+note over Systeme
+  Fin de mois : facture avec remise -15 %,
+  paiement différé (CR-03 §3)
+end note
+
+note right of Patron
+  Règles hôtel (CR-03) :
+  - 6 places maximum par créneau
+  - pas de sortie de type privatisation
+  - remise -15 % sur le total
+  - réservation possible sans passer par le site
+end note
+
+@enduml

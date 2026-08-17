@@ -1,0 +1,61 @@
+@startuml
+' ----------------------------------------------------------------------------
+' Diagramme de séquence — Demande d'annulation
+' Source : Cahier des charges V2 §4 (Règles métier / Demande d'annulation),
+'          CR-01/Q03, CR-01/Q04, CR-01 §1, CR-01 §3, CR-02 §1
+' ----------------------------------------------------------------------------
+
+title Demande d'annulation
+
+actor "Client" as Client
+actor "Patron" as Patron
+participant "Système" as Systeme
+participant "Prestataire de paiement" as Paiement
+
+Client -> Systeme : Demande d'annulation (motif)
+Systeme --> Client : Accusé de réception
+Systeme -> Patron : Demande d'annulation à traiter
+Patron -> Client : Appel éventuel — clarifier la cause (CR-01/Q03, CR-02 §1)
+
+alt Report proposé par le patron (raison éventuelle)
+  Patron -> Client : Propose un report (nouvelle date/heure)
+  alt Client accepte le report
+    Client -> Patron : Accepte le report
+    Patron -> Systeme : Reporte la réservation
+    Systeme --> Client : Réservation reportée — confirmation
+  else Client refuse le report
+    Client -> Patron : Refuse le report
+    Patron -> Systeme : Valide l'annulation + remboursement (selon délai)
+    Systeme --> Client : Réservation annulée
+    Systeme -> Paiement : Remboursement (X %) sur la carte
+    Paiement --> Systeme : Résultat du remboursement (succès / échec)
+    alt Remboursement validé
+      Systeme --> Client : Confirmation du remboursement (validé)
+    else Remboursement échoué
+      Systeme --> Client : Remboursement échoué — relance / contact patron
+    end
+  end
+else Pas de report (annulation directe)
+  Patron -> Systeme : Valide l'annulation + remboursement (selon délai)
+  Systeme --> Client : Réservation annulée
+  Systeme -> Paiement : Remboursement (X %) sur la carte
+  Paiement --> Systeme : Résultat du remboursement (succès / échec)
+  alt Remboursement validé
+    Systeme --> Client : Confirmation du remboursement (validé)
+  else Remboursement échoué
+    Systeme --> Client : Remboursement échoué — relance / contact patron
+  end
+end
+
+note right of Patron
+  Règles :
+  - annulation possible jusqu'à 48 h avant (CR-01/Q04)
+  - remboursement : > 7 j → 100 % ; 7 j - 48 h → 75 % ;
+    < 48 h → 50 % puis annulation (CR-01 §1)
+  - appel si annulation, n° de téléphone laissé à la
+    réservation (CR-01/Q03)
+  - report possible : proposé par le patron, si le
+    client le souhaite (CR-02 §1)
+end note
+
+@enduml
