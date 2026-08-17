@@ -1,7 +1,7 @@
 ## SPEC-BOOK-03 — Blocage temporaire d'une place (réservations simultanées)
 
 **Exigence :** REQ-019
-**Statut :** brouillon
+**Statut :** validé
 **Version :** v1
 
 ### Règle
@@ -46,7 +46,7 @@ Un cas limite par ligne, avec le comportement attendu.
 | 1 | le client abandonne le formulaire sans payer | La place est libérée (fin du blocage). |
 | 2 | le client paie dans les 15 minutes | La place reste acquise, la réservation passe « payée ». |
 | 3 | le délai expire puis le client paie quand même | (À préciser) le paiement est refusé ou la place est déjà rendue disponible. |
-| 4 | deux clients réservent en même temps | Test de concurrence à prévoir (CR-04/Q61) : une seule réservation aboutit. |
+| 4 | deux clients réservent en même temps | (Test de concurrence à prévoir (CR-04/Q61) : une seule réservation aboutit.) La première requête qui aboutit permet au client correspondant de bloquer la place. Le second sera bloqué et verra une erreur. Tout dépend de quelle requête aboutit en premier. |
 
 ### Ce qui n'est pas défini
 

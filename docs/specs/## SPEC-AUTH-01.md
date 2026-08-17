@@ -1,7 +1,7 @@
 ## SPEC-AUTH-01 — Compte, connexion et accès par rôle
 
 **Exigence :** REQ-002, REQ-003
-**Statut :** brouillon
+**Statut :** validé
 **Version :** v1
 
 ### Règle
@@ -24,9 +24,11 @@ explicitement les cas voisins traités ailleurs, avec leur ID.
 
 ```gherkin
 Étant donné un visiteur sur le site
-Quand il réserve une sortie en fournissant email, nom, prénom et téléphone
+Quand il réserve une sortie en fournissant email, nom, prénom et téléphone, 
+un mail lui est envoyé pour lui donner la possibilité de créer un compte.
+Le visiteur associe un mot de passe avec son email.
 Alors un compte client est créé avec le rôle « utilisateur »
-Et le client peut se connecter avec son email
+Et le client peut se connecter avec son email et le mot de passe.
 
 Étant donné un employé connecté
 Quand il ouvre l'espace de gestion

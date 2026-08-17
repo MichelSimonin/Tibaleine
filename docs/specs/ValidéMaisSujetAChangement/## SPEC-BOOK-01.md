@@ -1,7 +1,7 @@
 ## SPEC-BOOK-01 — Réservation d'un créneau d'un client lambda
 
 **Exigence :** REQ-001
-**Statut :** brouillon | revue IA faite
+**Statut :** ~~brouillon | revue IA faite |~~ validé (mais à modifier après demandes aux clients)
 **Version :** v1
 
 ### Règle
@@ -45,7 +45,7 @@ distingue une spécification d'une intention.
 | 1 | le client veut inclure une nouvelle personne alors que le créneau n'a plus assez de places | La demande est bloquée : le client doit réduire le nombre de personnes ou choisir un autre créneau. |
 | 2 | le client tente de réserver moins de 2 h avant le départ | La réservation est bloquée (réservation impossible à moins de 2 h du départ). |
 | 3 | plusieurs clients tentent de réserver le même créneau | La place est bloquée temporairement dès l'arrivée sur le formulaire ; délai de 15 min au paiement, au-delà la place se libère (CR-04/Q61). La première réservation payée prend les places. |
-| 4 | la réservation est validée mais non payée au moment du départ | (Question à poser au client — cahier V4 §8) |
+/!\ A retirer mais vérifier avec client| 4 | la réservation est validée mais non payée au moment du départ | (Question à poser au client — cahier V4 §8) |
 | 5 | un client réserve après l'avertissement météo de 18 h | Il ne reçoit pas de SMS/mail d'avertissement, mais une alerte s'affiche sur le site (SPEC-ALERT-01). |
 
 ### Ce qui n'est pas défini

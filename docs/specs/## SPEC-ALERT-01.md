@@ -1,7 +1,7 @@
 ## SPEC-ALERT-01 — Avertissement météo et notifications automatiques
 
 **Exigence :** REQ-016
-**Statut :** brouillon
+**Statut :** validé
 **Version :** v1
 
 ### Règle
@@ -45,7 +45,7 @@ Un cas limite par ligne, avec le comportement attendu.
 | 1 | un client réserve après l'avertissement de 18 h | Il ne reçoit pas de SMS/mail, mais l'alerte est affichée sur le site pour son créneau. |
 | 2 | le message doit être personnalisé | L'administrateur peut personnaliser le message (raison de l'annulation). |
 | 3 | client étranger | Le message est envoyé en français et en anglais. |
-| 4 | hôtel concerné par l'annulation | L'hôtel n'est pas notifié par SMS/mail : il est appelé directement (SPEC-CANCEL-02 cas 2). |
+| 4 | hôtel concerné par l'annulation | L'hôtel n'est pas notifié par SMS/mail : il est appelé directement. |
 | 5 | le service d'envoi (SMS) est indisponible | Le système gère l'indisponibilité du service externe sans bloquer l'application. |
 
 ### Ce qui n'est pas défini
