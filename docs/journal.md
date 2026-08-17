@@ -118,3 +118,51 @@ décoratif : c'est ce qui permet de distinguer un arbitrage d'un acquiescement.
 - Generation du diagramme de sequence et le MCD, source des besoins fonctionnels et une partie des besoins fonctionnels.
 
 ## **Questions ouvertes pour le client.**
+
+## J4 — 13/08/2026
+
+**Présents.**
+
+**Décisions.**
+
+**Critiques de l'IA acceptées.**
+
+- proposition de certaines regles metiers et des questions ambigues potentielles.
+
+**Critiques de l'IA refusées, et pourquoi.**
+
+- Filtrage des regles metiers fournis, car certaines fausses.
+
+**Erreurs produites par l'IA et détectées.**
+
+- Sans objet.
+
+**Ce qui a été généré aujourd'hui.**
+
+- Generation du diagramme du MCD en mermaid, des regles metiers et des questions ambigues potentielles.
+
+## **Questions ouvertes pour le client.**
+
+## J5 — 14/08/2026
+
+**Présents.**
+
+**Décisions.**
+
+**Critiques de l'IA acceptées.**
+
+- propositions de certaines regles metiers acceptées.
+
+**Critiques de l'IA refusées, et pourquoi.**
+
+- Filtrage des regles metiers fournis, car certaines fausses.
+
+**Erreurs produites par l'IA et détectées.**
+
+- Sans objet.
+
+**Ce qui a été généré aujourd'hui.**
+
+- Génération du diagramme du MCD en mermaid, des règles metiers et des questions ambigues potentielles.
+
+## **Questions ouvertes pour le client.**
