@@ -1,7 +1,7 @@
 ## SPEC-CONS-01 — Consultation des réservations
 
 **Exigence :** REQ-004, REQ-005
-**Statut :** brouillon
+**Statut :** brouillon | revue IA faite
 **Version :** v1
 
 ### Règle
@@ -68,6 +68,11 @@ Consigne utilisée :
 
 | Remarque de l'IA | Décision | Motif |
 |---|---|---|
-| … | acceptée / refusée | … |
+| Un client peut-il consulter ses réservations sans compte ? (le mot de passe est optionnel — comment identifie-t-il ses réservations ?) | à trancher | REQ-004 |
+| L'employé voit-il toutes les réservations ou un sous-ensemble ? (CR-02 §4 : « consulter uniquement ces réservations ») | à trancher | REQ-005 |
+| Les « actions de gestion » de l'administrateur ne sont pas listées (modifier → SPEC-MODIF-01, annuler → SPEC-CANCEL-01) | à trancher | |
+| Les réservations annulées restent-elles visibles dans la consultation (historique) ? | à trancher | Cas limite manquant |
+| Filtres / tri (date, statut, bateau) non définis | à trancher | |
+| AC-1 à AC-3 vérifiables | OK | |
 
 Les refus se reportent aussi dans `docs/journal.md`.

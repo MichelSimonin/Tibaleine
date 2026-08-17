@@ -76,6 +76,11 @@ Consigne utilisée :
 
 | Remarque de l'IA | Décision | Motif |
 |---|---|---|
-| … | acceptée / refusée | … |
+| Contradiction : le scénario 1 décrit un flux « mail envoyé + association d'un mot de passe », alors que le cas limite 2 dit que le mot de passe est optionnel (compte créé sans mot de passe) | à trancher | Le mot de passe est-il requis à la création ou optionnel ? |
+| Le flux « un mail est envoyé pour donner la possibilité de créer un compte » n'est sourcé dans aucun entretien (CR-01 à CR-04) | à trancher | Règle ajoutée sans source |
+| Si le mot de passe est optionnel, un client sans mot de passe ne peut pas se connecter et donc pas consulter ses réservations — incohérent avec `SPEC-CONS-01` / REQ-004 | à trancher | |
+| AC-2 (« se connecter avec son email ») ne mentionne pas le mot de passe — ambigu si celui-ci est optionnel | à trancher | Préciser l'AC |
+| La Règle accorde au client la « gestion » de ses réservations, mais la modification en ligne par le client est une question ouverte (cahier V4 §8) | à trancher | Ne présupposer que la consultation |
+| Spec marquée « validé » avec ces points ouverts : reconsidérer le statut | à trancher | |
 
 Les refus se reportent aussi dans `docs/journal.md`.

@@ -64,6 +64,10 @@ Consigne utilisée :
 
 | Remarque de l'IA | Décision | Motif |
 |---|---|---|
-| … | acceptée / refusée | … |
+| Cas limite 2 : « la réservation reste en attente » — incohérent avec la Règle (« après confirmation… paie ») et le workflow confirmée → payée du MCD | à trancher | Revoir l'état après échec de paiement |
+| Le blocage 15 min (cas 1) et `SPEC-BOOK-03` ne sont pas référencés dans la portée | à trancher | Ajouter le renvoi |
+| AC-4 dépend de SPEC-BOOK-03 (délai 15 min) — AC non autonome | à trancher | |
+| Prestataire de paiement non fixe (ADR-001 : Stripe) — comportement d'échec dépendant du prestataire | OK | Noté dans « Ce qui n'est pas défini » |
+| Spec marquée « validé » avec ces points ouverts : reconsidérer le statut | à trancher | |
 
 Les refus se reportent aussi dans `docs/journal.md`.

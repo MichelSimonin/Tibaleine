@@ -1,7 +1,7 @@
 ## SPEC-DISP-01 — Consultation des créneaux disponibles
 
 **Exigence :** REQ-008
-**Statut :** brouillon
+**Statut :** brouillon | revue IA faite
 **Version :** v1
 
 ### Règle
@@ -67,6 +67,11 @@ Consigne utilisée :
 
 | Remarque de l'IA | Décision | Motif |
 |---|---|---|
-| … | acceptée / refusée | … |
+| La portée référence `SPEC-BOOK-01` (cas limite) pour le blocage alors qu'une spec dédiée `SPEC-BOOK-03` existe désormais | à trancher | Mettre à jour la portée |
+| Cas limite 4 : un créneau à moins de 2 h du départ est-il affiché « disponible » (mais bloqué à la résa) ou « indisponible » ? | à trancher | Affichage à définir |
+| Les places bloquées (formulaire en cours, SPEC-BOOK-03) sont-elles décomptées des « places restantes » ? | à trancher | Cohérence avec SPEC-BOOK-03 |
+| Actualisation du nombre de places : au rechargement ou en temps réel ? (la météo temps réel est exclue, pas la disponibilité) | à trancher | |
+| La Règle combine consultation ET badge « nouvelle place » (R-78) — deux comportements distincts | OK | Acceptable, à garder en tête |
+| AC-1 à AC-3 vérifiables | OK | |
 
 Les refus se reportent aussi dans `docs/journal.md`.

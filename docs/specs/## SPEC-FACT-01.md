@@ -1,7 +1,7 @@
 ## SPEC-FACT-01 — Facturation hôtel en fin de mois
 
 **Exigence :** REQ-013
-**Statut :** brouillon
+**Statut :** brouillon | revue IA faite
 **Version :** v1
 
 ### Règle
@@ -64,6 +64,11 @@ Consigne utilisée :
 
 | Remarque de l'IA | Décision | Motif |
 |---|---|---|
-| … | acceptée / refusée | … |
+| Cas limite 2 : le barème d'annulation client (SPEC-CANCEL-01) s'applique-t-il aux hôtels ? Un hôtel peut-il annuler lui-même ? | à trancher | |
+| Sur quelles réservations le total est-il calculé (confirmées, payées, en attente, refusées) ? | à trancher | |
+| Cas limite 1 : deux options non tranchées → spec non validable en l'état (déjà signalé dans SPEC-BOOK-02) | à trancher | Question ouverte cahier |
+| La facture de fin de mois est-elle générée automatiquement ou par le patron ? | à trancher | |
+| « Fin de mois » : date exacte non précisée (dernier jour, début du mois suivant) | à trancher | |
+| AC-1 à AC-3 vérifiables | OK | |
 
 Les refus se reportent aussi dans `docs/journal.md`.

@@ -1,7 +1,7 @@
 ## SPEC-SYST-01 — Disponibilité des services externes
 
 **Exigence :** REQ-020
-**Statut :** brouillon
+**Statut :** brouillon | revue IA faite
 **Version :** v1
 
 ### Règle
@@ -67,6 +67,11 @@ Consigne utilisée :
 
 | Remarque de l'IA | Décision | Motif |
 |---|---|---|
-| … | acceptée / refusée | … |
+| « Vérifie la disponibilité » : mécanisme de détection non défini (healthcheck, test au moment de l'appel ?) | à trancher | |
+| Cas 2 et 3 (« à préciser ») : comportement en panne SMS/email non défini — cœur de la spec non validable en l'état | à trancher | Ambiguïté CR-04 §6 |
+| AC-1 non testable sans mécanisme de détection défini | à trancher | |
+| AC-3 « le client est informé » : comment informer si le canal (SMS/email) est en panne ? | à trancher | |
+| Portée : renvoi vers `REQ-103` qui est une exigence, pas une spec (aucune SPEC-SEC-01) | à trancher | Corriger le renvoi |
+| Liste exacte des services externes et tableau de bord de disponibilité pour le patron non définis | à trancher | |
 
 Les refus se reportent aussi dans `docs/journal.md`.
