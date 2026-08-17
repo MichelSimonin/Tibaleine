@@ -1,7 +1,7 @@
 ## SPEC-PAY-01 — Paiement en ligne
 
 **Exigence :** REQ-006
-**Statut :** brouillon
+**Statut :** validé
 **Version :** v1
 
 ### Règle
@@ -36,9 +36,8 @@ Un cas limite par ligne, avec le comportement attendu.
 | # | Situation | Comportement attendu |
 |---|---|---|
 | 1 | le client n'a pas payé dans les 15 minutes après le clic sur « Payer » | La place temporairement bloquée est libérée et redevient disponible. |
-| 2 | le paiement échoue (carte refusée, service indisponible) | Le client est invité à réessayer ; la réservation reste « confirmée », pas « payée ». |
-| 3 | la réservation est validée mais non payée au moment du départ | Question ouverte (voir cahier V4 §8) — à traiter au prochain entretien. |
-| 4 | le paiement est différé (hôtel) | Hors périmètre : les hôtels paient en fin de mois (SPEC-FACT-01). |
+| 2 | le paiement échoue (carte refusée, service indisponible) | Le client est invité à réessayer ; la réservation reste « en attente », pas « payée ». |
+| 3 | le paiement est différé (hôtel) | Hors périmètre : les hôtels paient en fin de mois (SPEC-FACT-01). |
 
 ### Ce qui n'est pas défini
 
