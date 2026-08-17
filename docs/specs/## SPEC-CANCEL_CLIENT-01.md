@@ -61,9 +61,11 @@ de test.
 
 - [ ] AC-1 — Le client peut remplir les données du formulaire de demande d'annulation 
 - [ ] AC-2 — Le client peut envoyer le formulaire et reçoit un retour
-- [ ] AC-3 — Le patron reçoit la demande d'annulation
-- [ ] AC-4 — Le patron peut accepter, ou non, la demande d'annulation. (Le cas échéant, la résolution de problème se passera au téléphone entre le patron et son client)
-- [ ] AC-5 — Après l'annulation, le client peut formuler une nouvelle demande de réservation (pas de report automatique).
+- [ ] AC-3 — Le client peut annuler sa réservation moins de 48 heures avant le départ
+- [ ] AC-4 — Le client peut annuler sa réservation 7 jours à 48 heures avant le départ
+- [ ] AC-5 — Le client peut annuler sa réservation plus de 7 jours avant le départ
+- [ ] AC-6 — Le patron est informé de l'annulation du client
+- [ ] AC-7 — Après l'annulation, le client peut formuler une nouvelle demande de réservation (pas de report automatique).
 
 ### Revue IA
 
