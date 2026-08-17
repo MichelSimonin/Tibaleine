@@ -1,23 +1,25 @@
 ## SPEC-BOOK-01 — Réservation d'un créneau d'un client lambda
 
-**Exigence :** REQ-0xx
-**Statut :** brouillon | revue IA faite | validée
+**Exigence :** REQ-001
+**Statut :** brouillon | revue IA faite
 **Version :** v1
 
 ### Règle
 
-Une phrase, à l'indicatif, qui dit ce qui doit être vrai. Pas de « le système
-pourrait », pas de « idéalement ».
-
-> Le client doit pouvoir réserver un créneau en fournissant son email, nom, prénom, date voulue, type de sortie voulu et le nombre de personne, incluant le nombre d'enfants.
+> Un client peut réserver un créneau en fournissant son email, son nom, son
+> prénom, la date et le type de sortie voulus et le nombre de personnes (adultes
+> et enfants). La demande passe à l'état « en attente », le client reçoit un
+> email de confirmation de prise en charge et le patron est notifié.
 
 ### Portée
 
 Ce que cette spécification couvre, et surtout **ce qu'elle ne couvre pas**. Nommer
 explicitement les cas voisins traités ailleurs, avec leur ID.
 
-- Ne couvre pas une réservation à l'initiative du prestataire → `SPEC-<DOM>-0x`
-- Ne couvre pas une réservation via un compte professionnel → `SPEC-BOOK-02`
+- Ne couvre pas la consultation des créneaux disponibles → `SPEC-DISP-01`
+- Ne couvre pas une réservation via un compte professionnel (hôtel) → `SPEC-BOOK-02`
+- Ne couvre pas le paiement en ligne → `SPEC-PAY-01`
+- Ne couvre pas le blocage temporaire des places → règle CR-04/Q61 (voir cas limite 3)
 
 ### Scénarios nominaux
 
@@ -40,17 +42,19 @@ distingue une spécification d'une intention.
 
 | # | Situation | Comportement attendu |
 |---|---|---|
-| 1 | le client veut finalement inclure une nouvelle personne lors de la soumission de la demande | Dans ce scénario, le nombre de place disponible n'est pas assez pour inclure une nouvelle personne. La demande est bloqué. Le client doit alors revoir le nombre de personne ou essayer un autre créneau.|
-| 2 | le client essaye de réserver à 1h du départ | La réservation est bloqué 2h avant le départ. |
-| 3 | (A CONFIRMER) Plusieurs clients essayent de réserver un même créneau. | La première réservation qui passe en état "Payée" aura les places. Si il n'y a plus de place pour les prochaines réservation en attente, les concernés recevront un mail/sms leurs disant que le créneau n'est plus disponible et les inviteront à essayer un autre créneau. |
-| 4 | la réservation est validé mais le client n'a toujours pas payé au moment du départ | (Question à posé) |
+| 1 | le client veut inclure une nouvelle personne alors que le créneau n'a plus assez de places | La demande est bloquée : le client doit réduire le nombre de personnes ou choisir un autre créneau. |
+| 2 | le client tente de réserver moins de 2 h avant le départ | La réservation est bloquée (réservation impossible à moins de 2 h du départ). |
+| 3 | plusieurs clients tentent de réserver le même créneau | La place est bloquée temporairement dès l'arrivée sur le formulaire ; délai de 15 min au paiement, au-delà la place se libère (CR-04/Q61). La première réservation payée prend les places. |
+| 4 | la réservation est validée mais non payée au moment du départ | (Question à poser au client — cahier V4 §8) |
+| 5 | un client réserve après l'avertissement météo de 18 h | Il ne reçoit pas de SMS/mail d'avertissement, mais une alerte s'affiche sur le site (SPEC-ALERT-01). |
 
 ### Ce qui n'est pas défini
 
 Assumé et daté. Une zone grise déclarée vaut mieux qu'une zone grise ignorée.
 
-- Fonctionnement des paiement si le client ne veut pas payer en ligne.
+- Fonctionnement des paiements si le client ne veut pas payer en ligne.
 - Fonctionnement de la liste d'attente des réservations.
+- Validation (acceptation / refus) de la demande par le patron : à confirmer (question ouverte cahier V4 §8).
 
 ### Critères d'acceptation
 
@@ -74,6 +78,10 @@ Consigne utilisée :
 
 | Remarque de l'IA | Décision | Motif |
 |---|---|---|
-| … | acceptée / refusée | … |
+| AC-4 et AC-5 supposent que le patron valide/refuse la demande, mais le scénario marque cette validation « A CONFIRMER » | à trancher | À confirmer au prochain entretien |
+| Le blocage temporaire des places (CR-04/Q61, 15 min) n'était pas représenté alors que le cas 1 évoquait une demande « bloquée » | corrigée | Cas limite 3 complété |
+| Cas limite 2 incohérent : « réserver à 1 h du départ » vs « bloqué 2 h avant » | corrigée | Délai unifié : 2 h |
+| Nommage des états : « Validé » (scénario) vs « confirmée » (MCD V2) | à trancher | Aligner sur le MCD (confirmée) |
+| Langue de l'email de confirmation non précisée (FR/EN, R-71) | à trancher | Renvoi `SPEC-LANG-01` |
 
 Les refus se reportent aussi dans `docs/journal.md`.

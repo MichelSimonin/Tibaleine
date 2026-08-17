@@ -1,18 +1,15 @@
 ## SPEC-CANCEL-02 — Annulation de la réservation à l'initiative du prestataire
 
-**Exigence :** REQ-0xx
-**Statut :** brouillon | revue IA faite | validée
+**Exigence :** REQ-017
+**Statut :** brouillon | revue IA faite
 **Version :** v1
 
 ### Règle
 
-Une phrase, à l'indicatif, qui dit ce qui doit être vrai. Pas de « le système
-pourrait », pas de « idéalement ».
-
->À moins de 48 heures du départ, une annulation à l'initiative du client
-> entraîne une retenue de 50 % du montant total de la réservation, une annulation
->entre 48h et 7 jours entraîne une retenue de 25% du montant et une annulation à plus 
->de 7 jours entraîne un remboursement totale.
+> En cas de mauvaises conditions météo, le prestataire envoie un avertissement
+> la veille à 18 h, puis confirme l'annulation au moins 2 h avant le départ, par
+> créneau. Les clients concernés sont prévenus automatiquement par SMS et/ou
+> mail, au même moment, et sont intégralement remboursés.
 
 ### Portée
 
@@ -26,13 +23,14 @@ explicitement les cas voisins traités ailleurs, avec leur ID.
 ### Scénarios nominaux
 
 ```gherkin
-Étant donné une prévue le 12 juillet à 10h00 comprenant 5 réservations.
-Et que nous sommes le 11 juillet à 18h00.
-Par cause de mauvais temps probable le lendemain matin, le prestataire 
-envoie un avertissement concernant une possible annulation des sorties 
-le lendemain matin.
-Le prestataire renvoie un message à 5h pour confirmer l'annulation.
-Tous les clients seront intégralement remboursé.
+Étant donné une sortie prévue le 12 juillet à 10h00 comprenant 5 réservations
+Et que nous sommes le 11 juillet à 18h00
+Par cause de mauvais temps probable le lendemain matin, le prestataire
+envoie un avertissement concernant une possible annulation des sorties
+le lendemain matin
+Le prestataire confirme l'annulation le lendemain (au moins 2 h avant le départ)
+Alors tous les clients concernés sont prévenus automatiquement au même moment
+Et ils sont intégralement remboursés
 ```
 
 ### Cas limites
@@ -51,7 +49,10 @@ distingue une spécification d'une intention.
 
 Assumé et daté. Une zone grise déclarée vaut mieux qu'une zone grise ignorée.
 
-- ...
+- Heure exacte de la décision d'annulation : « vers 5 h » (CR-04/Q54) vs « 2 h avant » — à confirmer.
+- Exécution du remboursement : manuelle par le patron (R-49) ; seuls le calcul et la notification sont automatiques.
+- Personnalisation du message et gestion d'une panne du service SMS → `SPEC-ALERT-01`.
+- Cas limite 1 : un client ayant réservé après l'avertissement reçoit-il le message d'annulation ? (à préciser)
 
 ### Critères d'acceptation
 
@@ -59,7 +60,7 @@ Chacun doit être vérifiable sans interprétation, et donne lieu à au moins un
 de test.
 
 - [ ] AC-1 — Le prestataire peut envoyer son message d'avertissement à 18h la veille
-- [ ] AC-2 — Le prestataire peut envoyer son message d'annulation au moins 2h avant le départ
+- [ ] AC-2 — Le prestataire peut envoyer son message d'annulation au moins 2 h avant le départ (heure exacte à confirmer, CR-04/Q54)
 - [ ] AC-3 — Les clients recoivent les messages d'avertissement et d'annulation
 - [ ] AC-4 — Le prestataire peut annuler les réservations impactés.
 
@@ -73,6 +74,11 @@ Consigne utilisée :
 
 | Remarque de l'IA | Décision | Motif |
 |---|---|---|
-| … | acceptée / refusée | … |
+| La « Règle » reprenait le barème client de SPEC-CANCEL-01 | corrigée | Remplacée par la règle prestataire (avertissement 18 h + annulation ≥ 2 h, remboursement 100 %) |
+| Scénario Gherkin mal formé (« Étant donné une prévue… ») | corrigée | |
+| Heure d'annulation : 5 h (scénario) vs 2 h avant (AC-2) — incohérence (CR-04/Q54 « à confirmer ») | à trancher | |
+| « Intégralement remboursés » : l'exécution du remboursement reste manuelle (R-49) | à trancher | Préciser calcul automatique / exécution manuelle |
+| Cas 1 : un client réservant après 18 h reçoit-il le message d'annulation ? | à trancher | |
+| « Ce qui n'est pas défini » était vide | complétée | |
 
 Les refus se reportent aussi dans `docs/journal.md`.
