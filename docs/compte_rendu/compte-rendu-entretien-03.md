@@ -20,7 +20,7 @@ Le client n’a pas de prestataire externe pour héberger les données clients. 
 
 | Q41 | Avez-vous un prestataire externe pour héberger les données clients ?                      | Non                                                                  |
 | --- | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| Q42 | Exigence RGPD ou protection des données ?                                                 | Non                                                                  |
+| Q42 | Exigence RGPD ou protection des données ?                                                 | Pas d'exigence mais nécessaire                                                       |
 | Q43 | Préférence navigateur ?                                                                   | Non                                                                  |
 | Q44 | Si modification après paiement, comment voulez-vous que cela se passe ?<br>               | Si signalé assez tôt, alors remboursement ou paiement du supplément. |
 | Q45 | Charte graphique? Thème, couleur, etc...                                                  | Non aucune                                                           |
