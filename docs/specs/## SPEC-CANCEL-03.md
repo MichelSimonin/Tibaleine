@@ -25,8 +25,7 @@ explicitement les cas voisins traités ailleurs, avec leur ID.
 Étant donné une sortie prévue le 12 juillet à 10h00 comprenant 5 réservations
 Et que nous sommes le 11 juillet à 18h00
 Par cause de mauvais temps probable le lendemain matin, le prestataire
-envoie un avertissement concernant une possible annulation des sorties
-le lendemain matin
+envoie un avertissement concernant une possible annulation des sorties, le lendemain matin
 Quand deux clients annulent leurs réservations suite à cet avertissement
 Alors ces clients sont remboursés intégralement, indépendamment de la décision finale d'annulation
 ```
@@ -56,10 +55,11 @@ Assumé et daté. Une zone grise déclarée vaut mieux qu'une zone grise ignoré
 Chacun doit être vérifiable sans interprétation, et donne lieu à au moins un cas
 de test.
 
-- [ ] AC-1 — Les clients recoivent les messages d'avertissement et d'annulation.
-- [ ] AC-2 — Les clients peuvent annuler leurs réservations s'ils sont concernés.
-- [ ] AC-3 — Les clients sont remboursés intégralement.
-- [ ] AC-4 — Le système peut déterminer qu'un client a reçu l'avertissement (trace des notifications).
+- [ ] AC-1 — Un client concerné reçoit l'avertissement du prestataire (la veille à 18 h, SMS et/ou mail).
+- [ ] AC-2 — Un client ayant reçu l'avertissement peut annuler sa réservation pendant la phase d'avertissement.
+- [ ] AC-3 — L'annulation pendant la phase d'avertissement entraîne un remboursement intégral (100 % du montant payé, sans retenue).
+- [ ] AC-4 — Le remboursement intégral s'applique même si la sortie est finalement maintenue.
+- [ ] AC-5 — Le système peut déterminer qu'un client a reçu l'avertissement (trace des notifications).
 
 ### Revue IA
 
