@@ -166,3 +166,52 @@ décoratif : c'est ce qui permet de distinguer un arbitrage d'un acquiescement.
 - Génération du diagramme du MCD en mermaid, des règles metiers et des questions ambigues potentielles.
 
 ## **Questions ouvertes pour le client.**
+
+## J6 — 17/08/2026
+
+**Présents.**
+
+**Décisions.**
+
+**Critiques de l'IA acceptées.**
+
+- 
+
+**Critiques de l'IA refusées, et pourquoi.**
+
+- 
+
+**Erreurs produites par l'IA et détectées.**
+
+- Sans objet.
+
+**Ce qui a été généré aujourd'hui.**
+
+
+## **Questions ouvertes pour le client.**
+
+
+## J8 — 18/08/2026
+
+**Présents.**
+
+**Décisions.**
+
+**Critiques de l'IA acceptées.**
+
+- propositions et reformulation de certaines délégations acceptées.
+
+**Critiques de l'IA refusées, et pourquoi.**
+
+- Certains délégations crés en entier refusé, car incorrect.
+
+**Erreurs produites par l'IA et détectées.**
+
+- Sans objet.
+
+**Ce qui a été généré aujourd'hui.**
+
+- Fichier de délégation
+
+## **Questions ouvertes pour le client.**
+
