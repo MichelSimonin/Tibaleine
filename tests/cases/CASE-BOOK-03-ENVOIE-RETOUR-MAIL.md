@@ -1,4 +1,4 @@
-# CASE-BOOK-03— Un client peut envoyer le formulaire et recevoir un retour par mail
+# CASE-BOOK-03—envoie-retour-mail Un client peut envoyer le formulaire et recevoir un retour par mail
 
 **Spécification :** `SPEC-BOOK-01`  
 **Critère d'acceptation :** `AC-02` 

@@ -1,4 +1,4 @@
-# CASE-BOOK-04— Le nombre de place disponible pour une activité se met à jours après le paiement d'une réservation
+# CASE-BOOK-04—NB-PLACES Le nombre de place disponible pour une activité se met à jours après le paiement d'une réservation
 
 **Spécification :** `SPEC-BOOK-01`  
 **Critère d'acceptation :** `AC-04` 
