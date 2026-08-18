@@ -1,6 +1,6 @@
 # CASE-CANCEL-03 — Annulation client pendant la phase d'avertissement (remboursement intégral)
 
-**Spécification :** `SPEC-CANCEL-03`  
+**Spécification :** `SPEC-CANCEL_CLIENT_AVERTISSEMENT-03`  
 **Critère d'acceptation :** `AC-03`  
 **Type :** acceptation  
 **Niveau de risque :** élevé

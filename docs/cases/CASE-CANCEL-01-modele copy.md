@@ -1,6 +1,6 @@
 # CASE-CANCEL-01 — Annulation client à moins de 48 heures
 
-**Spécification :** `SPEC-CANCEL-03`  
+**Spécification :** `SPEC-CANCEL_CLIENT_AVERTISSEMENT-03`  
 **Critère d'acceptation :** `AC-02`  
 **Type :** acceptation  
 **Niveau de risque :** élevé
