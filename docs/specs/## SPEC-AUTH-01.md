@@ -76,11 +76,12 @@ Consigne utilisée :
 
 | Remarque de l'IA | Décision | Motif |
 |---|---|---|
-| Contradiction : le scénario 1 décrit un flux « mail envoyé + association d'un mot de passe », alors que le cas limite 2 dit que le mot de passe est optionnel (compte créé sans mot de passe) | à trancher | Le mot de passe est-il requis à la création ou optionnel ? |
+| REQ-002 (créer un compte) semblait non sourcé et contredire un refus explicite du client (« Pas de compte client pour le moment », CR-01/Q10, CR-02/Q10) — vérifié en confrontant la spec au cahier des charges V4 et aux CR | tranchée | Confirmé : demande explicite du patron de créer un compte client. C'était un oubli de traçabilité (seule source citée dans le cahier V4 : CR-03 §4, mention incidente) — pas une invention. À documenter avec une source dédiée. |
+| Contradiction : le scénario 1 décrit un flux « mail envoyé + association d'un mot de passe », alors que le cas limite 2 dit que le mot de passe est optionnel (compte créé sans mot de passe) | tranchée | Décision d'équipe : le mot de passe est optionnel à la création du compte. Le scénario nominal (ligne 29) présente à tort l'association du mot de passe comme une étape obligatoire — à reformuler pour refléter l'optionalité. |
 | Le flux « un mail est envoyé pour donner la possibilité de créer un compte » n'est sourcé dans aucun entretien (CR-01 à CR-04) | à trancher | Règle ajoutée sans source |
-| Si le mot de passe est optionnel, un client sans mot de passe ne peut pas se connecter et donc pas consulter ses réservations — incohérent avec `SPEC-CONS-01` / REQ-004 | à trancher | |
-| AC-2 (« se connecter avec son email ») ne mentionne pas le mot de passe — ambigu si celui-ci est optionnel | à trancher | Préciser l'AC |
+| Si le mot de passe est optionnel, un client sans mot de passe ne peut pas se connecter et donc pas consulter ses réservations — incohérent avec `SPEC-CONS-01` / REQ-004 | tranchée | Décision d'équipe : accès via un lien envoyé par email (sans mot de passe), à usage unique. Résout l'incohérence avec `SPEC-CONS-01` / REQ-004. Durée de validité du lien avant expiration : non précisée pour l'instant. |
+| AC-2 (« se connecter avec son email ») ne mentionne pas le mot de passe — ambigu si celui-ci est optionnel | à trancher | À reformuler pour distinguer explicitement les deux parcours : connexion par mot de passe (si défini) et accès par lien email à usage unique (si le mot de passe n'a pas été défini). Durée de validité du lien restant à préciser. |
 | La Règle accorde au client la « gestion » de ses réservations, mais la modification en ligne par le client est une question ouverte (cahier V4 §8) | à trancher | Ne présupposer que la consultation |
-| Spec marquée « validé » avec ces points ouverts : reconsidérer le statut | à trancher | |
+| Spec marquée « validé » avec ces points ouverts : reconsidérer le statut | à trancher | La création de compte (REQ-002), l'optionalité du mot de passe et l'accès par lien email à usage unique sont désormais tranchés ; il reste à préciser la durée de validité du lien et la modification en ligne (cahier V4 §8) avant de maintenir le statut « validé ». |
 
 Les refus se reportent aussi dans `docs/journal.md`.
