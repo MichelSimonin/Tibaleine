@@ -46,7 +46,7 @@ Un cas limite par ligne, avec le comportement attendu.
 | 1 | le client abandonne le formulaire sans payer | La place est libérée (fin du blocage). |
 | 2 | le client paie dans les 15 minutes | La place reste acquise, la réservation passe « payée ». |
 | 3 | le délai expire puis le client paie quand même | (À préciser) le paiement est refusé ou la place est déjà rendue disponible. |
-| 4 | deux clients réservent en même temps | (Test de concurrence à prévoir (CR-04/Q61) : une seule réservation aboutit.) La première requête qui aboutit permet au client correspondant de bloquer la place. Le second sera bloqué et verra une erreur. Tout dépend de quelle requête aboutit en premier. |
+| 4 | deux clients réservent en même temps | Une seule réservation aboutit : la première requête qui aboutit bloque la place, le second client est bloqué et voit une erreur. |
 
 ### Ce qui n'est pas défini
 
@@ -73,6 +73,9 @@ Consigne utilisée :
 
 | Remarque de l'IA | Décision | Motif |
 |---|---|---|
-| … | acceptée / refusée | … |
+| Cas limite 4 : parenthèses imbriquées / artefact d'édition | corrigée | Reformulé |
+| Cas limite 3 (délai expiré puis paiement) reste « à préciser » | à trancher | Question ouverte |
+| Durée du blocage en phase formulaire (avant paiement) non définie | à trancher | Déjà noté dans « Ce qui n'est pas défini » |
+| AC-4 « un test de réservations simultanées est réalisé » est une consigne de test, pas un critère observable | à trancher | Préciser le comportement à vérifier |
 
 Les refus se reportent aussi dans `docs/journal.md`.
