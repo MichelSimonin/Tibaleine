@@ -27,7 +27,7 @@ PHP/SYMFONY
 - [x] **Intégration possible d'un prestataire de paiement.**
       → lequel, et sous quelle forme : Stripe
 - [x] **Déployable dans la contrainte budgétaire du client** (`REQ-1xx`).
-      → où, et pour combien par mois :
+      → hébergeur mutualisé PHP (à préciser par l'équipe), ~5 €/mois (à confirmer)
 
 ## 2. Liste admise
 
@@ -35,11 +35,25 @@ Symfony/PHP, NextJs
 
 ## 3. Contexte
 
-Ce que le problème demande réellement :
+Application de réservation de sorties en mer (baleine, dauphin ; créneaux
+7 h / 10 h / 14 h) pour une petite entreprise, avec :
 
-nature des données, transactions,
-concurrence sur les places, volumétrie et pics, support d'usage, conditions
-réseau, langues, maintenance après livraison. Citer les `REQ` concernées.
+- **transactions** : réservation et paiement en ligne (`REQ-001`, `REQ-006`),
+  remboursements selon le barème d'annulation (`REQ-007`, `REQ-009`),
+  facturation des hôtels en fin de mois (`REQ-013`) ;
+- **concurrence sur les places** : capacité limitée des bateaux (12/24 places),
+  blocage temporaire des places pour éviter les doubles réservations (`REQ-019`) ;
+- **notifications** : avertissement météo la veille à 18 h, annulation par
+  créneau, SMS/mail/alerte site (`REQ-016`, `REQ-017`, `REQ-018`), en français
+  et en anglais (`REQ-014`) ;
+- **volumétrie et pics** : petite volumétrie (deux bateaux, créneaux limités),
+  mais pics ponctuels de réservations après une annulation ;
+- **support d'usage et réseau** : usage mobile possible (4G), temps de réponse
+  < 2 s (`REQ-100`), tout navigateur et appareil (`REQ-105`) ;
+- **services externes** : prestataire de paiement (Stripe) et envois SMS/mail,
+  avec gestion des indisponibilités (`REQ-020`) ;
+- **maintenance après livraison** : par une petite équipe, d'où la priorité à
+  une stack déjà connue et maintenable.
 
 ## 4. Options envisagées
 
@@ -69,7 +83,17 @@ Nous choisissons donc symfony pour ce projet.
 
 ## 6. Raisons
 
-Celui-ci a été choisi, car deux membres de l'équipe utilisent constamment la technologie.
+Symfony est retenu parce qu'il répond aux contraintes du problème, pas par
+préférence générale :
+
+- **compétence** : deux membres l'utilisent en entreprise et tous l'ont vu en
+  cours — pas de temps d'apprentissage ;
+- **schéma versionné** : Doctrine fournit migrations et mapping, nécessaires au
+  modèle (réservations, paiements, notifications) ;
+- **paiement** : Stripe s'intègre directement à Symfony (`REQ-006`) ;
+- **composants** : sécurité (rôles `REQ-003`, `REQ-102`), formulaires et
+  traduction FR/EN (`REQ-014`) déjà couverts par l'écosystème ;
+- **coût** : hébergement mutualisé PHP, dans la contrainte budgétaire du client.
 
 ## 7. Conséquences acceptées
 
