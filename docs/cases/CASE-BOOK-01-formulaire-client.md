@@ -68,6 +68,7 @@ Et Jean est renvoyé vers l'étape suivante (paiement)
 - [ ] Le test vérifie que les informations en entrée et en sortie sont les mêmes.
 - [ ] Le test vérifie le passage au statut « en attente ».
 - [ ] Le test échoue si les informations en entrée et en sortie sont différentes (la réservation créée contient des informations erronées).
+- [ ] Le nom du test contient `CASE_BOOK_01`.
 - [ ] Aucune assertion étrangère à ce cas n'a été ajoutée.
 
 **Relu par :** à renseigner  
