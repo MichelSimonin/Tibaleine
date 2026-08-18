@@ -32,7 +32,7 @@ Le patron reçoit un sms qu'il y a une demande de réservation.
 (A CONFIRMER) Le patron peut accepter ou non la demande.
 (A CONFIRMER | Ignoré si le process change) Si le patron accepte la réservation passe en "Validé".
 Le client peut payer sa réservation et celle-ci passe en état "Payée".
-
+``` 
 
 
 ### Cas limites

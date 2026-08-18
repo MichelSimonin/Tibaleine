@@ -1,6 +1,6 @@
 # CASE-BOOK-02 — L'hôtel réserve au plus 6 places par créneau.
 
-**Spécification :** `SPEC-CANCEL_PRESTATAIRE-02`  
+**Spécification :** `SPEC-BOOK-02`  
 **Critère d'acceptation :** `AC-01` , `AC-04`
 **Type :** acceptation  
 **Niveau de risque :** élevé
@@ -35,7 +35,7 @@ L'hôtel est informé des réservations réussis et de celle qui a échoué.
 | Montant total a payé | 459 € |
 | Départ des sorties | 17 août 2026 à 10:00, 20 août 2026 à 7h et 21 août 2026 à 10h  | Nombres de places disponibles pour ces créneaux | 10, 5 et 3 places
 | Nombres de places demandés | 6, 4 et 4 places |
-| Nombres de places après réservations | 4,1 et 4 places
+| Nombres de places disponibles sur ces créneaux après réservations | 4,1 et 4 places
 
 
 ## Résultat attendu, calculé à la main
@@ -56,7 +56,7 @@ L'hôtel est informé des réservations réussis et de celle qui a échoué.
 ## Test automatisé
 
 **Nom attendu :**
-`test_CASE_BOOK_01_reservation_plusieurs_creneaux_hotel`  
+`test_CASE_BOOK_02_reservation_plusieurs_creneaux_hotel`  
 **Fichier :** à renseigner après automatisation
 
 ## Revue du test automatisé
