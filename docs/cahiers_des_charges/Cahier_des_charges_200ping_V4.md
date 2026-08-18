@@ -107,6 +107,11 @@ Priorité : **Must / Should / Could / Won't**
 | REQ-013 | Facturer l'hôtel en fin de mois (remise -15 %) | Could | Client (profil hôtel) | CR-03 §3 |
 | REQ-014 | Interface en français et en anglais | Could | Client | CR-01 §3 |
 | REQ-015 | Liens vers les réseaux sociaux (Facebook, Instagram) | Could | Client | CR-03/Q46 |
+| REQ-016 | Envoyer un avertissement météo la veille à 18h (SMS/mail) et afficher une alerte sur le site | Must | Patron | CR-04/Q48, CR-04/Q52 |
+| REQ-017 | Annuler une sortie (décision du prestataire) : par créneau, notification automatique, remboursement 100 % | Must | Patron | CR-04/Q54, CR-04/Q56, CR-04/Q57 |
+| REQ-018 | Rembourser à 100 % un client qui annule après avoir reçu l'avertissement | Must | Client | CR-04/Q58 |
+| REQ-019 | Bloquer temporairement une place pendant la réservation (15 min au paiement) | Should | Client | CR-04/Q61 |
+| REQ-020 | Vérifier la disponibilité des services externes et gérer leur indisponibilité | Should | Patron | CR-04/Q63 |
 
 ## 4.1 Règles métier
 

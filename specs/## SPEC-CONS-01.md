@@ -17,7 +17,7 @@ explicitement les cas voisins traités ailleurs, avec leur ID.
 
 - Ne couvre pas l'accès par rôle → `SPEC-AUTH-01`
 - Ne couvre pas l'annulation → `SPEC-CANCEL-CLIENT-01`, `SPEC-CANCEL-PRESTATAIRE-02`, `SPEC-CANCEL-CLIENT-AVERTISSEMENT-03`
-- Ne couvre pas la modification → `SPEC-MODIF-01`
+- Ne couvre pas la modification (hors périmètre V1 — spec supprimée)
 
 ### Scénarios nominaux
 
@@ -70,7 +70,7 @@ Consigne utilisée :
 |---|---|---|
 | Un client peut-il consulter ses réservations sans compte ? (le mot de passe est optionnel — comment identifie-t-il ses réservations ?) | tranchée | Résolu par la décision prise sur `SPEC-AUTH-01` : accès via un lien de connexion envoyé par email, à usage unique (pas de mot de passe requis). |
 | L'employé voit-il toutes les réservations ou un sous-ensemble ? (CR-02 §4 : « consulter uniquement ces réservations ») | tranchée | Décision d'équipe : l'employé voit toutes les réservations, en lecture seule (pas de modification possible). |
-| Les « actions de gestion » de l'administrateur ne sont pas listées (modifier → SPEC-MODIF-01, annuler → SPEC-CANCEL-CLIENT-01) | à trancher | |
+| Les « actions de gestion » de l'administrateur ne sont pas listées | à trancher | |
 | Les réservations annulées restent-elles visibles dans la consultation (historique) ? | à trancher | Cas limite manquant |
 | Filtres / tri (date, statut, bateau) non définis | à trancher | |
 | AC-1 à AC-3 vérifiables | OK | |

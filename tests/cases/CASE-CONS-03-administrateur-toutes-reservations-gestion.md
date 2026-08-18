@@ -41,7 +41,7 @@ Et les actions de gestion (modifier, annuler) sont disponibles pour chacune
 
 - la consultation par le client → `CASE-CONS-01` ;
 - la consultation par l'employé (sans actions de gestion) → `CASE-CONS-02` ;
-- le déroulement effectif d'une modification ou d'une annulation → `SPEC-MODIF-01`, `SPEC-CANCEL-CLIENT-01`, `SPEC-CANCEL-PRESTATAIRE-02` ;
+- le déroulement effectif d'une modification ou d'une annulation → `SPEC-CANCEL-CLIENT-01`, `SPEC-CANCEL-PRESTATAIRE-02` ;
 - la liste exhaustive des actions de gestion disponibles (non détaillée par la spec).
 
 ---

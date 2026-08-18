@@ -38,7 +38,7 @@ Et un message indique que son rôle ne permet que la consultation
 
 - la consultation normale par l'employé → `CASE-CONS-02` ;
 - la modification effective par l'administrateur (autorisée, cas différent) → `CASE-CONS-03` ;
-- le détail du formulaire de modification lui-même → `SPEC-MODIF-01`.
+- le détail du formulaire de modification lui-même.
 
 ---
 

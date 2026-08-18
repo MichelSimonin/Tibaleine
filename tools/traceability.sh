@@ -30,6 +30,7 @@ RX_REQ='REQ-[0-9][0-9][0-9]'
 RX_SPEC='SPEC-[A-Z0-9-]+-[0-9][0-9]'
 RX_CASE_ANY='CASE[-_][A-Z0-9-]+[-_][0-9][0-9]'
 RX_SRC='CR-[0-9][0-9]/Q[0-9][0-9]'
+RX_SRC_SEC='CR-[0-9][0-9] §[0-9]+'
 RX_DEDUIT='d[ée]duit'
 
 ruptures=0
@@ -122,8 +123,8 @@ if [ -f "$CDC" ]; then
   while IFS= read -r line; do
     req=$(printf '%s\n' "$line" | grep -oE "$RX_REQ" | head -1)
     [ -z "$req" ] && continue
-    src=$(printf '%s\n' "$line" | grep -oE "$RX_SRC" | head -1)
-    if [ -n "$src" ]; then
+    if printf '%s\n' "$line" | grep -qE "$RX_SRC"; then
+      src=$(printf '%s\n' "$line" | grep -oE "$RX_SRC" | head -1)
       cr=${src%%/*}
       q=${src##*/}
       f="docs/compte_rendu/compte-rendu-entretien-${cr#CR-}.md"
@@ -132,10 +133,17 @@ if [ -f "$CDC" ]; then
       elif ! grep -q "$q" "$f"; then
         warn "$req cite $src, mais $q est absent de $f"
       fi
+    elif printf '%s\n' "$line" | grep -qE "$RX_SRC_SEC"; then
+      src=$(printf '%s\n' "$line" | grep -oE "$RX_SRC_SEC" | head -1)
+      cr=$(printf '%s\n' "$src" | grep -oE 'CR-[0-9][0-9]')
+      f="docs/compte_rendu/compte-rendu-entretien-${cr#CR-}.md"
+      [ -f "$f" ] || warn "$req cite $src, mais $f n'existe pas"
     elif printf '%s\n' "$line" | grep -qiE "$RX_DEDUIT"; then
       ndeduits=$((ndeduits + 1))
+    elif printf '%s\n' "$line" | grep -qi 'Aucune source'; then
+      :
     else
-      warn "$req ne cite aucune source (ni CR-nn/Qnn, ni « déduit »)"
+      warn "$req ne cite aucune source (ni CR-nn/Qnn, ni CR-nn §x, ni « déduit »)"
     fi
   done < "$CDC"
 fi

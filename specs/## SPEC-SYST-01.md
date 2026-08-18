@@ -71,7 +71,7 @@ Consigne utilisée :
 | Cas 2 et 3 (« à préciser ») : comportement en panne SMS/email non défini — cœur de la spec non validable en l'état | à trancher | Ambiguïté CR-04 §6 |
 | AC-1 non testable sans mécanisme de détection défini | à trancher | |
 | AC-3 « le client est informé » : comment informer si le canal (SMS/email) est en panne ? | à trancher | |
-| Portée : renvoi vers `REQ-103` qui est une exigence, pas une spec (aucune SPEC-SEC-01) | à trancher | Corriger le renvoi |
+| Portée : renvoi vers `REQ-103` qui est une exigence, pas une spec | à trancher | Corriger le renvoi |
 | Liste exacte des services externes et tableau de bord de disponibilité pour le patron non définis | à trancher | |
 
 Les refus se reportent aussi dans `docs/journal.md`.
