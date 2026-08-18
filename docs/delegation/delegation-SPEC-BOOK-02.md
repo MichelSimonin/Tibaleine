@@ -1,19 +1,20 @@
-# Plan de délégation — `<SPEC-BOOK-01>`
+# Plan de délégation — `<SPEC-BOOK-02>`
 
 Copiez ce gabarit en `docs/delegation-<SPEC-DOM-nn>.md`.
 
-Un client peut écrire des informations dans le formulaire de réservation. Il peut envoyer les données 
-et recevoir un retour par mail.
-Après réservation, le nombre de places disponible sur l'activité est mis à jour.
+Un hôtel partenaire peut réserver jusqu'à 6 places par créneau, pour une
+sortie baleine ou dauphin, sans passer par le formulaire client classique.
+Une réservation peut comprendre plusieurs créneaux et jours.
+Le nombre de places disponibles pour chaque activité choisi doit être mis à jour après réservation.
 ---
 
 ## Avant — le découpage
 
 | # | Tâche | Test qui doit passer au vert | Ce que l'agent reçoit | Ce qu'il ne touche pas |
 |---|---|---|---|---|
-| 1 | Comparaison des données en entrées et les données en sortie| `CASE-BOOK-01-formulaire-client` | Informations données par le client via formulaire et l'objet crée après réservation. | Ces test consitent en de simple comparaison.L'agent ne doit pas modifier les fichiers de données d'entrées et de sortie. Aucune autre fichier dans le projet n'est necessaire pour ces test, ils ne doivent donc en aucun cas être modifiés.  |
-| 2 | Envoie du mail et vérification du corp du mail | `CASE-BOOK-03—envoie-retour-mail` | information de l'entité crée après réservation, fichier du service de mail, fichier html contenant le corp du mail.|L'agent ne doit pas toucher au données des entités et code du service de mail.  |
-| 3 | | `CASE-BOOK-04—NB-PLACES` | Information de l'objet crée après réservation et des réservations passé sur l'activité réservé. | Ces test consistent en de simple comparaison. Aucun fichier (et particulièrement les données des objets) ne doit être modifier.  |
+| 1 | Vérification que l'hôtel peut réserver plusieurs créneaux à la fois et qu'il ne puisse pas réserver plus de 6 places par créneau.| `CASE-BOOK-02` | Information de l'objet reservation crée. | Ces test consistent en de simple comparaison. L'agent ne doit pas modifier les fichiers de données d'entrées et de sortie. Aucune autre fichier dans le projet n'est necessaire pour ces test, ils ne doivent donc en aucun cas être modifiés.  |
+| 2 | Vérification que le nombre de places réservés par créneaux soit soustrait aux nombres de places disponibles initialement. | `CASE-BOOK-04` | informations de l'objet crée après réservation | Ces test consistent en de simples comparaisons et additions. Aucun fichier (et particulièrement les données des entités) ne doit être modifier.  |
+
 
 **Colonne 3.** Un identifiant `CASE`, pas une phrase. Si vous ne savez pas quel test
 va changer d'état, la tâche est mal découpée — c'est le repère du module 07.
