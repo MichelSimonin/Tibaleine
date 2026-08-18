@@ -1,7 +1,7 @@
 ## SPEC-SYST-01 — Disponibilité des services externes
 
 **Exigence :** REQ-020
-**Statut :** brouillon | revue IA faite
+**Statut :** revue IA faite
 **Version :** v1
 
 ### Règle

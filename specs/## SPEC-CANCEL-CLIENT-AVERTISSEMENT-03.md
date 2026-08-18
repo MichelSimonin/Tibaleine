@@ -1,7 +1,7 @@
 ## SPEC-CANCEL-CLIENT-AVERTISSEMENT-03 — Annulation de la réservation à l'initiative du client suite à un avertissement du prestataire
 
 **Exigence :** REQ-018
-**Statut :** brouillon | revue IA faite
+**Statut :** revue IA faite
 **Version :** v1
 
 ### Règle

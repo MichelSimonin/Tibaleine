@@ -1,7 +1,7 @@
 ## SPEC-PAY-01 — Paiement en ligne
 
 **Exigence :** REQ-006
-**Statut :** validé
+**Statut :** revue IA faite
 **Version :** v1
 
 ### Règle

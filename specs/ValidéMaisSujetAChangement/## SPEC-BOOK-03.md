@@ -1,7 +1,7 @@
 ## SPEC-BOOK-03 — Blocage temporaire d'une place (réservations simultanées)
 
 **Exigence :** REQ-019
-**Statut :** validé
+**Statut :** revue IA faite
 **Version :** v1
 
 ### Règle

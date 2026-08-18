@@ -1,7 +1,7 @@
 ## SPEC-DISP-01 — Consultation des créneaux disponibles
 
 **Exigence :** REQ-008
-**Statut :** brouillon | revue IA faite
+**Statut :** revue IA faite
 **Version :** v1
 
 ### Règle

@@ -1,7 +1,7 @@
 ## SPEC-HOTEL-01 — Compte hôtel et consultation des créneaux
 
 **Exigence :** REQ-011
-**Statut :** brouillon | revue IA faite
+**Statut :** revue IA faite
 **Version :** v1
 
 ### Règle

@@ -1,7 +1,7 @@
 ## SPEC-FACT-01 — Facturation hôtel en fin de mois
 
 **Exigence :** REQ-013
-**Statut :** brouillon | revue IA faite
+**Statut :** revue IA faite
 **Version :** v1
 
 ### Règle

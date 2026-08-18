@@ -1,7 +1,7 @@
 ## SPEC-CANCEL-PRESTATAIRE-02 — Annulation de la réservation à l'initiative du prestataire
 
 **Exigence :** REQ-017
-**Statut :** ~~brouillon | revue IA faite|~~ validé
+**Statut :** revue IA faite
 **Version :** v1
 
 ### Règle

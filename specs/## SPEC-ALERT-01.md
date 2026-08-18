@@ -1,7 +1,7 @@
 ## SPEC-ALERT-01 — Avertissement météo et notifications automatiques
 
 **Exigence :** REQ-016
-**Statut :** validé
+**Statut :** revue IA faite
 **Version :** v1
 
 ### Règle

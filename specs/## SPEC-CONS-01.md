@@ -1,7 +1,7 @@
 ## SPEC-CONS-01 — Consultation des réservations
 
 **Exigence :** REQ-004, REQ-005
-**Statut :** brouillon | revue IA faite
+**Statut :** revue IA faite
 **Version :** v1
 
 ### Règle

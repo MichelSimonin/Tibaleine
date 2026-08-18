@@ -1,7 +1,7 @@
 ## SPEC-BOOK-02 — Réservation d'un créneau d'un professionnel
 
 **Exigence :** REQ-012
-**Statut :** ~~brouillon | revue IA faite |~~ validé
+**Statut :** revue IA faite
 **Version :** v1
 
 ### Règle

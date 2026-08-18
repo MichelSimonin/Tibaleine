@@ -1,7 +1,7 @@
 ## SPEC-MODIF-01 — Modification d'une réservation
 
 **Exigence :** REQ-010
-**Statut :** brouillon
+**Statut :** revue IA faite
 **Version :** v1
 
 ### Règle

@@ -1,7 +1,7 @@
 ## SPEC-BOOK-01 — Réservation d'un créneau d'un client lambda
 
 **Exigence :** REQ-001
-**Statut :** ~~brouillon | revue IA faite |~~ validé (mais à modifier après demandes aux clients)
+**Statut :** revue IA faite
 **Version :** v1
 
 ### Règle
