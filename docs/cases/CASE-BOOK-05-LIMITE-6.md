@@ -25,7 +25,7 @@ Un message notifiant d'un trop grand nombre de place fournis est affiché.
 
 | Élément | Valeur |
 |---|---:|
-| Date choisis | 20 Août 2026 à 14:00 |
+| Date choisis | 19 Août 2026 à 14:00 |
 | Nombre de places voulu | 36 places |
 | Nombre de places disponibles | 36 places |
 

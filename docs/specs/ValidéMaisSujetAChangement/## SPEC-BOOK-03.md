@@ -45,7 +45,7 @@ Un cas limite par ligne, avec le comportement attendu.
 |---|---|---|
 | 1 | le client abandonne le formulaire sans payer | La place est libérée (fin du blocage). |
 | 2 | le client paie dans les 15 minutes | La place reste acquise, la réservation passe « payée ». |
-| 3 | le délai expire puis le client paie quand même | (À préciser) le paiement est refusé ou la place est déjà rendue disponible. |
+| 3 | le délai expire puis le client paie quand même | (À préciser) le paiement est refusé et la place est déjà rendue disponible aux autres usagers. |
 | 4 | deux clients réservent en même temps | Une seule réservation aboutit : la première requête qui aboutit bloque la place, le second client est bloqué et voit une erreur. |
 
 ### Ce qui n'est pas défini
