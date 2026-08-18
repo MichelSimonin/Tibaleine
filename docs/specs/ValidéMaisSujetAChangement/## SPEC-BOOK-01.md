@@ -27,11 +27,10 @@ explicitement les cas voisins traités ailleurs, avec leur ID.
 Étant donné un créneau libre pour une sortie baleine le 12 juillet à 10h00 pour lequel il reste 4 places.
 Quand le client réserve ce créneau
 Il fournit son email, nom, prénom et le nombre de personnes (3 adultes et 1 enfant)
-Alors en confirmant, le client recevra un email de confirmation de prise en charge de sa demande et le réservation passe en état "En attente".
-Le patron reçoit un sms qu'il y a une demande de réservation.
-(A CONFIRMER) Le patron peut accepter ou non la demande.
-(A CONFIRMER | Ignoré si le process change) Si le patron accepte la réservation passe en "Validé".
-Le client peut payer sa réservation et celle-ci passe en état "Payée".
+Il confirme et peut désormais payer sa réservation et celle-ci passe en état "Payée" (si le paiement réussis).
+Alors en confirmant, le client recevra un email de confirmation résumant les informations de sa réservation et comprenant un lien d'inscription (inscription optionelle).
+Le patron reçoit un sms qu'il y a eu une nouvelle réservation.
+
 ``` 
 
 
@@ -64,9 +63,9 @@ de test.
 - [ ] AC-1 — Le client peut remplir les données du formulaire de demande de réservation 
 - [ ] AC-2 — Le client peut envoyer le formulaire et reçoit un retour par mail.
 - [ ] AC-3 — Le patron reçoit la demande de réservation
-- [ ] AC-4 — Le patron peut accepter, ou non, la demande de réservation. (Le cas échéant, la résolution de problème se passera au téléphone entre le patron et son client)
-- [ ] AC-5 — Si un refus à lieu, le client pourra recommencer une demande de réservation.
-- [ ] AC-6 — Le nombre de place disponible pour une activité se met à jour après le paiement d'une réservation.
+~~- [ ] AC-4 — Le patron peut accepter, ou non, la demande de réservation. (Le cas échéant, la résolution de problème se passera au téléphone entre le patron et son client)~~ 
+~~- [ ] AC-5 — Si un refus à lieu, le client pourra recommencer une demande de réservation.~~
+- [ ] AC-~~6~~4 — Le nombre de place disponible pour une activité se met à jour après le paiement d'une réservation.
 
 ### Revue IA
 
