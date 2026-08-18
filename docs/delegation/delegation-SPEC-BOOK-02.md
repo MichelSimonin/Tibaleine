@@ -1,19 +1,20 @@
-# Plan de délégation — `<SPEC-BOOK-01>`
+# Plan de délégation — `<SPEC-BOOK-02>`
 
 Copiez ce gabarit en `docs/delegation-<SPEC-DOM-nn>.md`.
 
-Un client peut écrire des informations dans le formulaire de réservation. Il peut envoyer les données 
-et recevoir un retour par mail.
-Après réservation, le nombre de places disponible sur l'activité est mis à jour.
+Un hôtel partenaire peut réserver jusqu'à 6 places par créneau, pour une
+sortie baleine ou dauphin, sans passer par le formulaire client classique.
+Une réservation peut comprendre plusieurs créneaux et jours.
+Le nombre de places disponibles pour chaque activité choisi doit être mis à jour après réservation.
 ---
 
 ## Avant — le découpage
 
 | # | Tâche | Test qui doit passer au vert | Ce que l'agent reçoit | Ce qu'il ne touche pas |
 |---|---|---|---|---|
-| 1 | Vérification que le formulaire de réservation client enregistre une réservation valide et que les données saisies correspondent au bon objet métier.| `CASE-BOOK-01` | `SPEC-BOOK-01`, `CASE-BOOK-01`, fichiers de test et fixtures liés au formulaire client et à la création d'une réservation. | L'agent ne touche pas le service d'envoi d'email, la logique de paiement, les autres specs du domaine (`SPEC-BOOK-02`, `SPEC-BOOK-03`) et les données de référence non liées au formulaire. |
-| 2 | Vérification de l'envoi du mail de confirmation et du contenu du message envoyé au client.| `CASE-BOOK-03` | `SPEC-BOOK-01`, `CASE-BOOK-03`, le template de mail et les fichiers de test liés à la confirmation client. | L'agent ne touche pas les entités de réservation, la logique du formulaire, la logique de paiement ni les autres services de notification. |
-| 3 | Vérification de la mise à jour des places disponibles après une réservation payée.| `CASE-BOOK-04` | `SPEC-BOOK-01`, `CASE-BOOK-04`, fixtures de créneaux et de réservations, fichiers de test liés à la disponibilité d'une activité. | L'agent ne touche pas le service d'email, la logique de blocage temporaire (`SPEC-BOOK-03`), la logique de paiement ni les règles de réservation hôtel (`SPEC-BOOK-02`). |
+| 1 | Vérification que l'hôtel peut réserver plusieurs créneaux et qu'il ne puisse pas réserver plus de 6 places sur un même créneau.| `CASE-BOOK-02` | `SPEC-BOOK-02`, `CASE-BOOK-02`, fichiers de test et fixtures liés à la réservation hôtel et à la limite de 6 places par créneau. | L'agent ne touche pas la logique de facturation fin de mois (`SPEC-FACT-01`), la réservation client lambda (`SPEC-BOOK-01`), le paiement immédiat ni les fichiers de données de référence non liés aux réservations hôtel. |
+| 2 | Vérification que les places disponibles sont correctement mises à jour après une réservation hôtel.| `CASE-BOOK-05` | `SPEC-BOOK-02`, `CASE-BOOK-05`, fixtures de créneaux, répartition des places restantes et données de réservation hôtel. | L'agent ne touche pas le service de facturation, la logique de réservation cliente, les règles d'annulation, ni les autres specs du domaine susceptibles d'influencer la facturation ou les notifications. |
+
 
 **Colonne 3.** Un identifiant `CASE`, pas une phrase. Si vous ne savez pas quel test
 va changer d'état, la tâche est mal découpée — c'est le repère du module 07.

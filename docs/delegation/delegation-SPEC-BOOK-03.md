@@ -1,19 +1,18 @@
-# Plan de délégation — `<SPEC-BOOK-01>`
+# Plan de délégation — `<SPEC-BOOK-03>`
 
 Copiez ce gabarit en `docs/delegation-<SPEC-DOM-nn>.md`.
 
-Un client peut écrire des informations dans le formulaire de réservation. Il peut envoyer les données 
-et recevoir un retour par mail.
-Après réservation, le nombre de places disponible sur l'activité est mis à jour.
+Lorsqu'un client réserve, une place est bloquée temporairement dès que l'utilisateur clique sur « Réserver » et arrive sur le formulaire, pour une durée de 15 minutes. Au passage au paiement, un nouveau délai d'environ 15 minutes lui est accordé. Si le paiement n'est pas effectué dans ce délai, la place redevient disponible.
+
 ---
 
 ## Avant — le découpage
 
 | # | Tâche | Test qui doit passer au vert | Ce que l'agent reçoit | Ce qu'il ne touche pas |
 |---|---|---|---|---|
-| 1 | Vérification que le formulaire de réservation client enregistre une réservation valide et que les données saisies correspondent au bon objet métier.| `CASE-BOOK-01` | `SPEC-BOOK-01`, `CASE-BOOK-01`, fichiers de test et fixtures liés au formulaire client et à la création d'une réservation. | L'agent ne touche pas le service d'envoi d'email, la logique de paiement, les autres specs du domaine (`SPEC-BOOK-02`, `SPEC-BOOK-03`) et les données de référence non liées au formulaire. |
-| 2 | Vérification de l'envoi du mail de confirmation et du contenu du message envoyé au client.| `CASE-BOOK-03` | `SPEC-BOOK-01`, `CASE-BOOK-03`, le template de mail et les fichiers de test liés à la confirmation client. | L'agent ne touche pas les entités de réservation, la logique du formulaire, la logique de paiement ni les autres services de notification. |
-| 3 | Vérification de la mise à jour des places disponibles après une réservation payée.| `CASE-BOOK-04` | `SPEC-BOOK-01`, `CASE-BOOK-04`, fixtures de créneaux et de réservations, fichiers de test liés à la disponibilité d'une activité. | L'agent ne touche pas le service d'email, la logique de blocage temporaire (`SPEC-BOOK-03`), la logique de paiement ni les règles de réservation hôtel (`SPEC-BOOK-02`). |
+| 1 | Vérification qu'une place est bloquée temporairement dès le clic sur « Réserver » pendant 15 minutes.| `CASE-BOOK-06` | `SPEC-BOOK-03`, `CASE-BOOK-06`, fixtures de test sur le moment du clic, la durée de blocage et les places disponibles. | L'agent ne touche pas la logique de paiement, les templates d'email, la logique de réservation client lambda ni les règles d'annulation ou de météo. |
+| 2 | Vérification qu'une place est libérée si le paiement n'est pas effectué dans le délai imparti.| `CASE-BOOK-07` | `SPEC-BOOK-03`, `CASE-BOOK-07`, fichiers de test sur la libération de place et la durée de 15 minutes avant expiration. | L'agent ne touche pas le service de paiement, la logique de disponibilité affichée, les notifications client ni les autres specs du domaine (`SPEC-BOOK-01`, `SPEC-BOOK-02`). |
+
 
 **Colonne 3.** Un identifiant `CASE`, pas une phrase. Si vous ne savez pas quel test
 va changer d'état, la tâche est mal découpée — c'est le repère du module 07.
