@@ -151,7 +151,7 @@ fi
 # --- Cas de test référencés dans les tests mais non définis -----------------
 used=$(printf '%s\n' "$test_files" | tr '\n' '\0' | xargs -0 grep -hoIE "$RX_CASE_ANY" 2>/dev/null | tr '_' '-' | sort -u)
 for cid in $used; do
-  [ -f "tests/cases/$cid.md" ] || warn "$cid est utilisé dans les tests mais n'est défini nulle part"
+  compgen -G "tests/cases/${cid}*.md" >/dev/null || warn "$cid est utilisé dans les tests mais n'est défini nulle part"
 done
 
 # --- Sortie -----------------------------------------------------------------
