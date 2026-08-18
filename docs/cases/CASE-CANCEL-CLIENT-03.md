@@ -57,7 +57,7 @@ Et 260 € sont remboursés au client
 ## Test automatisé
 
 **Nom attendu :**
-`test_CASE_CANCEL_02_annulation_client_à_plus_de_7_jours_retient_0_pourcent`  
+`test_CASE_CANCEL_02_annulation_client_à_plus_de_7_jours_remboursement_integral`  
 **Fichier :** à renseigner après automatisation
 
 ## Revue du test automatisé
