@@ -8,10 +8,9 @@
 
 > Un hôtel partenaire peut réserver jusqu'à 6 places par créneau, pour une
 > sortie baleine ou dauphin, sans passer par le formulaire client classique.
-> Les reservations peuvent se faire directement sur le site grâce à un compte pro
-> ou via email/sms au patron qui créera les réservations. 
-  Les réservations de l'hôtel sont
-> facturées en fin de mois avec une remise de 15 %.
+> Les réservations peuvent se faire directement sur le site grâce à un compte
+> pro ou via email/sms au patron qui créera les réservations. Les réservations
+> de l'hôtel sont facturées en fin de mois avec une remise de 15 %.
 
 ### Portée
 
@@ -26,10 +25,9 @@ explicitement les cas voisins traités ailleurs, avec leur ID.
 
 ```gherkin
 Étant donné un hôtel partenaire
-Alors l'hôtel réserve jusqu'à 6 places sur plusieurs créneaux 
-de la semaine du 17.08.2026 au 23.08.2026 sans passer par le formulaire client.
-Chaque créneau avait plus de 6 places disponibles.
-Les réservations sont validés, le paiement immédiat n'est pas nécessaire.
+Et des créneaux de la semaine du 17.08.2026 au 23.08.2026 disposant chacun de plus de 6 places
+Quand l'hôtel réserve jusqu'à 6 places par créneau sans passer par le formulaire client
+Alors les réservations sont validées sans paiement immédiat
 Et les réservations de l'hôtel sont facturées en fin de mois avec une remise de 15 %
 ```
 
@@ -61,8 +59,8 @@ de test.
 
 - [ ] AC-1 — L'hôtel peut réserver plusieurs places par semaine simplement
 - [ ] AC-2 — Le patron reçoit une notification des réservations hôtel (à préciser : confirmation nécessaire ou non)
-- [ ] AC-3 — Le patron reçoit la demande de réservation
-- [ ] AC-4 — Le nombre de place disponible pour une activité se met à jour après une réservation.
+- [ ] AC-3 — L'hôtel ne peut pas réserver plus de 6 places sur un même créneau.
+- [ ] AC-4 — Le nombre de places disponibles pour une activité se met à jour après une réservation.
 
 ### Revue IA
 

@@ -1,4 +1,4 @@
-# CASE-BOOK-02 — L'hôtel réserve au plus 6 places par créneau.
+# CASE-BOOK-02 — L'hôtel réserve plusieurs créneaux (6 places max, échec si places insuffisantes)
 
 **Spécification :** `SPEC-BOOK-02`  
 **Critère d'acceptation :** `AC-01` , `AC-04`
@@ -31,11 +31,12 @@ L'hôtel est informé des réservations réussis et de celle qui a échoué.
 ## Données
 
 | Élément | Valeur |
-|---|---:|
-| Montant total a payé | 459 € |
-| Départ des sorties | 17 août 2026 à 10:00, 20 août 2026 à 7h et 21 août 2026 à 10h  | Nombres de places disponibles pour ces créneaux | 10, 5 et 3 places
-| Nombres de places demandés | 6, 4 et 4 places |
-| Nombres de places disponibles sur ces créneaux après réservations | 4,1 et 4 places
+|---|---|
+| Montant total à payer | 459 € |
+| Départs des sorties | 17 août 2026 à 10:00 ; 20 août 2026 à 7h ; 21 août 2026 à 10h |
+| Places disponibles (3 créneaux) | 10 ; 5 ; 3 |
+| Places demandées (3 créneaux) | 6 ; 4 ; 4 |
+| Places disponibles après réservations | 4 ; 1 ; 3 (le 21.08 échoue : reste 3) |
 
 
 ## Résultat attendu, calculé à la main
@@ -48,8 +49,10 @@ L'hôtel est informé des réservations réussis et de celle qui a échoué.
 
 ## Ce que ce cas ne vérifie pas
 
-- Les réservations crées par le prestataire suite à un appel/mail 
-- Les réservations faites pas des particuliers
+- Les réservations créées par le prestataire suite à un appel/mail ;
+- Les réservations faites par des particuliers ;
+- La limite stricte de 6 places (rejet d'une réservation de plus de 6 places sur un créneau) ;
+- La réservation d'une privatisation par l'hôtel (refusée — SPEC-BOOK-02, cas limite 3).
 
 ---
 
