@@ -3,7 +3,7 @@
 **Spécification :** `SPEC-ALERT-01`
 **Critère d'acceptation :** `AC-03`
 **Type :** acceptation
-**Niveau de risque :** modéré
+**Niveau de risque :** moyen
 
 ## Ce que ce cas protège
 

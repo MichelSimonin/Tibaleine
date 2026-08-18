@@ -1,4 +1,4 @@
-# CASE-CANCEL-PRESTATAIRE-01 — Annulation à l'initiative du prestataire induit un message d'envoi à 18h en raison de problème météo
+# CASE-CANCEL-PRESTATAIRE-01 — Le prestataire envoie un avertissement à 18h la veille en cas de risque météo
 
 **Spécification :** `SPEC-CANCEL-PRESTATAIRE-02`  
 **Critère d'acceptation :** `AC-01`  
@@ -7,71 +7,59 @@
 
 ## Ce que ce cas protège
 
-Ca cas protège d'un envoi obligatoire de la notif à 18h en cas de problème météo. Les clients sont garantis d'être informé d'une potentielle annulation d'un créneau à partir de 18h.
+Ce cas protège l'envoi de l'avertissement aux clients la veille à 18h00 en cas de risque météo. Si la règle se casse, les clients ne sont pas prévenus qu'un de leurs créneaux risque d'être annulé.
 
 ## Cas
 
 ```gherkin
-Étant donné un créneau est prevu le 18 août 2026 à 09:00  €
-Et que les conditions météo peuvent être mauvaise
-Et une demande d'annulation faite le 15 août 2026 à 09:00
-Et que l'annulation est demandée par le client
-Et qu'aucune alerte ni annulation du prestataire n'est en cours
-Quand le client confirme l'annulation de sa réservation
-Alors la réservation passe au statut « annulée »
-Et 130 € restent acquis au prestataire
-Et 130 € sont remboursés au client
+Étant donné une sortie baleine prévue le 12 juillet 2026 à 10h00 comprenant 5 réservations payées
+Et un risque de mauvaises conditions météo signalé pour le lendemain matin
+Quand le prestataire déclenche l'avertissement le 11 juillet 2026 à 18h00
+Alors les 5 clients concernés reçoivent un SMS et/ou un mail d'avertissement au même moment
 ```
 
 ## Données
 
-| Élément                 |               Valeur |
-| ----------------------- | -------------------: |
-| Montant total payé      |                260 € |
-| Départ de la sortie     | 18 août 2026 à 09:00 |
-| Demande d'annulation    | 17 août 2026 à 09:00 |
-| Délai avant le départ   |            24 heures |
-| Origine de l'annulation |               client |
-| Retenue applicable      |                 50 % |
+| Élément | Valeur |
+|---|---:|
+| Sortie concernée | 12 juillet 2026 à 10h00 |
+| Réservations payées sur ce créneau | 5 |
+| Moment de l'avertissement | 11 juillet 2026 à 18h00 |
+| Canaux | SMS et/ou mail |
 
 ## Résultat attendu, calculé à la main
 
-| Grandeur                 | Valeur attendue | Calcul                      |
-| ------------------------ | --------------: | --------------------------- |
-| Montant retenu           |           130 € | 260 € × 50 %                |
-| Montant remboursé        |           130 € | 260 € − 130 €               |
-| Statut de la réservation |         annulée | résultat de la confirmation |
+| Grandeur | Valeur attendue |
+|---|---:|
+| Avertissement envoyé | oui |
+| Clients notifiés | 5 |
+| Moment d'envoi | la veille à 18h00 |
 
 ## Ce que ce cas ne vérifie pas
 
-- l'annulation exactement 48 heures avant le départ ;
-- l'annulation entre 48 heures et 7 jours avant le départ ;
-- l'annulation plus de 7 jours avant le départ ;
-- l'annulation décidée par le prestataire ;
-- l'annulation causée par la météo, une panne ou un nombre insuffisant de
-  participants ;
-- l'absence du client au départ ;
-- le délai bancaire nécessaire pour recevoir le remboursement.
+- la confirmation d'annulation au moins 2h avant le départ → `SPEC-CANCEL-PRESTATAIRE-02` AC-2 ;
+- la réception effective du message par les clients → AC-3 ;
+- le remboursement intégral des clients → AC-4 ;
+- l'annulation à l'initiative du client → `SPEC-CANCEL-CLIENT-01` ;
+- l'hôtel partenaire, prévenu par téléphone → cas limite 2.
 
 ---
 
 ## Test automatisé
 
 **Nom attendu :**
-`test_CASE_CANCEL_01_annulation_client_moins_48h_retient_50_pourcent`  
+`test_CASE_CANCEL_PRESTATAIRE_01_avertissement_18h_veille`  
 **Fichier :** à renseigner après automatisation
 
 ## Revue du test automatisé
 
-- [ ] Le test reprend le montant de 260 €.
-- [ ] Le test place l'annulation 24 heures avant le départ.
-- [ ] Le test distingue une annulation client d'une annulation du prestataire.
-- [ ] Le test vérifie une retenue de 130 €.
-- [ ] Le test vérifie un remboursement de 130 €.
-- [ ] Le test vérifie le passage au statut « annulée ».
-- [ ] Le test échoue si la retenue de 50 % est volontairement supprimée du code.
-- [ ] Le nom du test contient `CASE_CANCEL_01`.
+- [ ] Le test déclenche l'avertissement la veille à 18h00.
+- [ ] Le test vérifie que les 5 clients reçoivent un SMS et/ou mail d'avertissement.
+- [ ] Le nom du test contient `CASE_CANCEL_PRESTATAIRE_01`.
 - [ ] Aucune assertion étrangère à ce cas n'a été ajoutée.
+
+**Relu par :** à renseigner  
+**Remarques :** à renseigner
 
 **Relu par :** à renseigner  
 **Remarques :** à renseigner

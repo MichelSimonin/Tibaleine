@@ -48,7 +48,7 @@ Un message notifiant d'un trop grand nombre de place fournis est affiché.
 ## Test automatisé
 
 **Nom attendu :**
-`test_CASE_BOOK_05_hôtel_limite_6
+`test_CASE_BOOK_05_hotel_limite_6`
 **Fichier :** à renseigner après automatisation
 
 ## Revue du test automatisé

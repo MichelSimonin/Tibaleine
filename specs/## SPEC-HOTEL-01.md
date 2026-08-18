@@ -60,7 +60,7 @@ Consigne utilisée :
 | Remarque de l'IA | Décision | Motif |
 |---|---|---|
 | La spec suppose un « compte hôtel » distinct alors que le MCD V2 ne porte aucun rôle « hôtel » (table `Hotel` retirée le 14/08/2026) | à trancher | Ajouter un rôle/flag « hôtel » ou considérer un compte client standard |
-| Qui crée le compte hôtel ? Le scénario dit « Quand le patron crée un compte hôtel » — l'hôtel peut-il s'inscrire lui-même ? | à trancher | CR-03 §5 ne précise pas le créateur |
+| Qui crée le compte hôtel ? Le scénario dit « Quand le patron crée un compte hôtel » — l'hôtel peut-il s'inscrire lui-même ? | corrigée | Décision : le patron crée le compte hôtel (l'hôtel ne s'inscrit pas lui-même). |
 | Cas limite 1 (« un seul compte par hôtel ») contredit « Ce qui n'est pas défini » (« gestion des comptes multiples… ») | à trancher | Incohérence interne à lever |
 | Portée incomplète : ni `SPEC-DISP-01` (consultation des créneaux) ni `SPEC-AUTH-01` (connexion) ne sont référencés | à trancher | Compléter la portée |
 | AC-1 « Un compte hôtel peut être créé » non vérifiable tant que le créateur (patron/hôtel) et la nature du compte ne sont pas définis | à trancher | |

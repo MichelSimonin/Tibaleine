@@ -58,14 +58,13 @@ Table Sortie {
 
 Table Reservation {
   id int [pk, increment]
-  etat varchar [not null, default: 'en_attente'] // en_attente | confirmée | refusée | payée | annulée (SPEC-BOOK-01)
+  etat varchar [not null, default: 'payée'] // payée | annulée (SPEC-BOOK-01, SPEC-CANCEL-01)
   motif_annulation varchar                // renseigné si demande d'annulation (envoi du motif)
   nb_adultes int [not null]               // CR-01/Q01
   nb_enfants int [not null]               // CR-01/Q01 — enfant : 4 à 11 ans
   utilisateur int [not null, ref: > Utilisateur.id] // une réservation = un utilisateur (1,1)
   sortie int [not null, ref: > Sortie.id] // une réservation = une sortie (1,1)
   // Règles : min 2 personnes/réservation ; min 6 personnes/bateau ;
-  //          modification possible uniquement si etat = en_attente ;
   //          réservation bloquée 2h avant le départ (SPEC-BOOK-01 cas 2)
 }
 

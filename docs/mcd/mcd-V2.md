@@ -37,7 +37,7 @@
 | **Utilisateur** | « Inscription », « Connexion (client et entreprise) », « Notification par mail », « Vérification des rôles » |
 | **Sortie** (créneau réservable) | « organise des sorties baleine et dauphin et possibilité de privatisation pour d'éventuelles autres types de sorties », « Les clients peuvent réserver leurs créneaux », « Les horaires sont tous les jours de la semaine » |
 | **Bateau** | « L'entreprise dispose de deux bateaux de 12 et 24 places » |
-| **Réservation** | « Faire une réservation », « Attente de validation → Confirmation / Refus → Paiement », « Demande d'annulation », « Modification … uniquement possible lorsque la demande est encore en attente » |
+| **Réservation** | « Faire une réservation », « Paiement », « Demande d'annulation » |
 | **Paiement** | « Paiement en ligne (client) », « Confirmation → Paiement » |
 | **Tarif** | CR-01 §3 : « 65 € adulte 40 € enfant pour baleine, 50 € adulte et 30 € enfant pour dauphin. Privatisation … 600 € ti kap et 1 100 € pour grand bleu » |
 | **Notification** | SPEC-BOOK-01 (email de confirmation + SMS au patron), SPEC-CANCEL-02 (avertissement 18 h / annulation ≥ 2 h), SPEC-CANCEL-03 (annulation client après avertissement) — alertes météo et notifications client |
@@ -90,7 +90,7 @@ sont des règles portées par la `Réservation` (état + motif), voir §5.
 | Attribut | Justification |
 |---|---|
 | Identifiant | identifiant technique |
-| État | « Attente de validation → Confirmation / Refus → Paiement » + « Demande d'annulation » : `en_attente`, `confirmée`, `refusée`, `payée`, `annulée` (SPEC-BOOK-01) |
+| État | « Paiement » + « Demande d'annulation » : `payée`, `annulée` (SPEC-BOOK-01) |
 | Motif d'annulation | « Demande d'annulation → Envoi du motif » (renseigné uniquement si annulation) |
 | Nombre d'adultes | CR-01/Q01 : « nombre de personnes (+ nombre d'adultes et d'enfants) » |
 | Nombre d'enfants | CR-01/Q01 ; tranche d'âge enfant : 4-11 ans (CR-01/Q14, décision équipe 12/08/2026) |
@@ -254,16 +254,14 @@ Tables : `Utilisateur`, `Bateau`, `Sortie`, `Reservation`, `Paiement`, `Tarif`, 
 
 Chacune est issue du cahier :
 
-1. **Cycle de vie d'une réservation** : `en_attente` → `confirmée` / `refusée`
-   → `payée` ; une réservation confirmée est suivie d'un paiement. (« Attente de
-   validation → Confirmation / Refus → Paiement » ; SPEC-BOOK-01 ajoute l'état
-   `payée`.)
+1. **Cycle de vie d'une réservation** : la réservation passe à l'état `payée`
+   après paiement, puis peut passer à `annulée` sur demande du client ou
+   décision du prestataire. (SPEC-BOOK-01, SPEC-CANCEL-01/02/03.)
 2. **Annulation** : une réservation peut être annulée sur demande du client avec
    envoi d'un motif. (« Demande d'annulation → Envoi du motif → … → Rendez-vous
    annulé »)
-3. **Modification** : uniquement possible quand l'état est `en_attente`.
-   (« La modification est uniquement possible lorsque la demande est encore en
-   attente. »)
+3. **Modification** : hors périmètre V2 (REQ-010 non couverte — spec `MODIF-01`
+   supprimée) ; les conditions de modification restent à définir.
 4. **Capacité** : une sortie ne dépasse jamais la capacité du bateau (12 ou 24
    places). (« deux bateaux de 12 et 24 places »)
 5. **Accès par rôle** : `utilisateur` (client) réserve et consulte ses propres
@@ -367,7 +365,7 @@ Règles issues des SPEC (ajoutées en V2, 14/08/2026) :
 | 2 | Âge des passagers | Tarif enfant de **4 à 11 ans**, tarif adulte à partir de **12 ans** ; **pas de tarif ni d'accès pour les moins de 4 ans**. La mention CR-02 §1 (4-12 ans) est écartée. |
 | 3 | Identité du client | Nom et prénom ajoutés à `Utilisateur` (reprise du MCD LucidChart, 12/08/2026). |
 | 4 | Mot de passe | Rendu **optionnel** (nullable) dans le MCD LucidChart — à confirmer. |
-| 5 | Clientèle hôtel | Modélisée en **table `Hotel` séparée** (liée à `Utilisateur`), avec remise -15 %, 6 places max et paiement fin de mois. (CR-03, décision équipe 12/08/2026) |
+| 5 | Clientèle hôtel | Représentée par un **`Utilisateur` ordinaire**, avec remise -15 %, 6 places max et paiement fin de mois. (CR-03) |
 | 6 | Rôles | Trois rôles : `utilisateur` (client), `employe` (salarié — **consultation seule**, pas de modification) et `administrateur` (patron — accès complet). Corrige le PS initial « 2 rôles » (12/08/2026). |
 | 7 | Alertes et annulation météo | Avertissement 18 h la veille + annulation ≥ 2 h avant, **par créneau**, notifications **SMS/mail automatisées** (bulk), pop-up site pour les nouveaux clients, hôtel appelé directement, **remboursement intégral**. Ajouté en V2 à partir des SPEC-CANCEL-02/03. (14/08/2026) |
 | 8 | Pas de `type_annulation` | Le contexte d'annulation n'est pas porté par un attribut dédié sur `Réservation` : l'équipe n'y voit pas d'utilité. Les règles de remboursement s'appuient sur l'état du créneau (`Sortie.etat`) et la trace des `Notification`s. (14/08/2026) |

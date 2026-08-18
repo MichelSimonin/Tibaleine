@@ -22,7 +22,7 @@ explicitement les cas voisins traités ailleurs, avec leur ID.
 ### Scénarios nominaux
 
 ```gherkin
-Étant donné une réservation confirmée de 260 €
+Étant donné une réservation de 260 €
 Quand le client paie en ligne
 Alors le paiement est enregistré
 Et la réservation passe à l'état « payée »
@@ -36,7 +36,7 @@ Un cas limite par ligne, avec le comportement attendu.
 | # | Situation | Comportement attendu |
 |---|---|---|
 | 1 | le client n'a pas payé dans les 15 minutes après le clic sur « Payer » | La place temporairement bloquée est libérée et redevient disponible. |
-| 2 | le paiement échoue (carte refusée, service indisponible) | Le client est invité à réessayer ; la réservation reste « en attente », pas « payée ». |
+| 2 | le paiement échoue (carte refusée, service indisponible) | Le client est invité à réessayer ; la réservation n'est pas marquée « payée ». |
 | 3 | le paiement est différé (hôtel) | Hors périmètre : les hôtels paient en fin de mois (SPEC-FACT-01). |
 
 ### Ce qui n'est pas défini
@@ -49,10 +49,11 @@ Un cas limite par ligne, avec le comportement attendu.
 Chacun doit être vérifiable sans interprétation, et donne lieu à au moins un cas
 de test.
 
-- [ ] AC-1 — Un client particulier peut payer en ligne après confirmation.
+- [ ] AC-1 — Un client particulier peut payer en ligne après sa réservation.
 - [ ] AC-2 — La réservation passe à l'état « payée » après paiement.
 - [ ] AC-3 — Les places sont mises à jour après le paiement.
 - [ ] AC-4 — En cas de non-paiement sous 15 minutes, la place est libérée.
+- [ ] AC-5 — En cas d'échec du paiement (carte refusée, service indisponible), la réservation n'est pas marquée « payée » et le client est invité à réessayer.
 
 ### Revue IA
 
@@ -64,7 +65,7 @@ Consigne utilisée :
 
 | Remarque de l'IA | Décision | Motif |
 |---|---|---|
-| Cas limite 2 : « la réservation reste en attente » — incohérent avec la Règle (« après confirmation… paie ») et le workflow confirmée → payée du MCD | à trancher | Revoir l'état après échec de paiement |
+| Cas limite 2 : « la réservation reste en attente » — incohérent avec la Règle (« après confirmation… paie ») et le workflow confirmée → payée du MCD | corrigée | La réservation n'est pas marquée « payée » ; cas couvert par AC-5 |
 | Le blocage 15 min (cas 1) et `SPEC-BOOK-03` ne sont pas référencés dans la portée | à trancher | Ajouter le renvoi |
 | AC-4 dépend de SPEC-BOOK-03 (délai 15 min) — AC non autonome | à trancher | |
 | Prestataire de paiement non fixe (ADR-001 : Stripe) — comportement d'échec dépendant du prestataire | OK | Noté dans « Ce qui n'est pas défini » |

@@ -15,7 +15,7 @@ annuler leur réservation sans frais.
 ## Cas
 
 ```gherkin
-Étant donné une sortie prévue le 12 juillet 2026 à 10:00 comprenant 5 réservations confirmées
+Étant donné une sortie prévue le 12 juillet 2026 à 10:00 comprenant 5 réservations payées
 Et un risque de mauvaises conditions météo signalé pour le lendemain matin
 Quand l'administrateur déclenche l'avertissement le 11 juillet 2026 à 18:00
 Alors les 5 clients concernés reçoivent un SMS et/ou un mail d'avertissement
@@ -27,7 +27,7 @@ Et une alerte est affichée sur le site pour ce créneau
 | Élément                          |                    Valeur |
 | ---------------------------------- | -------------------------: |
 | Sortie concernée                   |    12 juillet 2026 à 10:00 |
-| Réservations confirmées sur ce créneau |                        5 |
+| Réservations payées sur ce créneau |                        5 |
 | Avertissement déclenché            |    11 juillet 2026 à 18:00 |
 | Canaux                             |               SMS et/ou mail |
 

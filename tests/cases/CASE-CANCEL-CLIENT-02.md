@@ -13,7 +13,7 @@ sa réservation entre 7 jours et 48 heures avant le départ. Le prestataire cons
 ## Cas
 
 ```gherkin
-Étant donné une réservation confirmée d'un montant total de 260 €
+Étant donné une réservation payée d'un montant total de 260 €
 Et une sortie prévue le 18 août 2026 à 09:00
 Et une demande d'annulation faite le 15 août 2026 à 09:00
 Et que l'annulation est demandée par le client

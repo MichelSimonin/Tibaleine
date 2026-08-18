@@ -12,7 +12,7 @@ Ce cas protège le régime de remboursement intégral applicable lorsqu'un clien
 ## Cas
 
 ```gherkin
-Étant donné une réservation confirmée d'un montant total de 260 €
+Étant donné une réservation payée d'un montant total de 260 €
 Et une sortie prévue le 12 juillet 2026 à 10:00
 Et que le prestataire a envoyé un avertissement de possible annulation (la veille à 18 h)
 Et que le client a reçu cet avertissement

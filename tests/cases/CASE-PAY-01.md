@@ -7,14 +7,14 @@
 
 ## Ce que ce cas protège
 
-Ce cas protège le paiement en ligne d'une réservation confirmée. Si la règle se
+Ce cas protège le paiement en ligne d'une réservation. Si la règle se
 casse, le client ne peut pas payer en ligne (alors que le paiement sur place est
 exclu du périmètre).
 
 ## Cas
 
 ```gherkin
-Étant donné une réservation confirmée d'un montant de 260 €
+Étant donné une réservation d'un montant de 260 €
 Quand le client paie en ligne
 Alors le paiement est enregistré
 ```
@@ -48,7 +48,7 @@ Alors le paiement est enregistré
 
 ## Revue du test automatisé
 
-- [ ] Le test paie une réservation confirmée en ligne.
+- [ ] Le test paie une réservation en ligne.
 - [ ] Le test vérifie l'enregistrement du paiement de 260 €.
 - [ ] Le nom du test contient `CASE_PAY_01`.
 - [ ] Aucune assertion étrangère à ce cas n'a été ajoutée.

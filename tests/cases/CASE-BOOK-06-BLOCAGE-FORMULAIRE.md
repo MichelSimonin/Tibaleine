@@ -1,4 +1,4 @@
-# CASE-BOOK-06— L'hôtel ne peut pas réserver plus de 6 places sur un même créneau. 
+# CASE-BOOK-06 — Le blocage temporaire des places pendant la saisie du formulaire 
 
 **Spécification :** `SPEC-BOOK-03`  
 **Critère d'acceptation :** `AC-01` 
@@ -50,7 +50,7 @@ Client B revient sur le site à 18h et voit le créneau avec 2 places disponible
 ## Test automatisé
 
 **Nom attendu :**
-`test_CASE_BOOK_06_blocage_place_formulaire
+`test_CASE_BOOK_06_blocage_place_formulaire`
 **Fichier :** à renseigner après automatisation
 
 ## Revue du test automatisé

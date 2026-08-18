@@ -1,4 +1,4 @@
-# CASE-LANG-02 — Les messages d'alerte et d'annulation en français et en anglais
+# CASE-LANG-02 — Le message d'alerte/annulation est envoyé dans la langue du client
 
 **Spécification :** `SPEC-LANG-01`  
 **Critère d'acceptation :** `AC-02`  
@@ -7,49 +7,48 @@
 
 ## Ce que ce cas protège
 
-Ce cas protège la disponibilité des messages d'alerte et d'annulation en français
-et en anglais. Si la règle se casse, un client étranger ne comprend pas le
-message d'annulation.
+Ce cas protège l'envoi du message d'alerte ou d'annulation dans la langue du
+client. Si la règle se casse, un client étranger reçoit le message en français
+et ne comprend pas l'annulation.
 
 ## Cas
 
 ```gherkin
-Étant donné un avertissement ou une annulation à envoyer aux clients
-Quand le message est envoyé
-Alors le message est disponible en français
-Et le message est disponible en anglais
+Étant donné un client anglophone avec une réservation
+Et une annulation à lui notifier
+Quand le message d'annulation est envoyé
+Alors le message est envoyé en anglais
 ```
 
 ## Données
 
 | Élément | Valeur |
 |---|---:|
-| Langues du message | français, anglais |
+| Langue du client | anglais |
 
 ## Résultat attendu, calculé à la main
 
 | Grandeur | Valeur attendue |
 |---|---:|
-| Message FR disponible | oui |
-| Message EN disponible | oui |
+| Langue du message envoyé | anglais |
 
 ## Ce que ce cas ne vérifie pas
 
 - la langue de l'interface → `CASE-LANG-01` (AC-01) ;
-- le contenu du message d'alerte (personnalisation, motifs) → `SPEC-ALERT-01`.
+- le contenu du message d'alerte (personnalisation, motifs) → `SPEC-ALERT-01` ;
+- le mécanisme de détection de la langue du client (navigateur, compte).
 
 ---
 
 ## Test automatisé
 
 **Nom attendu :**
-`test_CASE_LANG_02_messages_alerte_annulation_francais_anglais`  
+`test_CASE_LANG_02_message_dans_langue_client`  
 **Fichier :** à renseigner après automatisation
 
 ## Revue du test automatisé
 
-- [ ] Le test vérifie qu'un message d'alerte est disponible en français et en anglais.
-- [ ] Le test vérifie qu'un message d'annulation est disponible en français et en anglais.
+- [ ] Le test envoie un message à un client anglophone et vérifie qu'il est en anglais.
 - [ ] Le nom du test contient `CASE_LANG_02`.
 - [ ] Aucune assertion étrangère à ce cas n'a été ajoutée.
 

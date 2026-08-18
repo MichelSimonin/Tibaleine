@@ -7,7 +7,7 @@
 ### Règle
 
 > Une place est bloquée temporairement dès que l'utilisateur clique sur
-> « Réserver » et arrive sur le formulaire. Au passage au paiement, un délai
+> « Réserver » et arrive sur le formulaire, pour une durée de 15 minutes. Au passage au paiement, un nouveau délai
 > d'environ 15 minutes lui est accordé. Si le paiement n'est pas effectué dans
 > ce délai, la place redevient disponible. Ce mécanisme évite que deux clients
 > achètent la même place au même moment.
@@ -50,7 +50,6 @@ Un cas limite par ligne, avec le comportement attendu.
 
 ### Ce qui n'est pas défini
 
-- Durée du blocage pendant la phase formulaire (avant paiement) : même durée que les 15 minutes ou différente ?
 - Comportement si le délai expire alors que le client paie (cas limite 3).
 
 ### Critères d'acceptation

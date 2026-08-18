@@ -16,7 +16,7 @@ un client qui a annulé de bonne foi sur la base de l'avertissement reçu.
 ## Cas
 
 ```gherkin
-Étant donné une réservation confirmée d'un montant total de 260 €
+Étant donné une réservation payée d'un montant total de 260 €
 Et une sortie prévue le 12 juillet 2026 à 10:00
 Et que le prestataire a envoyé un avertissement le 11 juillet 2026 à 18:00
 Et que le client a reçu cet avertissement

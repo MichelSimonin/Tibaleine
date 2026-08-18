@@ -8,13 +8,13 @@
 ## Ce que ce cas protège
 
 Ce cas protège le changement d'état de la réservation après paiement. Si la
-règle se casse, une réservation payée reste en attente ou validée, ce qui fausse
+règle se casse, une réservation payée n'est pas correctement marquée « payée », ce qui fausse
 le suivi et le décompte des places.
 
 ## Cas
 
 ```gherkin
-Étant donné une réservation confirmée
+Étant donné une réservation
 Quand le client paie en ligne
 Alors la réservation passe à l'état « payée »
 ```
@@ -23,7 +23,7 @@ Alors la réservation passe à l'état « payée »
 
 | Élément | Valeur |
 |---|---:|
-| État avant paiement | confirmée |
+| État avant paiement | non payée |
 | État après paiement | payée |
 
 ## Résultat attendu, calculé à la main
@@ -48,7 +48,7 @@ Alors la réservation passe à l'état « payée »
 
 ## Revue du test automatisé
 
-- [ ] Le test paie une réservation confirmée.
+- [ ] Le test paie une réservation.
 - [ ] Le test vérifie le passage à l'état « payée ».
 - [ ] Le nom du test contient `CASE_PAY_02`.
 - [ ] Aucune assertion étrangère à ce cas n'a été ajoutée.

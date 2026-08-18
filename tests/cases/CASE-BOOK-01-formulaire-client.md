@@ -16,7 +16,7 @@ Ce cas protège l'envoie correct de toutes les informations necessaires pour une
 Et un créneau de sortie baleine le 21 août 2026 à 10h avec 6 places restantes
 Quand il remplit le formulaire (nom, prénom, email, nombre de personnes dont enfants, type de sortie) et l'envoie
 Alors le système vérifie les informations et le nombre de places
-Et la réservation passe au statut « en attente »
+Et la réservation est enregistrée
 Et Jean est renvoyé vers l'étape suivante (paiement)
 ```
 
@@ -41,7 +41,7 @@ Et Jean est renvoyé vers l'étape suivante (paiement)
 | Informations réservation : Date et heure  |  21 août 2026 à 10:00|
 | Informations réservation : Nombre de personne (dont enfant)  | 5 (dont 1 enfant) |
 | Informations réservation : Type de sortie  |  Baleine |
-| Statut de la réservation | En attente | résultat de la validation des informations données|
+| Réservation enregistrée | oui | validation des informations et des places |
 
 ## Ce que ce cas ne vérifie pas
 
@@ -66,7 +66,7 @@ Et Jean est renvoyé vers l'étape suivante (paiement)
 - [ ] Le test vérifie les information en entrée, fournis par le client (email, nom,prénom,type_sortie,nb_personne,nb_enfant,date,creneau => (exemple ici) jean.edouard@email.fr, Edouard, Jean, Baleine, 5, 1, 21.08.2026, 10:00)
 - [ ] Le test vérifie les informations en sortie.
 - [ ] Le test vérifie que les informations en entrée et en sortie sont les mêmes.
-- [ ] Le test vérifie le passage au statut « en attente ».
+- [ ] Le test vérifie que la réservation est enregistrée.
 - [ ] Le test échoue si les informations en entrée et en sortie sont différentes (la réservation créée contient des informations erronées).
 - [ ] Le nom du test contient `CASE_BOOK_01`.
 - [ ] Aucune assertion étrangère à ce cas n'a été ajoutée.

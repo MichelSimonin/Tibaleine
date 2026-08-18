@@ -3,7 +3,7 @@
 **Spécification :** `SPEC-DISP-01`
 **Critère d'acceptation :** — (cas limite 3, aucun AC direct de cette spec — voir remarque)
 **Type :** acceptation
-**Niveau de risque :** modéré
+**Niveau de risque :** moyen
 
 ## Ce que ce cas protège
 

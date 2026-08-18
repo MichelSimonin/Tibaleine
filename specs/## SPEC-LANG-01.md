@@ -6,7 +6,7 @@
 
 ### Règle
 
-> L'interface du site et les messages envoyés aux clients (alertes, annulations, confirmations) sont proposés en **français et en anglais**.
+> L'interface du site est proposée en **français et en anglais**. Les messages envoyés aux clients (alertes, annulations, confirmations) sont envoyés **dans la langue du client**.
 
 ### Portée
 
@@ -24,7 +24,7 @@ Alors l'interface s'affiche en anglais
 
 Étant donné un avertissement ou une annulation
 Quand le message est envoyé
-Alors il est disponible en français et en anglais
+Alors il est envoyé dans la langue du client
 ```
 
 ### Cas limites
@@ -45,7 +45,7 @@ Un cas limite par ligne, avec le comportement attendu.
 Chacun doit être vérifiable sans interprétation, et donne lieu à au moins un cas de test.
 
 - [ ] AC-1 — L'interface est disponible en français et en anglais.
-- [ ] AC-2 — Les messages d'alerte et d'annulation sont disponibles en français et en anglais.
+- [ ] AC-2 — Les messages d'alerte et d'annulation sont envoyés dans la langue du client.
 
 ### Revue IA
 
@@ -58,7 +58,7 @@ Consigne utilisée :
 | Remarque de l'IA | Décision | Motif |
 |---|---|---|
 | Le mécanisme de choix de la langue n'est pas défini (sélecteur, langue du navigateur, langue par défaut) alors que la règle suppose un affichage bilingue | à trancher | Le « comment » du basculement est absent |
-| Contradiction : scénario 2 (« disponible en français ET en anglais ») vs cas limite 2 (« envoyé en français » pour un client francophone) | à trancher | Message bilingue ou dans la langue du client ? (impact SMS, coût) |
+| Contradiction : scénario 2 (« disponible en français ET en anglais ») vs cas limite 2 (« envoyé en français » pour un client francophone) | corrigée | Décision : message envoyé dans la langue du client. |
 | Chevauchement avec `SPEC-ALERT-01` qui porte déjà la langue des messages (règle R-71) | à trancher | Éviter la double règle — qui est responsable ? |
 | AC-1 et AC-2 non testables tant que le mécanisme de sélection de la langue n'est pas défini | à trancher | |
 | Le MCD V2 ne porte aucun attribut « langue » permettant de connaître la langue d'un client | à trancher | Ajouter un champ ou dériver de la langue du navigateur |

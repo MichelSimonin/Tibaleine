@@ -146,7 +146,7 @@ Compte client / salarié / administrateur.
 | Colonne | Type | Contraintes | Commentaire |
 |---|---|---|---|
 | 🔑 `id` | `int` | auto-incrément | identifiant technique |
-| `etat` | `varchar` | `NOT NULL`, défaut `'en_attente'` | `en_attente` \| `confirmée` \| `refusée` \| `payée` \| `annulée` (SPEC-BOOK-01) |
+| `etat` | `varchar` | `NOT NULL`, défaut `'payée'` | `payée` \| `annulée` (SPEC-BOOK-01, SPEC-CANCEL-01) |
 | `motif_annulation` | `varchar` | ⬚ | renseigné si demande d'annulation (envoi du motif) |
 | `nb_adultes` | `int` | `NOT NULL` | CR-01/Q01 |
 | `nb_enfants` | `int` | `NOT NULL` | CR-01/Q01 — enfant : 4 à 11 ans |
@@ -154,8 +154,7 @@ Compte client / salarié / administrateur.
 | 🔗 `sortie` | `int` | `NOT NULL` → `Sortie.id` | une réservation = une sortie (1,1) |
 
 > Règles portées par la table : min 2 personnes/réservation ; min 6
-> personnes/bateau ; modification possible uniquement si `etat = en_attente` ;
-> réservation bloquée 2 h avant le départ (SPEC-BOOK-01 cas 2).
+> personnes/bateau ; réservation bloquée 2 h avant le départ (SPEC-BOOK-01 cas 2).
 
 ### 2.5 Paiement
 

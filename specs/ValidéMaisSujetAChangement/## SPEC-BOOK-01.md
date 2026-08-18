@@ -8,8 +8,8 @@
 
 > Un client peut réserver un créneau en fournissant son email, son nom, son
 > prénom, la date et le type de sortie voulus et le nombre de personnes (adultes
-> et enfants). La demande passe à l'état « en attente », le client reçoit un
-> email de confirmation de prise en charge et le patron est notifié.
+> et enfants). La réservation est enregistrée, le client reçoit un
+> email de confirmation et le patron est notifié.
 
 ### Portée
 

@@ -1,4 +1,4 @@
-# CASE-BOOK-04—NB-PLACES Le nombre de place disponible pour une activité se met à jours après le paiement d'une réservation
+# CASE-BOOK-04 — Le nombre de places disponibles pour une activité se met à jour après le paiement d'une réservation
 
 **Spécification :** `SPEC-BOOK-01`  
 **Critère d'acceptation :** `AC-04` 
@@ -7,7 +7,7 @@
 
 ## Ce que ce cas protège
 
-Ce cas protège la modification du nombre de place disponible après le paiement d'une réservation. Si la règle se casse, l'information du nombre de place encore disponible fournis aux clients sera incorrect, résultant en des tentatives de réservation sur des créneau non disponible.
+Ce cas protège la mise à jour du nombre de places disponibles après le paiement d'une réservation. Si la règle se casse, le nombre de places encore disponibles affiché aux clients est faux, ce qui peut entraîner des tentatives de réservation sur un créneau complet.
 
 ## Cas
 
@@ -17,8 +17,7 @@ Il voudrait réserver une sortie baleine, le 21 août 2026 à 10H, pour sa famil
 Il clic sur le créneau et date voulu (pour lequel il reste 6 places) et remplit le formulaire avec son nom, son prénom, son email (Edouardo@email.fr),son numéro de téléphone (0692XXXXXX) et le nombre de personnes (dont nombre d'enfants) et le type de sortie voulu.
 Quand il clic sur "Payer", le contenu du formulaire est envoyé au système pour le traitement et vérification des informations.
 Jean paye sa réservation à hauteur de 300 €.
-Après le paiement, Jean reçoit un mail résumant les informations de sa réservation et comprenant un lien temporaire lui donnant la possibilité de s'inscrire.
-Le nombre de places disponible sur le créneau choisis est mis à jour.
+Le nombre de places disponibles sur le créneau choisi est mis à jour.
 
 
 ```
@@ -27,7 +26,7 @@ Le nombre de places disponible sur le créneau choisis est mis à jour.
 
 | Élément | Valeur |
 |---|---:|
-| Date choisis | 21 Août 2026 à 10:00 |
+| Date choisie | 21 Août 2026 à 10:00 |
 | Nom | Edouard |
 | Prénom | Jean |
 | Nombre de personnes | 5 (dont 1 enfant)|
@@ -35,7 +34,7 @@ Le nombre de places disponible sur le créneau choisis est mis à jour.
 | Type de sortie | Baleine |
 | Email | Edouardo@email.fr |
 | Nombre de places disponibles | 6 places |
-| Etat de réservation |Payé |
+| Etat de réservation | payée |
 
 
 ## Résultat attendu, calculé à la main
@@ -47,8 +46,8 @@ Le nombre de places disponible sur le créneau choisis est mis à jour.
 | Informations réservation : Date et heure  |  21 août 2026 à 10:00|
 | Informations réservation : Nombre de personne (dont enfant)  | 5 (dont 1 enfant) |
 | Informations réservation : Type de sortie  |  Baleine |
-| Statut de la réservation | Payé | résultat du paiement par le client|
-| Nombre de places disponible après réservation | 1 <= (6-5) |
+| Statut de la réservation | payée | résultat du paiement par le client |
+| Nombre de places disponibles après réservation | 1 (6 − 5) |
 
 ## Ce que ce cas ne vérifie pas
 
@@ -65,7 +64,7 @@ Le nombre de places disponible sur le créneau choisis est mis à jour.
 ## Test automatisé
 
 **Nom attendu :**
-`test_CASE_BOOK_04_formulaire_client  
+`test_CASE_BOOK_04_maj_places_apres_paiement`  
 **Fichier :** à renseigner après automatisation
 
 ## Revue du test automatisé

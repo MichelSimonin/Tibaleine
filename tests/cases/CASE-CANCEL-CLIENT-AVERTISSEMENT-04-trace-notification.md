@@ -3,7 +3,7 @@
 **Spécification :** `SPEC-CANCEL-CLIENT-AVERTISSEMENT-03`
 **Critère d'acceptation :** `AC-01`, `AC-05`
 **Type :** acceptation
-**Niveau de risque :** modéré
+**Niveau de risque :** moyen
 
 ## Ce que ce cas protège
 
@@ -18,7 +18,7 @@ en bénéficier à tort.
 ## Cas
 
 ```gherkin
-Étant donné un client avec une réservation confirmée pour la sortie
+Étant donné un client avec une réservation payée pour la sortie
 du 12 juillet 2026 à 10:00
 Et un risque de mauvaises conditions météo signalé pour cette sortie
 Quand le prestataire envoie l'avertissement le 11 juillet 2026 à 18:00
@@ -34,7 +34,7 @@ Et le système peut déterminer que ce client a reçu l'avertissement
 | Élément                        |                    Valeur |
 | -------------------------------- | -------------------------: |
 | Sortie concernée                 |    12 juillet 2026 à 10:00 |
-| Réservation du client            |               confirmée, réservée avant 18 h |
+| Réservation du client            |               payée, réservée avant 18 h |
 | Avertissement envoyé             |    11 juillet 2026 à 18:00 |
 | Canaux                           |               SMS et mail |
 

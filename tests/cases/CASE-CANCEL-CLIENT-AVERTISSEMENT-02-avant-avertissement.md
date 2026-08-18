@@ -18,7 +18,7 @@ annule dans les jours précédant une sortie pourrait être remboursé à tort �
 ## Cas
 
 ```gherkin
-Étant donné une réservation confirmée d'un montant total de 260 €
+Étant donné une réservation payée d'un montant total de 260 €
 Et une sortie prévue le 18 août 2026 à 09:00
 Et qu'aucun avertissement météo n'a été envoyé par le prestataire
 Et une demande d'annulation faite le 17 août 2026 à 09:00
