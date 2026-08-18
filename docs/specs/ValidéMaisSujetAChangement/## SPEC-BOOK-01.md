@@ -26,7 +26,7 @@ explicitement les cas voisins traités ailleurs, avec leur ID.
 ```gherkin
 Étant donné un créneau libre pour une sortie baleine le 12 juillet à 10h00 pour lequel il reste 4 places.
 Quand le client réserve ce créneau
-Il fournis son email, nom, prénom et le nombre de personnes ( 3 adultes et 1 enfant)
+Il fournit son email, nom, prénom et le nombre de personnes (3 adultes et 1 enfant)
 Alors en confirmant, le client recevra un email de confirmation de prise en charge de sa demande et le réservation passe en état "En attente".
 Le patron reçoit un sms qu'il y a une demande de réservation.
 (A CONFIRMER) Le patron peut accepter ou non la demande.
@@ -45,8 +45,7 @@ distingue une spécification d'une intention.
 | 1 | le client veut inclure une nouvelle personne alors que le créneau n'a plus assez de places | La demande est bloquée : le client doit réduire le nombre de personnes ou choisir un autre créneau. |
 | 2 | le client tente de réserver moins de 2 h avant le départ | La réservation est bloquée (réservation impossible à moins de 2 h du départ). |
 | 3 | plusieurs clients tentent de réserver le même créneau | La place est bloquée temporairement dès l'arrivée sur le formulaire ; délai de 15 min au paiement, au-delà la place se libère (CR-04/Q61). La première réservation payée prend les places. |
-/!\ A retirer mais vérifier avec client| 4 | la réservation est validée mais non payée au moment du départ | (Question à poser au client — cahier V4 §8) |
-| 5 | un client réserve après l'avertissement météo de 18 h | Il ne reçoit pas de SMS/mail d'avertissement, mais une alerte s'affiche sur le site (SPEC-ALERT-01). |
+| 4 | un client réserve après l'avertissement météo de 18 h | Il ne reçoit pas de SMS/mail d'avertissement, mais une alerte s'affiche sur le site (SPEC-ALERT-01). |
 
 ### Ce qui n'est pas défini
 
@@ -55,6 +54,7 @@ Assumé et daté. Une zone grise déclarée vaut mieux qu'une zone grise ignoré
 - Fonctionnement des paiements si le client ne veut pas payer en ligne.
 - Fonctionnement de la liste d'attente des réservations.
 - Validation (acceptation / refus) de la demande par le patron : à confirmer (question ouverte cahier V4 §8).
+- Réservation validée mais non payée au moment du départ : question ouverte (cahier V4 §8).
 
 ### Critères d'acceptation
 

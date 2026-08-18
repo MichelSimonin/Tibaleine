@@ -1,14 +1,14 @@
-# CASE-CANCEL-01 — Annulation client à plus de 7 jours
+# CASE-CANCEL-CLIENT-03 — Annulation client à plus de 7 jours
 
-**Spécification :** `SPEC-CANCEL-01`  
-**Critère d'acceptation :** `AC-01`, `AC-02`, `AC-04`, `AC-06`, `AC-07`
+**Spécification :** `SPEC-CANCEL-CLIENT-01`  
+**Critère d'acceptation :** `AC-05`
 **Type :** acceptation  
 **Niveau de risque :** élevé
 
 ## Ce que ce cas protège
 
 Ce cas protège le régime financier applicable lorsqu'un client annule lui-même
-sa réservation à plus de 7jours avant le départ. Le prestataire rembourse 100% du prix de la réservation.
+sa réservation à plus de 7 jours avant le départ. Le prestataire rembourse 100 % du prix de la réservation.
 
 ## Cas
 
@@ -29,8 +29,8 @@ Et 260 € sont remboursés au client
 | ----------------------- | -------------------: |
 | Montant total payé      |                260 € |
 | Départ de la sortie     | 18 août 2026 à 09:00 |
-| Demande d'annulation    | 15 août 2026 à 09:00 |
-| Délai avant le départ   |               8jours |
+| Demande d'annulation    | 10 août 2026 à 09:00 |
+| Délai avant le départ   |              8 jours |
 | Origine de l'annulation |               client |
 | Retenue applicable      |                 0 % |
 
@@ -57,7 +57,7 @@ Et 260 € sont remboursés au client
 ## Test automatisé
 
 **Nom attendu :**
-`test_CASE_CANCEL_02_annulation_client_à_plus_de_7_jours_retient_0_pourcent`  
+`test_CASE_CANCEL_CLIENT_03_annulation_client_plus_de_7_jours_remboursement_total`  
 **Fichier :** à renseigner après automatisation
 
 ## Revue du test automatisé
@@ -69,7 +69,7 @@ Et 260 € sont remboursés au client
 - [ ] Le test vérifie un remboursement de 260 €.
 - [ ] Le test vérifie le passage au statut « annulée ».
 - [ ] Le test échoue si la retenue de 0 % est volontairement supprimée du code.
-- [ ] Le nom du test contient `CASE_CANCEL_02`.
+- [ ] Le nom du test contient `CASE_CANCEL_CLIENT_03`.
 - [ ] Aucune assertion étrangère à ce cas n'a été ajoutée.
 
 **Relu par :** à renseigner 

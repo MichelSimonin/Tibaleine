@@ -1,4 +1,4 @@
-# CASE-BOOK-01— Un client peut remplir le formulaire de réservation
+# CASE-BOOK-01 — Un client peut remplir le formulaire de réservation
 
 **Spécification :** `SPEC-BOOK-01`  
 **Critère d'acceptation :** `AC-01` 
@@ -12,13 +12,12 @@ Ce cas protège l'envoie correct de toutes les informations necessaires pour une
 ## Cas
 
 ```gherkin
-Étant donné Jean Edouard, un nouveau client. 
-Il voudrait réserver une sortie baleine, le 21 août 2026 à 10H, pour sa famille qui comprend sa femme, ses deux parents et son fils.
-Il clic sur le créneau et date voulu (pour lequel il reste 6 places) et remplit le formulaire avec son nom, son prénom, son email (Edouardo@email.fr), le nombre de personnes (dont nombre d'enfants) et le type de sortie voulu.
-Quand il clic sur "Payer", le contenu du formulaire est envoyé au système pour le traitement et vérification des informations.
-Les informations et le nombre de place sont correct. Jean est renvoyé sur la page de paiement.
-
-
+Étant donné Jean Edouard, un nouveau client
+Et un créneau de sortie baleine le 21 août 2026 à 10h avec 6 places restantes
+Quand il remplit le formulaire (nom, prénom, email, nombre de personnes dont enfants, type de sortie) et l'envoie
+Alors le système vérifie les informations et le nombre de places
+Et la réservation passe au statut « en attente »
+Et Jean est renvoyé vers l'étape suivante (paiement)
 ```
 
 ## Données
@@ -30,7 +29,7 @@ Les informations et le nombre de place sont correct. Jean est renvoyé sur la pa
 | Prénom | Jean |
 | Nombre de personnes | 5 (dont 1 enfant)|
 | Type de sortie | Baleine |
-| Email | Edouardo@email.fr |
+| Email | jean.edouard@email.fr |
 | Nombre de places disponibles | 6 places |
 
 
@@ -38,7 +37,7 @@ Les informations et le nombre de place sont correct. Jean est renvoyé sur la pa
 
 | Grandeur | Valeur attendue | Calcul |
 |---|---:|---|
-| Informations réservation : Nom Prénom Email  | Jean Edouard Edouardo@email.fr |
+| Informations réservation : Nom Prénom Email  | Jean Edouard jean.edouard@email.fr |
 | Informations réservation : Date et heure  |  21 août 2026 à 10:00|
 | Informations réservation : Nombre de personne (dont enfant)  | 5 (dont 1 enfant) |
 | Informations réservation : Type de sortie  |  Baleine |
@@ -58,16 +57,16 @@ Les informations et le nombre de place sont correct. Jean est renvoyé sur la pa
 ## Test automatisé
 
 **Nom attendu :**
-`test_CASE_BOOK_01_formulaire_client  
+`test_CASE_BOOK_01_formulaire_client`  
 **Fichier :** à renseigner après automatisation
 
 ## Revue du test automatisé
 
-- [ ] Le test vérifie les information en entrée, fournis par le client (email, nom,prénom,type_sortie,nb_personne,nb_enfant,date,creneau => (exemple ici) edouardo@email.fr, Edouard, Jean, Baleine, 5, 1, 21.08.2026, 10:00)
+- [ ] Le test vérifie les information en entrée, fournis par le client (email, nom,prénom,type_sortie,nb_personne,nb_enfant,date,creneau => (exemple ici) jean.edouard@email.fr, Edouard, Jean, Baleine, 5, 1, 21.08.2026, 10:00)
 - [ ] Le test vérifie les informations en sortie.
 - [ ] Le test vérifie que les informations en entrée et en sortie sont les mêmes.
 - [ ] Le test vérifie le passage au statut « en attente ».
-- [ ] Le test échoue si les informations en entrée et en sortie sont différentes (la réservation crée a des informations erronées.
+- [ ] Le test échoue si les informations en entrée et en sortie sont différentes (la réservation créée contient des informations erronées).
 - [ ] Aucune assertion étrangère à ce cas n'a été ajoutée.
 
 **Relu par :** à renseigner  
