@@ -14,7 +14,7 @@ Ce cas protège la modification du nombre de place disponible après le paiement
 ```gherkin
 Étant donné Jean Edouard, un nouveau client. 
 Il voudrait réserver une sortie baleine, le 21 août 2026 à 10H, pour sa famille qui comprend sa femme, ses deux parents et son fils.
-Il clic sur le créneau et date voulu (pour lequel il reste 6 places) et remplit le formulaire avec son nom, son prénom, son email (Edouardo@email.fr), le nombre de personnes (dont nombre d'enfants) et le type de sortie voulu.
+Il clic sur le créneau et date voulu (pour lequel il reste 6 places) et remplit le formulaire avec son nom, son prénom, son email (Edouardo@email.fr),son numéro de téléphone (0692XXXXXX) et le nombre de personnes (dont nombre d'enfants) et le type de sortie voulu.
 Quand il clic sur "Payer", le contenu du formulaire est envoyé au système pour le traitement et vérification des informations.
 Jean paye sa réservation à hauteur de 300 €.
 Après le paiement, Jean reçoit un mail résumant les informations de sa réservation et comprenant un lien temporaire lui donnant la possibilité de s'inscrire.
@@ -31,6 +31,7 @@ Le nombre de places disponible sur le créneau choisis est mis à jour.
 | Nom | Edouard |
 | Prénom | Jean |
 | Nombre de personnes | 5 (dont 1 enfant)|
+| Numero Tel | 0692XXXXXX |
 | Type de sortie | Baleine |
 | Email | Edouardo@email.fr |
 | Nombre de places disponibles | 6 places |
@@ -42,6 +43,7 @@ Le nombre de places disponible sur le créneau choisis est mis à jour.
 | Grandeur | Valeur attendue | Calcul |
 |---|---:|---|
 | Informations réservation : Nom Prénom Email  | Jean Edouard Edouardo@email.fr |
+| Informations réservation : Téléphone | 0692XXXXXX |
 | Informations réservation : Date et heure  |  21 août 2026 à 10:00|
 | Informations réservation : Nombre de personne (dont enfant)  | 5 (dont 1 enfant) |
 | Informations réservation : Type de sortie  |  Baleine |

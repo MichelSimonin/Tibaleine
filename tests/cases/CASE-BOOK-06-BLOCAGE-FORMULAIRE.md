@@ -38,7 +38,7 @@ Client B revient sur le site à 18h et voit le créneau avec 2 places disponible
 
 | Grandeur | Valeur attendue | Calcul |
 |---|---:|---|
-| Nombre de places disponible avant 18:00 | 0 places (2 places dispo - 2 places choisies)  |
+| Nombre de places disponible entre 17:45 et 18:00 | 0 places (2 places dispo - 2 places choisies)  |
 | Nombre de places disponible après 18:00 | 2 places (2 places dispos - 0 places choisies) |
 
 ## Ce que ce cas ne vérifie pas
