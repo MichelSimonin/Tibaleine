@@ -1,6 +1,6 @@
-# CASE-CANCEL-03 — Annulation client pendant la phase d'avertissement (remboursement intégral)
+# CASE-CANCEL-CLIENT-AVERTISSEMENT-01 — Annulation client pendant la phase d'avertissement (remboursement intégral)
 
-**Spécification :** `SPEC-CANCEL_CLIENT_AVERTISSEMENT-03`  
+**Spécification :** `SPEC-CANCEL-CLIENT-AVERTISSEMENT-03`  
 **Critère d'acceptation :** `AC-03`  
 **Type :** acceptation  
 **Niveau de risque :** élevé
@@ -55,7 +55,7 @@ Et aucune somme n'est retenue par le prestataire
 ## Test automatisé
 
 **Nom attendu :**
-`test_CASE_CANCEL_03_annulation_client_apres_avertissement_remboursement_integral`  
+`test_CASE_CANCEL_CLIENT_AVERTISSEMENT_01_annulation_client_apres_avertissement_remboursement_integral`  
 **Fichier :** à renseigner après automatisation
 
 ## Revue du test automatisé
@@ -68,7 +68,7 @@ Et aucune somme n'est retenue par le prestataire
 - [ ] Le test vérifie un remboursement de 260 €.
 - [ ] Le test vérifie le passage au statut « annulée ».
 - [ ] Le test échoue si le remboursement intégral est volontairement remplacé par le barème.
-- [ ] Le nom du test contient `CASE_CANCEL_03`.
+- [ ] Le nom du test contient `CASE_CANCEL_CLIENT_AVERTISSEMENT_01`.
 - [ ] Aucune assertion étrangère à ce cas n'a été ajoutée.
 
 **Relu par :** à renseigner  
