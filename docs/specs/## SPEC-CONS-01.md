@@ -68,8 +68,8 @@ Consigne utilisée :
 
 | Remarque de l'IA | Décision | Motif |
 |---|---|---|
-| Un client peut-il consulter ses réservations sans compte ? (le mot de passe est optionnel — comment identifie-t-il ses réservations ?) | à trancher | REQ-004 |
-| L'employé voit-il toutes les réservations ou un sous-ensemble ? (CR-02 §4 : « consulter uniquement ces réservations ») | à trancher | REQ-005 |
+| Un client peut-il consulter ses réservations sans compte ? (le mot de passe est optionnel — comment identifie-t-il ses réservations ?) | tranchée | Résolu par la décision prise sur `SPEC-AUTH-01` : accès via un lien de connexion envoyé par email, à usage unique (pas de mot de passe requis). |
+| L'employé voit-il toutes les réservations ou un sous-ensemble ? (CR-02 §4 : « consulter uniquement ces réservations ») | tranchée | Décision d'équipe : l'employé voit toutes les réservations, en lecture seule (pas de modification possible). |
 | Les « actions de gestion » de l'administrateur ne sont pas listées (modifier → SPEC-MODIF-01, annuler → SPEC-CANCEL-01) | à trancher | |
 | Les réservations annulées restent-elles visibles dans la consultation (historique) ? | à trancher | Cas limite manquant |
 | Filtres / tri (date, statut, bateau) non définis | à trancher | |
