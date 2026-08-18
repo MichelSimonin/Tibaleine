@@ -12,8 +12,8 @@ Le nombre de places disponibles pour chaque activité choisi doit être mis à j
 
 | # | Tâche | Test qui doit passer au vert | Ce que l'agent reçoit | Ce qu'il ne touche pas |
 |---|---|---|---|---|
-| 1 | Vérification que l'hôtel peut réserver plusieurs créneaux à la fois et qu'il ne puisse pas réserver plus de 6 places par créneau.| `CASE-BOOK-02` | Information de l'objet reservation crée. | Ces test consistent en de simple comparaison. L'agent ne doit pas modifier les fichiers de données d'entrées et de sortie. Aucune autre fichier dans le projet n'est necessaire pour ces test, ils ne doivent donc en aucun cas être modifiés.  |
-| 2 | Vérification que le nombre de places réservés par créneaux soit soustrait aux nombres de places disponibles initialement. | `CASE-BOOK-04` | informations de l'objet crée après réservation | Ces test consistent en de simples comparaisons et additions. Aucun fichier (et particulièrement les données des entités) ne doit être modifier.  |
+| 1 | Vérification que l'hôtel peut réserver plusieurs créneaux et qu'il ne puisse pas réserver plus de 6 places sur un même créneau.| `CASE-BOOK-02` | `SPEC-BOOK-02`, `CASE-BOOK-02`, fichiers de test et fixtures liés à la réservation hôtel et à la limite de 6 places par créneau. | L'agent ne touche pas la logique de facturation fin de mois (`SPEC-FACT-01`), la réservation client lambda (`SPEC-BOOK-01`), le paiement immédiat ni les fichiers de données de référence non liés aux réservations hôtel. |
+| 2 | Vérification que les places disponibles sont correctement mises à jour après une réservation hôtel.| `CASE-BOOK-05` | `SPEC-BOOK-02`, `CASE-BOOK-05`, fixtures de créneaux, répartition des places restantes et données de réservation hôtel. | L'agent ne touche pas le service de facturation, la logique de réservation cliente, les règles d'annulation, ni les autres specs du domaine susceptibles d'influencer la facturation ou les notifications. |
 
 
 **Colonne 3.** Un identifiant `CASE`, pas une phrase. Si vous ne savez pas quel test

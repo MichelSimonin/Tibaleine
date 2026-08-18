@@ -10,8 +10,8 @@ Lorsqu'un client réserve, une place est bloquée temporairement dès que l'util
 
 | # | Tâche | Test qui doit passer au vert | Ce que l'agent reçoit | Ce qu'il ne touche pas |
 |---|---|---|---|---|
-| 1 | Vérification qu'une place est bloqué lorsque le client qui sur "Reserver" pendant 15 minutes.| `CASE-BOOK-06` | Fichier comprenant des informations de test sur les activités d'un utilisateur (moment du clic) et le temps de blocage | Ces test consistent en de simple comparaison. L'agent ne doit pas modifier les fichiers de données d'entrées et de sortie. Aucune autre fichier dans le projet n'est necessaire pour ces test, ils ne doivent donc en aucun cas être modifiés.  |
-| 2 | Vérification qu'une place est libéré après 15 min lors du paiement. | `CASE-BOOK-07` | Fichier comprenant des informations de test sur les activités d'un utilisateur (moment du clic) et le temps de blocage | Ces test consistent en de simples comparaisons et additions. Aucun fichier (et particulièrement les données des entités) ne doit être modifier.  |
+| 1 | Vérification qu'une place est bloquée temporairement dès le clic sur « Réserver » pendant 15 minutes.| `CASE-BOOK-06` | `SPEC-BOOK-03`, `CASE-BOOK-06`, fixtures de test sur le moment du clic, la durée de blocage et les places disponibles. | L'agent ne touche pas la logique de paiement, les templates d'email, la logique de réservation client lambda ni les règles d'annulation ou de météo. |
+| 2 | Vérification qu'une place est libérée si le paiement n'est pas effectué dans le délai imparti.| `CASE-BOOK-07` | `SPEC-BOOK-03`, `CASE-BOOK-07`, fichiers de test sur la libération de place et la durée de 15 minutes avant expiration. | L'agent ne touche pas le service de paiement, la logique de disponibilité affichée, les notifications client ni les autres specs du domaine (`SPEC-BOOK-01`, `SPEC-BOOK-02`). |
 
 
 **Colonne 3.** Un identifiant `CASE`, pas une phrase. Si vous ne savez pas quel test
