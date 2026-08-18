@@ -1,6 +1,6 @@
 # CASE-BOOK-02 — L'hôtel réserve au plus 6 places par créneau.
 
-**Spécification :** `SPEC-CANCEL-02`  
+**Spécification :** `SPEC-CANCEL_PRESTATAIRE-02`  
 **Critère d'acceptation :** `AC-01` , `AC-04`
 **Type :** acceptation  
 **Niveau de risque :** élevé
