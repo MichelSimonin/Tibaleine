@@ -1,4 +1,4 @@
-## SPEC-CANCEL-02 — Annulation de la réservation à l'initiative du prestataire
+## SPEC-CANCEL-PRESTATAIRE-02 — Annulation de la réservation à l'initiative du prestataire
 
 **Exigence :** REQ-017
 **Statut :** ~~brouillon | revue IA faite|~~ validé
@@ -16,8 +16,8 @@
 Ce que cette spécification couvre, et surtout **ce qu'elle ne couvre pas**. Nommer
 explicitement les cas voisins traités ailleurs, avec leur ID.
 
-- Ne couvre pas l'annulation à l'initiative du client → `SPEC-CANCEL-01`
-- Ne couvre pas l'annulation à l'initiative du client avec avertissement → `SPEC-CANCEL-03`
+- Ne couvre pas l'annulation à l'initiative du client → `SPEC-CANCEL-CLIENT-01`
+- Ne couvre pas l'annulation à l'initiative du client avec avertissement → `SPEC-CANCEL-CLIENT-AVERTISSEMENT-03`
 - Ne couvre pas la réduction du nombre de participants → `SPEC-<DOM>-0x`
 
 ### Scénarios nominaux
@@ -74,7 +74,7 @@ Consigne utilisée :
 
 | Remarque de l'IA | Décision | Motif |
 |---|---|---|
-| La « Règle » reprenait le barème client de SPEC-CANCEL-01 | corrigée | Remplacée par la règle prestataire (avertissement 18 h + annulation ≥ 2 h, remboursement 100 %) |
+| La « Règle » reprenait le barème client de SPEC-CANCEL-CLIENT-01 | corrigée | Remplacée par la règle prestataire (avertissement 18 h + annulation ≥ 2 h, remboursement 100 %) |
 | Scénario Gherkin mal formé (« Étant donné une prévue… ») | corrigée | |
 | Heure d'annulation : 5 h (scénario) vs 2 h avant (AC-2) — incohérence (CR-04/Q54 « à confirmer ») | à trancher | |
 | « Intégralement remboursés » : l'exécution du remboursement reste manuelle (R-49) | à trancher | Préciser calcul automatique / exécution manuelle |

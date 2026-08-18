@@ -19,7 +19,7 @@ explicitement les cas voisins traités ailleurs, avec leur ID.
 
 - Ne couvre pas la facturation hôtel en fin de mois → `SPEC-FACT-01`
 - Ne couvre pas la réservation d'un client particulier → `SPEC-BOOK-01`
-- Ne couvre pas l'annulation météo d'un créneau concernant l'hôtel → `SPEC-CANCEL-02` (cas 2)
+- Ne couvre pas l'annulation météo d'un créneau concernant l'hôtel → `SPEC-CANCEL-PRESTATAIRE-02` (cas 2)
 
 ### Scénarios nominaux
 

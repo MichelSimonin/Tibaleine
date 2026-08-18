@@ -1,7 +1,7 @@
 # CASE-BOOK-06— L'hôtel ne peut pas réserver plus de 6 places sur un même créneau. 
 
 **Spécification :** `SPEC-BOOK-03`  
-**Critère d'acceptation :** `AC-01`, `AC-03` (par extension) 
+**Critère d'acceptation :** `AC-01` 
 **Type :** acceptation  
 **Niveau de risque :** élevé
 

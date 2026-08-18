@@ -1,6 +1,6 @@
-# CASE-CANCEL-01 — Annulation à l'inniative du prestataire induit un message d'envoi à 18h en raison de problème météo
+# CASE-CANCEL-PRESTATAIRE-01 — Annulation à l'initiative du prestataire induit un message d'envoi à 18h en raison de problème météo
 
-**Spécification :** `SPEC-CANCEL_PRESTATAIRE-02`  
+**Spécification :** `SPEC-CANCEL-PRESTATAIRE-02`  
 **Critère d'acceptation :** `AC-01`  
 **Type :** acceptation  
 **Niveau de risque :** élevé

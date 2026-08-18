@@ -1,4 +1,4 @@
-## SPEC-CANCEL-03 — Annulation de la réservation à l'initiative du client suite à un avertissement du prestataire
+## SPEC-CANCEL-CLIENT-AVERTISSEMENT-03 — Annulation de la réservation à l'initiative du client suite à un avertissement du prestataire
 
 **Exigence :** REQ-018
 **Statut :** brouillon | revue IA faite
@@ -15,8 +15,8 @@
 Ce que cette spécification couvre, et surtout **ce qu'elle ne couvre pas**. Nommer
 explicitement les cas voisins traités ailleurs, avec leur ID.
 
-- Ne couvre pas l'annulation à l'initiative du prestataire → `SPEC-CANCEL-02`
-- Ne couvre pas l'annulation à l'initiative du client (sans avertissement) → `SPEC-CANCEL-01`
+- Ne couvre pas l'annulation à l'initiative du prestataire → `SPEC-CANCEL-PRESTATAIRE-02`
+- Ne couvre pas l'annulation à l'initiative du client (sans avertissement) → `SPEC-CANCEL-CLIENT-01`
 - Ne couvre pas la réduction du nombre de participants → `SPEC-<DOM>-0x`
 
 ### Scénarios nominaux
@@ -71,7 +71,7 @@ Consigne utilisée :
 
 | Remarque de l'IA | Décision | Motif |
 |---|---|---|
-| La « Règle » reprenait le barème client de SPEC-CANCEL-01 | corrigée | Remplacée par la règle « annulation après avertissement → 100 % » |
+| La « Règle » reprenait le barème client de SPEC-CANCEL-CLIENT-01 | corrigée | Remplacée par la règle « annulation après avertissement → 100 % » |
 | Scénario Gherkin mal formé | corrigée | |
 | Condition du 100 % : comment savoir qu'un client « a reçu l'avertissement » ? | à trancher | Nécessite la trace des notifications (MCD V2) |
 | Cas 2 : que devient la réservation d'origine si la sortie est maintenue ? | à trancher | |

@@ -1,80 +1,23 @@
-# Matrice de traçabilité — équipe `<NOM>`
+<!-- Généré par tools/traceability.sh — ne pas éditer à la main. -->
 
-Reprise au créneau 16h15, avec le journal. C'est le seul endroit où l'état de la
-chaîne se lit d'un coup d'œil.
+# Matrice de traçabilité
 
-```text
-CR-01/Q07 → REQ-012 → SPEC-BOOKING-04 → CASE-BOOKING-17 → test → code → commit
-```
-
-Une ligne par spécification. La remplir n'est pas une formalité de fin de
-journée : c'est parcourir votre propre chaîne et voir où elle s'arrête. Personne
-ne vous signalera un maillon manquant à votre place.
-
-**Ce document ne se reconstitue pas la veille du rendu.** `git log` sur ce fichier
-montre les jours où il a été tenu.
-
----
-
-## Comment la remplir
-
-| Colonne | Ce qu'on y met | Où le trouver |
-|---|---|---|
-| SPEC | l'identifiant de la spécification | titre de section dans `specs/<domaine>.md` |
-| REQ | la ou les exigences qu'elle réalise | `docs/cahier-des-charges.md` |
-| Source | l'échange dont l'exigence est issue, ou `déduit` | `docs/compte-rendu-entretien-nn.md` |
-| Cas de test | le ou les cas qui la couvrent | `tests/cases/CASE-*.md` |
-| Tests | le nom du test automatisé | `tests/` |
-| Commits | le ou les sha courts | `git log --grep=<SPEC-ID>` |
-
-Un maillon qui n'existe pas encore se note `—`. Plusieurs valeurs dans une case se
-séparent par une virgule.
-
-**Les six ruptures à surveiller :** une exigence sans source · une source citée
-qui n'existe pas dans vos comptes rendus · une spécification qu'aucun cas de test
-ne couvre · un cas de test sans test automatisé · une exigence que plus aucune
-spécification ne reprend · un cas de test utilisé dans `tests/` mais défini nulle
-part.
-
----
-
-## Matrice
-
-| SPEC | REQ | Source | Cas de test | Tests | Commits |
-|---|---|---|---|---|---|
-| `SPEC-CANCEL-03` | `REQ-014` | `CR-02/Q11` | `CASE-CANCEL-11` | `test_CASE_CANCEL_11_annulation_moins_48h_retient_50_pourcent` | `a3f1c2e` |
-| `SPEC-CANCEL-04` | `REQ-015` | `déduit` | — | — | — |
-| | | | | | |
-| | | | | | |
-| | | | | | |
-
-> Les deux premières lignes sont des exemples de forme. Remplacez-les.
-
----
-
-## Exigences non couvertes
-
-Une exigence qu'aucune spécification ne reprend n'apparaît nulle part dans le
-tableau ci-dessus. C'est la rupture la plus facile à ne pas voir, et elle se
-crée toute seule quand le client change d'avis.
-
-| REQ | Priorité | Pourquoi elle n'est pas encore spécifiée |
-|---|---|---|
-| | | |
-
----
-
-## Trous connus
-
-Ce que vous savez incomplet, et ce que vous comptez en faire. **Un trou déclaré
-n'est pas une faute. Un trou qu'on découvre à votre place en est une.**
-
-Une matrice sans aucun trou en cours de projet est plus suspecte qu'une matrice
-qui en annonce trois.
-
-| Quoi | Depuis | Pourquoi | Ce qu'on en fait |
-|---|---|---|---|
-| `SPEC-PAYMENT-02` sans cas de test | J6 | régime de remboursement pas tranché avec le client | question posée au prochain passage |
-| | | | |
-
-> Ligne d'exemple. Remplacez-la.
+| SPEC | REQ | Cas de test | Tests | Commits |
+|---|---|---|---|---|
+| SPEC-ALERT-01 | REQ-016 | CASE-ALERT-01 CASE-ALERT-02 CASE-ALERT-03 CASE-ALERT-04 CASE-ALERT-05 CASE-ALERT-06 CASE-CANCEL-CLIENT-AVERTISSEMENT-04 CASE-DISP-05 CASE-LANG-02 | 0 | 1 |
+| SPEC-AUTH-01 | REQ-002 REQ-003 | CASE-AUTH-01 CASE-AUTH-02 CASE-AUTH-03 CASE-AUTH-04 CASE-AUTH-05 CASE-AUTH-06 CASE-AUTH-07 CASE-AUTH-08 CASE-AUTH-09 CASE-CONS-01 | 0 | 1 |
+| SPEC-BOOK-01 | REQ-001 | CASE-BOOK-01 CASE-BOOK-03 CASE-BOOK-04 CASE-DISP-06 | 0 | 0 |
+| SPEC-BOOK-02 | REQ-012 | CASE-BOOK-02 CASE-BOOK-05 CASE-HOTEL-01 CASE-HOTEL-02 | 0 | 0 |
+| SPEC-BOOK-03 | REQ-019 | CASE-BOOK-06 CASE-DISP-04 CASE-DISP-07 CASE-PAY-04 | 0 | 0 |
+| SPEC-CANCEL-CLIENT-01 | REQ-007 REQ-009 | CASE-AUTH-08 CASE-CANCEL-CLIENT-01 CASE-CANCEL-CLIENT-02 CASE-CANCEL-CLIENT-03 CASE-CANCEL-CLIENT-AVERTISSEMENT-02 CASE-CONS-03 CASE-DISP-03 | 0 | 0 |
+| SPEC-CANCEL-CLIENT-AVERTISSEMENT-03 | REQ-018 | CASE-ALERT-02 CASE-ALERT-04 CASE-ALERT-05 CASE-CANCEL-CLIENT-AVERTISSEMENT-01 CASE-CANCEL-CLIENT-AVERTISSEMENT-02 CASE-CANCEL-CLIENT-AVERTISSEMENT-03 CASE-CANCEL-CLIENT-AVERTISSEMENT-04 | 0 | 0 |
+| SPEC-CANCEL-PRESTATAIRE-02 | REQ-017 | CASE-ALERT-04 CASE-AUTH-08 CASE-CANCEL-CLIENT-AVERTISSEMENT-03 CASE-CANCEL-PRESTATAIRE-01 CASE-CONS-03 CASE-DISP-03 CASE-DISP-05 CASE-FACT-03 | 0 | 0 |
+| SPEC-CONS-01 | REQ-004 REQ-005 | CASE-AUTH-04 CASE-AUTH-07 CASE-AUTH-09 CASE-CONS-01 CASE-CONS-02 CASE-CONS-03 CASE-CONS-04 CASE-CONS-05 CASE-CONS-06 | 0 | 1 |
+| SPEC-DISP-01 | REQ-008 | CASE-DISP-01 CASE-DISP-02 CASE-DISP-03 CASE-DISP-04 CASE-DISP-05 CASE-DISP-06 CASE-DISP-07 | 0 | 1 |
+| SPEC-FACT-01 | REQ-013 | CASE-ALERT-05 CASE-FACT-01 CASE-FACT-02 CASE-FACT-03 CASE-HOTEL-03 | 0 | 0 |
+| SPEC-HOTEL-01 | REQ-011 | CASE-HOTEL-01 CASE-HOTEL-02 CASE-HOTEL-03 | 0 | 0 |
+| SPEC-LANG-01 | REQ-014 | CASE-ALERT-03 CASE-AUTH-04 CASE-CANCEL-CLIENT-AVERTISSEMENT-04 CASE-LANG-01 CASE-LANG-02 | 0 | 0 |
+| SPEC-MODIF-01 | — | CASE-CONS-03 CASE-CONS-05 | 0 | 0 |
+| SPEC-PAY-01 | REQ-006 | CASE-PAY-01 CASE-PAY-02 CASE-PAY-03 CASE-PAY-04 | 0 | 0 |
+| SPEC-SEC-01 | — | — | 0 | 0 |
+| SPEC-SYST-01 | REQ-020 | CASE-ALERT-06 CASE-CANCEL-CLIENT-AVERTISSEMENT-04 CASE-SYST-01 CASE-SYST-02 CASE-SYST-03 | 0 | 0 |

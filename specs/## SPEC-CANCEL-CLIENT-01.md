@@ -1,4 +1,4 @@
-## SPEC-CANCEL-01 — Annulation de la réservation à l'initiative du client
+## SPEC-CANCEL-CLIENT-01 — Annulation de la réservation à l'initiative du client
 
 **Exigence :** REQ-007, REQ-009
 **Statut :** ~~brouillon | revue IA faite|~~ validé
@@ -19,8 +19,8 @@ pourrait », pas de « idéalement ».
 Ce que cette spécification couvre, et surtout **ce qu'elle ne couvre pas**. Nommer
 explicitement les cas voisins traités ailleurs, avec leur ID.
 
-- Ne couvre pas l'annulation à l'initiative du prestataire → `SPEC-CANCEL-02`
-- Ne couvre pas l'annulation à l'initiative du client avec avertissement → `SPEC-CANCEL-03`
+- Ne couvre pas l'annulation à l'initiative du prestataire → `SPEC-CANCEL-PRESTATAIRE-02`
+- Ne couvre pas l'annulation à l'initiative du client avec avertissement → `SPEC-CANCEL-CLIENT-AVERTISSEMENT-03`
 - Ne couvre pas la réduction du nombre de participants → `SPEC-<DOM>-0x`
 
 ### Scénarios nominaux
