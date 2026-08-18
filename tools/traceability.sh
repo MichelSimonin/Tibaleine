@@ -21,14 +21,14 @@ set -u
 
 cd "$(dirname "$0")/.." || exit 1
 
-CDC="docs/cahier-des-charges.md"
+CDC="docs/cahiers_des_charges/Cahier_des_charges_200ping_V4.md"
 OUT="docs/traceability.md"
 CHECK=0
 [ "${1:-}" = "--check" ] && CHECK=1
 
 RX_REQ='REQ-[0-9][0-9][0-9]'
-RX_SPEC='SPEC-[A-Z0-9]+-[0-9][0-9]'
-RX_CASE_ANY='CASE[-_][A-Z0-9]+[-_][0-9][0-9]'
+RX_SPEC='SPEC-[A-Z0-9-]+-[0-9][0-9]'
+RX_CASE_ANY='CASE[-_][A-Z0-9-]+[-_][0-9][0-9]'
 RX_SRC='CR-[0-9][0-9]/Q[0-9][0-9]'
 RX_DEDUIT='d[ée]duit'
 
@@ -43,16 +43,22 @@ test_files=$(find tests -type f ! -path 'tests/cases/*' ! -name 'TEMPLATE.md' 2>
 pairs_spec_req=$(
   awk '
     FNR == 1 { cur = "" }
-    { if (match($0, /SPEC-[A-Z0-9]+-[0-9][0-9]/)) cur = substr($0, RSTART, RLENGTH) }
-    { if (cur != "" && match($0, /REQ-[0-9][0-9][0-9]/)) print cur "\t" substr($0, RSTART, RLENGTH) }
-  ' specs/*.md 2>/dev/null | sort -u
+    { if (match($0, /SPEC-[A-Z0-9-]+-[0-9][0-9]/)) cur = substr($0, RSTART, RLENGTH) }
+    $0 ~ /Exigence/ {
+      line = $0
+      while (match(line, /REQ-[0-9][0-9][0-9]/)) {
+        if (cur != "") print cur "\t" substr(line, RSTART, RLENGTH)
+        line = substr(line, RSTART + RLENGTH)
+      }
+    }
+  ' specs/*.md specs/ValidéMaisSujetAChangement/*.md 2>/dev/null | sort -u
 )
 
 # --- SPEC -> CASE -----------------------------------------------------------
 pairs_spec_case=""
 for f in tests/cases/CASE-*.md; do
   [ -e "$f" ] || continue
-  cid=$(basename "$f" .md)
+  cid=$(basename "$f" .md | grep -oE "$RX_CASE_ANY" | head -1)
   refs=$(grep -ohE "$RX_SPEC" "$f" 2>/dev/null | sort -u)
   if [ -z "$refs" ]; then
     warn "$cid ne cite aucune spécification"
@@ -120,7 +126,7 @@ if [ -f "$CDC" ]; then
     if [ -n "$src" ]; then
       cr=${src%%/*}
       q=${src##*/}
-      f="docs/compte-rendu-entretien-${cr#CR-}.md"
+      f="docs/compte_rendu/compte-rendu-entretien-${cr#CR-}.md"
       if [ ! -f "$f" ]; then
         warn "$req cite $src, mais $f n'existe pas"
       elif ! grep -q "$q" "$f"; then

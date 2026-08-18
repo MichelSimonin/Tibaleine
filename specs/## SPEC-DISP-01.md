@@ -68,8 +68,8 @@ Consigne utilisée :
 | Remarque de l'IA | Décision | Motif |
 |---|---|---|
 | La portée référence `SPEC-BOOK-01` (cas limite) pour le blocage alors qu'une spec dédiée `SPEC-BOOK-03` existe désormais | à trancher | Mettre à jour la portée |
-| Cas limite 4 : un créneau à moins de 2 h du départ est-il affiché « disponible » (mais bloqué à la résa) ou « indisponible » ? | tranchée | Décision d'équipe : le créneau est affiché comme indisponible. |
-| Les places bloquées (formulaire en cours, SPEC-BOOK-03) sont-elles décomptées des « places restantes » ? | tranchée | Décision d'équipe : les places sont décomptées dès que le client clique sur « Réserver ». Si la réservation n'est pas menée à terme (paiement), les places redeviennent disponibles à l'expiration du délai (`SPEC-BOOK-03`). |
+| Cas limite 4 : un créneau à moins de 2 h du départ est-il affiché « disponible » (mais bloqué à la résa) ou « indisponible » ? | à trancher | Affichage à définir |
+| Les places bloquées (formulaire en cours, SPEC-BOOK-03) sont-elles décomptées des « places restantes » ? | à trancher | Cohérence avec SPEC-BOOK-03 |
 | Actualisation du nombre de places : au rechargement ou en temps réel ? (la météo temps réel est exclue, pas la disponibilité) | à trancher | |
 | La Règle combine consultation ET badge « nouvelle place » (R-78) — deux comportements distincts | OK | Acceptable, à garder en tête |
 | AC-1 à AC-3 vérifiables | OK | |

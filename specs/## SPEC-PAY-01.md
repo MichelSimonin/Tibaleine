@@ -15,7 +15,7 @@
 Ce que cette spécification couvre, et surtout **ce qu'elle ne couvre pas**. Nommer
 explicitement les cas voisins traités ailleurs, avec leur ID.
 
-- Ne couvre pas le remboursement → `SPEC-CANCEL-01`, `SPEC-CANCEL-02`, `SPEC-CANCEL-03`
+- Ne couvre pas le remboursement → `SPEC-CANCEL-CLIENT-01`, `SPEC-CANCEL-PRESTATAIRE-02`, `SPEC-CANCEL-CLIENT-AVERTISSEMENT-03`
 - Ne couvre pas le paiement du supplément après ajout de participant → `SPEC-MODIF-01`
 - Ne couvre pas la facturation hôtel en fin de mois → `SPEC-FACT-01`
 

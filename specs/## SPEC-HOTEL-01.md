@@ -14,7 +14,7 @@ Ce que cette spécification couvre, et surtout **ce qu'elle ne couvre pas**. Nom
 
 - Ne couvre pas la création d'une réservation hôtel → `SPEC-BOOK-02`
 - Ne couvre pas la facturation hôtel en fin de mois → `SPEC-FACT-01`
-- Ne couvre pas les alertes/annulations (l'hôtel est prévenu par téléphone) → `SPEC-CANCEL-02` (cas 2), `SPEC-ALERT-01`
+- Ne couvre pas les alertes/annulations (l'hôtel est prévenu par téléphone) → `SPEC-CANCEL-PRESTATAIRE-02` (cas 2), `SPEC-ALERT-01`
 
 ### Scénarios nominaux
 

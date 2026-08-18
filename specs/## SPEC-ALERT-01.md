@@ -19,9 +19,9 @@
 Ce que cette spécification couvre, et surtout **ce qu'elle ne couvre pas**. Nommer
 explicitement les cas voisins traités ailleurs, avec leur ID.
 
-- Ne couvre pas les règles de remboursement liées → `SPEC-CANCEL-02`, `SPEC-CANCEL-03`
-- Ne couvre pas la décision d'annulation par créneau → `SPEC-CANCEL-02`
-- Ne couvre pas les hôtels (prévenus par téléphone) → `SPEC-CANCEL-02` (cas 2)
+- Ne couvre pas les règles de remboursement liées → `SPEC-CANCEL-PRESTATAIRE-02`, `SPEC-CANCEL-CLIENT-AVERTISSEMENT-03`
+- Ne couvre pas la décision d'annulation par créneau → `SPEC-CANCEL-PRESTATAIRE-02`
+- Ne couvre pas les hôtels (prévenus par téléphone) → `SPEC-CANCEL-PRESTATAIRE-02` (cas 2)
 
 ### Scénarios nominaux
 
