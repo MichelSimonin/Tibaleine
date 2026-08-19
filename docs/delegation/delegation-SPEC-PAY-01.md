@@ -15,7 +15,7 @@
 | 2 | Écrire le cas de passage à l'état « payée » | `CASE-PAY-02` | `SPEC-PAY-01` | — |
 | 3 | Écrire le cas de mise à jour des places après paiement | `CASE-PAY-03` | `SPEC-PAY-01` | — |
 | 4 | Écrire le cas de libération de la place après 15 min sans paiement | `CASE-PAY-04` | `SPEC-PAY-01`, `SPEC-BOOK-03` (référence) | `SPEC-BOOK-03` (lecture seule) |
-| 5 | Écrire le cas de paiement refusé (carte refusée, service indisponible) | `CASE-PAY-05` | `SPEC-PAY-01` | — |
+| 5 | Écrire le cas de paiement refusé (carte refusée, service indisponible) | `CASE-PAY-05` *(jamais assigné)* | `SPEC-PAY-01` | — |
 
 ---
 
@@ -30,7 +30,7 @@ faire au rituel de 16h15, le même jour.
 | 2 | `conforme` | — |
 | 3 | `conforme` | — |
 | 4 | `conforme` | — |
-| 5 | `repris` | La tâche a d'abord été bloquée par une ambiguïté non vue jusque-là : le cas limite 2 de `SPEC-PAY-01` supposait un état « confirmée » avant paiement (repris de `CASE-PAY-02`), incompatible avec le fait qu'aucune validation du patron n'a lieu avant paiement. Une fois la question posée et tranchée (pas de validation patron, paiement direct après soumission), `SPEC-BOOK-01` (AC-4/5 retirés), `SPEC-PAY-01` (AC-5 ajouté), `CASE-PAY-01` et `CASE-PAY-02` (état de départ corrigé) ont été mis à jour en cohérence, puis `CASE-PAY-05` écrit. |
+| 5 | *(non réalisée)* | Le cas limite 2 de `SPEC-PAY-01` (paiement échoué) reste sans cas de test, alors que c'est justement le point que la propre Revue IA de la spec signale comme incohérent : « la réservation reste en attente » contredit le workflow confirmée→payée du MCD. Sans cas de test, cette incohérence reste invisible tant que personne ne la cherche. |
 
 | Résultat | Sens |
 |---|---|
@@ -44,7 +44,5 @@ faire au rituel de 16h15, le même jour.
 ## Ce qui sera regardé
 
 Pas le nombre de `conforme`. Ce qui se lit, c'est **l'écart entre ce que vous aviez
-prévu et ce qui est arrivé, et le fait que vous l'ayez vu**. Ici, l'écart s'est
-niché dans la tâche 5 : un état de réservation halluciné (« confirmée ») repris
-sans le vérifier depuis un cas voisin, qui a fini par révéler une vraie question
-métier (patron valide-t-il avant paiement ?) plutôt qu'un simple oubli de cas.
+prévu et ce qui est arrivé, et le fait que vous l'ayez vu**. Ici, l'écart n'est
+pas dans les 4 tâches faites — il est dans la 5ᵉ, jamais réellement découpée.

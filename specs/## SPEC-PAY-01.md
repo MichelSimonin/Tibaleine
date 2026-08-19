@@ -6,9 +6,10 @@
 
 ### Règle
 
-> Après confirmation de sa demande de réservation, un client particulier paie sa
-> réservation **en ligne**. Une fois le paiement effectué, la réservation passe à
-> l'état « payée » et les places sont définitivement réservées.
+> Après avoir soumis sa demande de réservation, un client particulier paie
+> directement sa réservation **en ligne**, sans validation préalable du
+> patron. Une fois le paiement effectué, la réservation passe à l'état
+> « payée » et les places sont définitivement réservées.
 
 ### Portée
 
@@ -66,6 +67,7 @@ Consigne utilisée :
 | Remarque de l'IA | Décision | Motif |
 |---|---|---|
 | Cas limite 2 : « la réservation reste en attente » — incohérent avec la Règle (« après confirmation… paie ») et le workflow confirmée → payée du MCD | corrigée | La réservation n'est pas marquée « payée » ; cas couvert par AC-5 |
+| La Règle disait encore « après confirmation de sa demande » alors que `SPEC-BOOK-01` a tranché : pas de validation patron, paiement direct après soumission | corrigée | Reformulée pour retirer la référence à une « confirmation » côté patron |
 | Le blocage 15 min (cas 1) et `SPEC-BOOK-03` ne sont pas référencés dans la portée | à trancher | Ajouter le renvoi |
 | AC-4 dépend de SPEC-BOOK-03 (délai 15 min) — AC non autonome | à trancher | |
 | Prestataire de paiement non fixe (ADR-001 : Stripe) — comportement d'échec dépendant du prestataire | OK | Noté dans « Ce qui n'est pas défini » |

@@ -52,8 +52,7 @@ Assumé et daté. Une zone grise déclarée vaut mieux qu'une zone grise ignoré
 
 - Fonctionnement des paiements si le client ne veut pas payer en ligne.
 - Fonctionnement de la liste d'attente des réservations.
-- Validation (acceptation / refus) de la demande par le patron : à confirmer (question ouverte cahier V4 §8).
-- Réservation validée mais non payée au moment du départ : question ouverte (cahier V4 §8).
+- Réservation en attente mais non payée au moment du départ : question ouverte (cahier V4 §8).
 
 ### Critères d'acceptation
 
@@ -77,10 +76,10 @@ Consigne utilisée :
 
 | Remarque de l'IA | Décision | Motif |
 |---|---|---|
-| AC-4 et AC-5 supposent que le patron valide/refuse la demande, mais le scénario marque cette validation « A CONFIRMER » | tranchée | Décision d'équipe : pas de validation du patron avant paiement, le client paie directement après avoir soumis sa réservation. AC-4 et AC-5 retirés en conséquence. |
+| AC-4 et AC-5 supposent que le patron valide/refuse la demande, mais le scénario marque cette validation « A CONFIRMER » | tranchée | Décision d'équipe : pas de validation du patron. Le client paie directement après avoir soumis sa réservation. AC-4 et AC-5 supprimés en conséquence. |
 | Le blocage temporaire des places (CR-04/Q61, 15 min) n'était pas représenté alors que le cas 1 évoquait une demande « bloquée » | corrigée | Cas limite 3 complété |
 | Cas limite 2 incohérent : « réserver à 1 h du départ » vs « bloqué 2 h avant » | corrigée | Délai unifié : 2 h |
-| Nommage des états : « Validé » (scénario) vs « confirmée » (MCD V2) | à trancher | Aligner sur le MCD (confirmée) |
+| Nommage des états : « Validé » (scénario) vs « confirmée » (MCD V2) | tranchée | Devenu sans objet : sans validation patron, la réservation passe directement de « en attente » à « payée », aucun état intermédiaire « Validé »/« confirmée » n'existe plus côté spec. Reste à aligner `docs/mcd/mcd-V2.dbml` (`Reservation.etat` liste encore `en_attente \| confirmée \| refusée \| payée \| annulée`). |
 | Langue de l'email de confirmation non précisée (FR/EN, R-71) | à trancher | Renvoi `SPEC-LANG-01` |
 
 Les refus se reportent aussi dans `docs/journal.md`.
