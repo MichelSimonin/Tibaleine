@@ -78,5 +78,6 @@ Consigne utilisée :
 | Cas limite 2 incohérent : « réserver à 1 h du départ » vs « bloqué 2 h avant » | corrigée | Délai unifié : 2 h |
 | Nommage des états : « Validé » (scénario) vs « confirmée » (MCD V2) | tranchée | Devenu sans objet : sans validation patron, la réservation passe directement de « en attente » à « payée », aucun état intermédiaire « Validé »/« confirmée » n'existe plus côté spec. Reste à aligner `docs/mcd/mcd-V2.dbml` (`Reservation.etat` liste encore `en_attente \| confirmée \| refusée \| payée \| annulée`). |
 | Langue de l'email de confirmation non précisée (FR/EN, R-71) | à trancher | Renvoi `SPEC-LANG-01` |
+| AC-3 ne précise pas si la notification au patron intervient dès la soumission de la demande ou seulement après paiement réussi — la Portée exclut le paiement (« → SPEC-PAY-01 »), ce qui laissait planer une ambiguïté | tranchée | Décision d'équipe : la notification (SMS + espace administrateur) intervient après paiement réussi. Sans validation patron, la réservation passe directement de « en attente » à « payée » — il n'y a pas d'état intermédiaire durable à notifier. Cohérent avec `CASE-BOOK-08`. |
 
 Les refus se reportent aussi dans `docs/journal.md`.

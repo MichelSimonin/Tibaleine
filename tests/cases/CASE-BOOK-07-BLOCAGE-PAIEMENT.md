@@ -1,7 +1,7 @@
 # CASE-BOOK-07— La place est libérée si le paiement n'est pas fait sous 15 minutes. 
 
 **Spécification :** `SPEC-BOOK-03`  
-**Critère d'acceptation :** `AC-04` 
+**Critère d'acceptation :** `AC-02` 
 **Type :** acceptation  
 **Niveau de risque :** élevé
 
@@ -58,7 +58,7 @@ Il peut cliquer sur le créneau afin de commencer le processus de réservation.
 ## Test automatisé
 
 **Nom attendu :**
-`test_CASE_BOOK_07_blocage_paiement
+`test_CASE_BOOK_07_blocage_paiement`
 **Fichier :** à renseigner après automatisation
 
 ## Revue du test automatisé
@@ -69,7 +69,7 @@ Il peut cliquer sur le créneau afin de commencer le processus de réservation.
 - [ ] Le test vérifie que le temps de blocage se remet à 15 min si le client valide le formulaire dans les temps.
 - [ ] Le test vérifie que les places bloqués sont pris en compte dans le comptage des places disponibles jusqu'à la fin du blocage.
 - [ ] Le test échoue si le nombre de place disponible ne se met pas à jour alors qu'un blocage est actif.
-- [ ] Le nom du test contient `CASE_BOOK_06`.
+- [ ] Le nom du test contient `CASE_BOOK_07`.
 - [ ] Aucune assertion étrangère à ce cas n'a été ajoutée.
 
 **Relu par :** à renseigner  
