@@ -31,20 +31,19 @@ Il confirme et peut désormais payer sa réservation et celle-ci passe en état 
 Alors en confirmant, le client recevra un email de confirmation résumant les informations de sa réservation et comprenant un lien d'inscription (inscription optionelle).
 Le patron reçoit un sms qu'il y a eu une nouvelle réservation.
 
-``` 
-
+```
 
 ### Cas limites
 
 Un cas limite par ligne, avec le comportement attendu. C'est la partie qui
 distingue une spécification d'une intention.
 
-| # | Situation | Comportement attendu |
-|---|---|---|
-| 1 | le client veut inclure une nouvelle personne alors que le créneau n'a plus assez de places | La demande est bloquée : le client doit réduire le nombre de personnes ou choisir un autre créneau. |
-| 2 | le client tente de réserver moins de 2 h avant le départ | La réservation est bloquée (réservation impossible à moins de 2 h du départ). |
-| 3 | plusieurs clients tentent de réserver le même créneau | La place est bloquée temporairement dès l'arrivée sur le formulaire ; délai de 15 min au paiement, au-delà la place se libère (CR-04/Q61). La première réservation payée prend les places. |
-| 4 | un client réserve après l'avertissement météo de 18 h | Il ne reçoit pas de SMS/mail d'avertissement, mais une alerte s'affiche sur le site (SPEC-ALERT-01). |
+| #   | Situation                                                                                  | Comportement attendu                                                                                                                                                                       |
+| --- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1   | le client veut inclure une nouvelle personne alors que le créneau n'a plus assez de places | La demande est bloquée : le client doit réduire le nombre de personnes ou choisir un autre créneau.                                                                                        |
+| 2   | le client tente de réserver moins de 2 h avant le départ                                   | La réservation est bloquée (réservation impossible à moins de 2 h du départ).                                                                                                              |
+| 3   | plusieurs clients tentent de réserver le même créneau                                      | La place est bloquée temporairement dès l'arrivée sur le formulaire ; délai de 15 min au paiement, au-delà la place se libère (CR-04/Q61). La première réservation payée prend les places. |
+| 4   | un client réserve après l'avertissement météo de 18 h                                      | Il ne reçoit pas de SMS/mail d'avertissement, mais une alerte s'affiche sur le site (SPEC-ALERT-01).                                                                                       |
 
 ### Ce qui n'est pas défini
 
@@ -59,12 +58,10 @@ Assumé et daté. Une zone grise déclarée vaut mieux qu'une zone grise ignoré
 Chacun doit être vérifiable sans interprétation, et donne lieu à au moins un cas
 de test.
 
-- [ ] AC-1 — Le client peut remplir les données du formulaire de demande de réservation 
+- [ ] AC-1 — Le client peut remplir les données du formulaire de demande de réservation.
 - [ ] AC-2 — Le client peut envoyer le formulaire et reçoit un retour par mail.
-- [ ] AC-3 — Le patron reçoit la demande de réservation
-~~- [ ] AC-4 — Le patron peut accepter, ou non, la demande de réservation. (Le cas échéant, la résolution de problème se passera au téléphone entre le patron et son client)~~ 
-~~- [ ] AC-5 — Si un refus à lieu, le client pourra recommencer une demande de réservation.~~
-- [ ] AC-~~6~~4 — Le nombre de place disponible pour une activité se met à jour après le paiement d'une réservation.
+- [ ] AC-3 — Le patron reçoit la notification de réservation.
+- [ ] AC-4 — Le nombre de place disponible pour une activité se met à jour après le paiement d'une réservation.
 
 ### Revue IA
 
