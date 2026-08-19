@@ -1,6 +1,6 @@
 ## SPEC-AUTH-01 — Compte, connexion et accès par rôle
 
-**Exigence :** REQ-002, REQ-003
+**Exigence :** REQ-002, REQ-003, REQ-102
 **Statut :** revue IA faite
 **Version :** v1
 

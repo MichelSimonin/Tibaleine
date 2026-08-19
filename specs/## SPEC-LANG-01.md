@@ -1,6 +1,6 @@
 ## SPEC-LANG-01 — Interface et messages en français et en anglais
 
-**Exigence :** REQ-014
+**Exigence :** REQ-014, REQ-107
 **Statut :** revue IA faite
 **Version :** v1
 
