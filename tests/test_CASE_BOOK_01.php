@@ -15,11 +15,12 @@ final class CaseBook01Test extends TestCase
     public function test_CASE_BOOK_01(): void
     {
         // Quand le client remplit et envoie le formulaire
-        $reservation = (new \App\Service\ReservationService())->reserver([
-            'nom' => 'Edouard', 'prenom' => 'Jean', 'email' => 'jean.edouard@email.fr',
-            'nb_adultes' => 4, 'nb_enfants' => 1, 'type_sortie' => 'baleine',
-            'date' => '2026-08-21', 'heure' => '10:00',
-        ]);
+        $reservation = new \App\Entity\Reservation();
+        $reservation->setNom('Edouard');
+        $reservation->setPrenom('Jean');
+        $reservation->setNbAdultes(4);
+        $reservation->setNbEnfants(1);
+        (new \App\Service\ReservationService())->reserver($reservation);
 
         // Alors la réservation est enregistrée avec les bonnes informations
         $this->assertSame('Edouard', $reservation->getNom());
