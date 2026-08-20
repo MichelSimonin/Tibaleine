@@ -1,5 +1,9 @@
 # CASE-CANCEL-CLIENT-03 — Annulation client à plus de 7 jours
 
+**Amendé par :** `CASE-CANCEL-CLIENT-03-A1`
+
+> Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-CANCEL-CLIENT-03-A1`.
+
 **Spécification :** `SPEC-CANCEL-CLIENT-01`  
 **Critère d'acceptation :** `AC-05`
 **Type :** acceptation  

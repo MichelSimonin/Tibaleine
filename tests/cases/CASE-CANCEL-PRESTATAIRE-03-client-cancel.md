@@ -1,4 +1,8 @@
 # CASE-CANCEL-PRESTATAIRE-03-client-cancel Remboursement des clients après une annulation suite à une avertissement du prestataire
+
+**Amendé par :** `CASE-CANCEL-PRESTATAIRE-03-A1`
+
+> Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-CANCEL-PRESTATAIRE-03-A1`.
 **Spécification :** `SPEC-CANCEL-PRESTATAIRE-02`  
 **Critère d'acceptation :** `AC-04`
 **Type :** acceptation  

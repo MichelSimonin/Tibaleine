@@ -1,7 +1,7 @@
 # CASE-BOOK-05— L'hôtel ne peut pas réserver plus de 6 places sur un même créneau. 
 
-**Spécification :** `SPEC-BOOK-02`  
-**Critère d'acceptation :** `AC-03` 
+**Spécification :** `SPEC-BOOK-02-A1`
+**Critère d'acceptation :** `AC-4`
 **Type :** acceptation  
 **Niveau de risque :** élevé
 
@@ -12,11 +12,12 @@ Ce cas protège la limite de 6 places par créneau pouvant être réserver par l
 ## Cas
 
 ```gherkin
-Étant donné un créneau vide le 19 août 2026 à 14h.
-L'hôtel voudrait réserver l'intégralité des places disponibles (36 places).
-L'hôtel tente de valider la réservation.
-La réservation est bloqué.
-Un message notifiant d'un trop grand nombre de place fournis est affiché. 
+Étant donné un utilisateur ayant le rôle `hotel`
+Et un créneau disposant de 36 places le 19 août 2026 à 14h
+Quand il demande 36 places sur ce créneau
+Alors la réservation est refusée car la limite est de 6 places
+Et le nombre de places disponibles reste égal à 36
+Et un message explique que la limite autorisée est dépassée
 
 
 ```

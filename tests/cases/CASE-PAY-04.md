@@ -1,5 +1,9 @@
 # CASE-PAY-04 — La place est libérée après 15 minutes sans paiement
 
+**Amendé par :** `CASE-PAY-04-A1`
+
+> Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-PAY-04-A1`.
+
 **Spécification :** `SPEC-PAY-01`  
 **Critère d'acceptation :** `AC-04`  
 **Type :** acceptation  

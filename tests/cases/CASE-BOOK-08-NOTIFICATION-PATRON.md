@@ -1,5 +1,9 @@
 # CASE-BOOK-08 — Le patron reçoit une notification de réservation
 
+**Amendé par :** `CASE-BOOK-08-A1`
+
+> Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-BOOK-08-A1`.
+
 **Spécification :** `SPEC-BOOK-01`  
 **Critère d'acceptation :** `AC-3`  
 **Type :** acceptation  

@@ -1,5 +1,9 @@
 # CASE-MODIF-03 — Un ajout de participant entraîne un supplément payé par mail
 
+**Amendé par :** `CASE-MODIF-03-A1`
+
+> Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-MODIF-03-A1`.
+
 **Spécification :** `SPEC-MODIF-01`  
 **Critère d'acceptation :** `AC-03`  
 **Type :** acceptation  

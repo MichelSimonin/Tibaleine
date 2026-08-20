@@ -1,7 +1,7 @@
 # CASE-FACT-03 — Les réservations annulées ne sont pas comptabilisées
 
-**Spécification :** `SPEC-FACT-01`  
-**Critère d'acceptation :** `AC-03`  
+**Spécifications :** `SPEC-FACT-01-A1`, `SPEC-CANCEL-PRESTATAIRE-02-A1`
+**Critères d'acceptation :** `SPEC-FACT-01-A1/AC-1`, `SPEC-CANCEL-PRESTATAIRE-02-A1/AC-6`
 **Type :** acceptation  
 **Niveau de risque :** élevé
 
@@ -39,7 +39,7 @@ Et l'hôtel est facturé sur les seules réservations actives (360 €)
 
 - le regroupement en fin de mois → `CASE-FACT-01` (AC-01) ;
 - la remise de 15 % → `CASE-FACT-02` (AC-02) ;
-- le processus d'annulation météo lui-même → `SPEC-CANCEL-PRESTATAIRE-02`.
+- le processus d'annulation météo lui-même → `SPEC-CANCEL-PRESTATAIRE-02-A1`.
 
 ---
 

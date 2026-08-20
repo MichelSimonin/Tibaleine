@@ -1,5 +1,9 @@
 # CASE-BOOK-01 — Un client peut remplir le formulaire de réservation
 
+**Amendé par :** `CASE-BOOK-01-A1`
+
+> Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-BOOK-01-A1`.
+
 **Spécification :** `SPEC-BOOK-01`  
 **Critère d'acceptation :** `AC-01` 
 **Type :** acceptation  

@@ -1,5 +1,9 @@
 # CASE-PAY-01 — Le client paie sa réservation en ligne
 
+**Amendé par :** `CASE-PAY-01-A1`
+
+> Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-PAY-01-A1`.
+
 **Spécification :** `SPEC-PAY-01`  
 **Critère d'acceptation :** `AC-01`  
 **Type :** acceptation  

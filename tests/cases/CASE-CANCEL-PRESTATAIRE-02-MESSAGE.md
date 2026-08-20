@@ -1,4 +1,8 @@
 # CASE-CANCEL-PRESTATAIRE-02—MESSAGE Le prestataire peut envoyer un message générale à une heure voulue
+
+**Amendé par :** `CASE-CANCEL-PRESTATAIRE-02-A1`
+
+> Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-CANCEL-PRESTATAIRE-02-A1`.
 **Spécification :** `SPEC-CANCEL-PRESTATAIRE-02`  
 **Critère d'acceptation :** `AC-01` et `AC-01`
 **Type :** acceptation  

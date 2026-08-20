@@ -1,5 +1,9 @@
 # CASE-PAY-02 — La réservation passe à l'état « payée » après paiement
 
+**Amendé par :** `CASE-PAY-02-A1`
+
+> Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-PAY-02-A1`.
+
 **Spécification :** `SPEC-PAY-01`  
 **Critère d'acceptation :** `AC-02`  
 **Type :** acceptation  

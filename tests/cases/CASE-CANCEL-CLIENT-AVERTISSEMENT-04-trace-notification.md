@@ -1,5 +1,9 @@
 # CASE-CANCEL-CLIENT-AVERTISSEMENT-04 — Trace de réception de l'avertissement
 
+**Amendé par :** `CASE-CANCEL-CLIENT-AVERTISSEMENT-04-A1`
+
+> Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-CANCEL-CLIENT-AVERTISSEMENT-04-A1`.
+
 **Spécification :** `SPEC-CANCEL-CLIENT-AVERTISSEMENT-03`
 **Critère d'acceptation :** `AC-01`, `AC-05`
 **Type :** acceptation

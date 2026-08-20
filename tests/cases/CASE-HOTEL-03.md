@@ -1,5 +1,9 @@
 # CASE-HOTEL-03 — L'hôtel consulte ses réservations
 
+**Amendé par :** `CASE-HOTEL-03-A1`
+
+> Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-HOTEL-03-A1`.
+
 **Spécification :** `SPEC-HOTEL-01`  
 **Critère d'acceptation :** `AC-03`  
 **Type :** acceptation  

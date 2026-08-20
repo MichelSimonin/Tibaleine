@@ -1,5 +1,9 @@
 # CASE-PAY-05 — Le paiement échoue (carte refusée ou service indisponible)
 
+**Amendé par :** `CASE-PAY-05-A1`
+
+> Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-PAY-05-A1`.
+
 **Spécification :** `SPEC-PAY-01`  
 **Critère d'acceptation :** `AC-05`  
 **Type :** acceptation  

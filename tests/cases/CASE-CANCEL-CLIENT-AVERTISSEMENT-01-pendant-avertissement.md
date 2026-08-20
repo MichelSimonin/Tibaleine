@@ -1,5 +1,9 @@
 # CASE-CANCEL-CLIENT-AVERTISSEMENT-01 — Annulation client pendant la phase d'avertissement (remboursement intégral)
 
+**Amendé par :** `CASE-CANCEL-CLIENT-AVERTISSEMENT-01-A1`
+
+> Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-CANCEL-CLIENT-AVERTISSEMENT-01-A1`.
+
 **Spécification :** `SPEC-CANCEL-CLIENT-AVERTISSEMENT-03`  
 **Critère d'acceptation :** `AC-03`  
 **Type :** acceptation  

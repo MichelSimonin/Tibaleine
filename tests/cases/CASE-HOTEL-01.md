@@ -1,5 +1,9 @@
 # CASE-HOTEL-01 — Création d'un compte hôtel
 
+**Amendé par :** `CASE-HOTEL-01-A1`
+
+> Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-HOTEL-01-A1`.
+
 **Spécification :** `SPEC-HOTEL-01`  
 **Critère d'acceptation :** `AC-01`  
 **Type :** acceptation  

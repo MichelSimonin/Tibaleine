@@ -1,7 +1,7 @@
 # CASE-BOOK-06 — Le blocage temporaire des places pendant la saisie du formulaire 
 
-**Spécification :** `SPEC-BOOK-03`  
-**Critère d'acceptation :** `AC-01` 
+**Spécification :** `SPEC-BOOK-03-A1`
+**Critère d'acceptation :** `AC-1`
 **Type :** acceptation  
 **Niveau de risque :** élevé
 
@@ -12,11 +12,12 @@ Ce cas protège la mise à jour des places disponibles pendant qu'un client bloq
 ## Cas
 
 ```gherkin
-Étant donné, à 17h45 client A veut réserver pour le créneau du 22 août à 7h. Il veut prendre les deux dernières places et clic sur "Réserver".
-Il bloque les deux dernières places pendant 15 minutes.
-Client B arrive sur le site à 17h46 et voit ce créneau comme "complet". 
-Client A change d'avis et abandonne sa réservation.
-Client B revient sur le site à 18h et voit le créneau avec 2 places disponibles.
+Étant donné un créneau avec deux places restantes
+Quand le client A ouvre le formulaire à 17h45 pour ces deux places
+Alors les deux places sont bloquées jusqu'à 18h00
+Et le client B voit le créneau comme complet pendant ce délai
+Quand le délai expire sans passage au paiement
+Alors les deux places redeviennent disponibles
 
 
 ```

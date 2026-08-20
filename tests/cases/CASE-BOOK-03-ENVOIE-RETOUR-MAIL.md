@@ -1,5 +1,9 @@
 # CASE-BOOK-03—envoie-retour-mail Un client peut envoyer le formulaire et recevoir un retour par mail
 
+**Amendé par :** `CASE-BOOK-03-A1`
+
+> Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-BOOK-03-A1`.
+
 **Spécification :** `SPEC-BOOK-01`  
 **Critère d'acceptation :** `AC-02` 
 **Type :** acceptation  

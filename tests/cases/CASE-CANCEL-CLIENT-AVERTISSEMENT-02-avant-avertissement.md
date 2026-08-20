@@ -1,14 +1,14 @@
 # CASE-CANCEL-CLIENT-AVERTISSEMENT-02 — Annulation avant l'envoi de l'avertissement (barème classique)
 
-**Spécification :** `SPEC-CANCEL-CLIENT-AVERTISSEMENT-03`
-**Critère d'acceptation :** — (cas limite 1, aucun AC direct de cette spec — voir remarque)
+**Spécifications :** `SPEC-CANCEL-CLIENT-01-A1`, `SPEC-CANCEL-CLIENT-AVERTISSEMENT-03-A1`
+**Critère d'acceptation :** `SPEC-CANCEL-CLIENT-01-A1/AC-2` (frontière avant avertissement)
 **Type :** acceptation
 **Niveau de risque :** élevé
 
 ## Ce que ce cas protège
 
-Ce cas protège la frontière entre `SPEC-CANCEL-CLIENT-AVERTISSEMENT-03` et
-`SPEC-CANCEL-CLIENT-01` : un client qui annule **avant** qu'un avertissement
+Ce cas protège la frontière entre `SPEC-CANCEL-CLIENT-AVERTISSEMENT-03-A1` et
+`SPEC-CANCEL-CLIENT-01-A1` : un client qui annule **avant** qu'un avertissement
 ait été envoyé doit se voir appliquer le barème classique (ici 50 % de
 retenue), pas le remboursement intégral réservé aux annulations faites
 pendant la phase d'avertissement. Si la règle se casse, tout client qui
@@ -53,10 +53,10 @@ Et 130 € sont remboursés au client
 ## Ce que ce cas ne vérifie pas
 
 - l'annulation faite pendant la phase d'avertissement (remboursement intégral)
-  → `SPEC-CANCEL-CLIENT-AVERTISSEMENT-03` AC-3 ;
+  → `SPEC-CANCEL-CLIENT-AVERTISSEMENT-03-A1` AC-2 ;
 - l'annulation décidée par le prestataire ;
-- la sortie finalement maintenue après un avertissement (AC-4) ;
-- la trace de notification « avertissement reçu » (AC-1, AC-5) ;
+- la sortie finalement maintenue après un avertissement (AC-5) ;
+- la trace d’envoi réussi de l’avertissement (AC-1) ;
 - le délai bancaire nécessaire pour recevoir le remboursement.
 
 ---
@@ -81,8 +81,7 @@ Et 130 € sont remboursés au client
 - [ ] Aucune assertion étrangère à ce cas n'a été ajoutée.
 
 **Relu par :** à renseigner
-**Remarques :** Ce cas ne correspond à aucun AC numéroté de
-`SPEC-CANCEL-CLIENT-AVERTISSEMENT-03` — il matérialise le « cas limite 1 » de
-cette spec (ligne 40), qui n'a pas de critère d'acceptation dédié. À signaler
-si la spec est révisée : soit ajouter un AC explicite pour cette non-régression,
-soit documenter que ce cas relève en réalité de `SPEC-CANCEL-CLIENT-01`.
+**Remarques :** Ce cas protège la frontière entre le barème classique de
+`SPEC-CANCEL-CLIENT-01-A1` et le remboursement intégral applicable seulement
+après la trace d’un envoi réussi définie par
+`SPEC-CANCEL-CLIENT-AVERTISSEMENT-03-A1`.

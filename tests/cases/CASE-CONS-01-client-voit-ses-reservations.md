@@ -1,5 +1,9 @@
 # CASE-CONS-01 — Le client ne voit que ses propres réservations
 
+**Amendé par :** `CASE-CONS-01-A1`
+
+> Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-CONS-01-A1`.
+
 **Spécification :** `SPEC-CONS-01`
 **Critère d'acceptation :** `AC-01`
 **Type :** acceptation

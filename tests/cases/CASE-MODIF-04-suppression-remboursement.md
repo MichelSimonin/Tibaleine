@@ -1,5 +1,9 @@
 # CASE-MODIF-04 — Une suppression de participant suit le circuit du remboursement
 
+**Amendé par :** `CASE-MODIF-04-A1`
+
+> Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-MODIF-04-A1`.
+
 **Spécification :** `SPEC-MODIF-01`  
 **Critère d'acceptation :** `AC-04`  
 **Type :** acceptation  
