@@ -3,6 +3,10 @@
 **Exigence :** REQ-018
 **Statut :** modifiée (cahier des charges V5, R-095)
 **Version :** v2
+**Amendée par :** `SPEC-CANCEL-CLIENT-AVERTISSEMENT-03-A1`
+
+> Cette version est conservée pour l’historique. La règle actuellement applicable est définie dans `SPEC-CANCEL-CLIENT-AVERTISSEMENT-03-A1`.
+
 
 ### Règle
 

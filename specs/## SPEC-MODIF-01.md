@@ -3,6 +3,10 @@
 **Exigence :** REQ-010
 **Statut :** refonte (cahier des charges V5, `impact-CR-001.md`)
 **Version :** v2
+**Amendée par :** `SPEC-MODIF-01-A1`
+
+> Cette version est conservée pour l’historique. La règle actuellement applicable est définie dans `SPEC-MODIF-01-A1`.
+
 
 ### Règle
 

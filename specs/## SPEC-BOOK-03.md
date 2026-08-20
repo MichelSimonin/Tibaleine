@@ -3,6 +3,10 @@
 **Exigence :** REQ-019
 **Statut :** revue IA faite
 **Version :** v1
+**Amendée par :** `SPEC-BOOK-03-A1`
+
+> Cette version est conservée pour l’historique. La règle actuellement applicable est définie dans `SPEC-BOOK-03-A1`.
+
 
 ### Règle
 

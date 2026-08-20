@@ -3,6 +3,10 @@
 **Exigence :** REQ-022, REQ-023
 **Statut :** brouillon (cahier des charges V5, corrigée après revue du modèle d'état R-90/R-91/R-101)
 **Version :** v2
+**Amendée par :** `SPEC-PAY-BALANCE-02-A1`
+
+> Cette version est conservée pour l’historique. La règle actuellement applicable est définie dans `SPEC-PAY-BALANCE-02-A1`.
+
 
 ### Règle
 

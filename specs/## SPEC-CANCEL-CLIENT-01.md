@@ -3,6 +3,10 @@
 **Exigence :** REQ-007, REQ-009
 **Statut :** modifiée (cahier des charges V5, `impact-CR-001.md`)
 **Version :** v2
+**Amendée par :** `SPEC-CANCEL-CLIENT-01-A1`
+
+> Cette version est conservée pour l’historique. La règle actuellement applicable est définie dans `SPEC-CANCEL-CLIENT-01-A1`.
+
 
 ### Règle
 

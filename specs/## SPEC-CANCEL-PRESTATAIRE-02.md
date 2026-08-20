@@ -3,6 +3,10 @@
 **Exigence :** REQ-017
 **Statut :** modifiée (cahier des charges V5, `impact-CR-001.md`)
 **Version :** v2
+**Amendée par :** `SPEC-CANCEL-PRESTATAIRE-02-A1`
+
+> Cette version est conservée pour l’historique. La règle actuellement applicable est définie dans `SPEC-CANCEL-PRESTATAIRE-02-A1`.
+
 
 ### Règle
 

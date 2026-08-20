@@ -3,6 +3,10 @@
 **Exigence :** REQ-013
 **Statut :** précisée (cahier des charges V5, R-101)
 **Version :** v2
+**Amendée par :** `SPEC-FACT-01-A1`
+
+> Cette version est conservée pour l’historique. La règle actuellement applicable est définie dans `SPEC-FACT-01-A1`.
+
 
 ### Règle
 

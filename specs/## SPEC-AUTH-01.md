@@ -3,6 +3,10 @@
 **Exigence :** REQ-002, REQ-003, REQ-102
 **Statut :** revue IA faite
 **Version :** v1
+**Amendée par :** `SPEC-AUTH-01-A1`
+
+> Cette version est conservée pour l’historique. La règle actuellement applicable est définie dans `SPEC-AUTH-01-A1`.
+
 
 ### Règle
 
