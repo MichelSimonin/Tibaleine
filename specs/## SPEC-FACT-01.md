@@ -74,6 +74,6 @@ Consigne utilisée :
 | La facture de fin de mois est-elle générée automatiquement ou par le patron ? | à trancher | |
 | « Fin de mois » : date exacte non précisée (dernier jour, début du mois suivant) | à trancher | |
 | AC-1 à AC-3 vérifiables | OK | |
-| Sur quelles réservations le total est-il calculé ? | précisée | Le cahier V5 (R-101) indique que les réservations hôtel restent au statut « en attente de paiement » jusqu'à la facturation — le total porte donc sur les réservations « réservée »/« en attente de paiement » non annulées. Reste à confirmer si l'hôtel est bien exclu de l'acompte obligatoire (question ouverte 16, cf. `SPEC-BOOK-02`). |
+| Sur quelles réservations le total est-il calculé ? | tranchée | Le cahier V5 (R-101) indique que les réservations hôtel restent au statut « en attente de paiement » jusqu'à la facturation — le total porte donc sur les réservations « réservée »/« en attente de paiement » non annulées. L'hôtel est confirmé exclu de l'acompte obligatoire (paiement groupé mensuel, question ouverte 16 tranchée, cf. `SPEC-BOOK-02`). |
 
 Les refus se reportent aussi dans `docs/journal.md`.

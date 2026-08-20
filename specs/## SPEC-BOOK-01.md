@@ -55,7 +55,6 @@ distingue une spécification d'une intention.
 Assumé et daté. Une zone grise déclarée vaut mieux qu'une zone grise ignorée.
 
 - Fonctionnement de la liste d'attente des réservations.
-- Application de l'acompte obligatoire aux réservations hôtel (cahier V5, question ouverte 16) → `SPEC-BOOK-02`.
 - Règle d'arrondi si l'acompte comporte une fraction de centime (cahier V5, question ouverte 17) → `SPEC-PAY-01`.
 
 ### Critères d'acceptation

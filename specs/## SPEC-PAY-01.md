@@ -50,7 +50,7 @@ Un cas limite par ligne, avec le comportement attendu.
 |---|---|---|
 | 1 | le client n'a pas payé l'acompte dans les 15 minutes après le clic sur « Payer » | La place temporairement bloquée est libérée (`SPEC-BOOK-03`). Aucune réservation n'est créée. |
 | 2 | le paiement de l'acompte échoue (carte refusée, service indisponible) | Le client est invité à réessayer ; aucune réservation n'est confirmée (pas d'état « réservée » sans acompte payé). |
-| 3 | réservation hôtel | Hors périmètre à ce stade — question ouverte sur l'application de l'acompte obligatoire aux hôtels (cahier V5, question 16 ; `SPEC-FACT-01`). |
+| 3 | réservation hôtel | Hors périmètre : l'hôtel est confirmé exclu de l'acompte obligatoire, il paie en une fois chaque mois pour toutes ses réservations (cahier V5, question 16 tranchée ; `SPEC-BOOK-02`, `SPEC-FACT-01`). |
 | 4 | l'acompte calculé comporte une fraction de centime | (À préciser) règle d'arrondi non définie (cahier V5, question 17). |
 
 ### Ce qui n'est pas défini
@@ -58,7 +58,6 @@ Un cas limite par ligne, avec le comportement attendu.
 - Prestataire de paiement fixe (pas de prestataire fixe, ADR-001 : Stripe).
 - Référence de la transaction.
 - Règle d'arrondi si l'acompte comporte une fraction de centime (cahier V5, question 17).
-- Application de l'acompte obligatoire aux réservations hôtel (cahier V5, question 16).
 
 ### Critères d'acceptation
 
@@ -83,7 +82,7 @@ Consigne utilisée :
 |---|---|---|
 | CR-05 remplace le paiement intégral unique par un acompte + solde différé | tranchée | Refonte complète suite au cahier des charges V5 et `docs/impacts/impact-CR-001.md` (§4) |
 | La spec couvrait auparavant acompte et solde dans un seul flux | corrigée | Séparée en deux specs : `SPEC-PAY-01` (acompte, ce document) et `SPEC-PAY-BALANCE-02` (solde, nouvelle) |
-| Cette spec s'applique-t-elle aux réservations hôtel ? | à trancher | Renvoi cahier V5, question ouverte 16 — hypothèse provisoire : hôtels inchangés (`SPEC-FACT-01`) |
+| Cette spec s'applique-t-elle aux réservations hôtel ? | tranchée | Confirmé par le client : non, l'hôtel reste sur son fonctionnement existant (paiement groupé mensuel, `SPEC-FACT-01`), exclu de l'acompte obligatoire (cahier V5, question 16) |
 | Règle d'arrondi de l'acompte non définie | à trancher | Renvoi cahier V5, question ouverte 17 |
 | AC-4 dépend de `SPEC-BOOK-03` (délai 15 min) — AC non autonome | à trancher | Point déjà relevé avant la refonte, toujours valable |
 | Prestataire de paiement non fixe (ADR-001 : Stripe) — comportement d'échec dépendant du prestataire | OK | Noté dans « Ce qui n'est pas défini » |

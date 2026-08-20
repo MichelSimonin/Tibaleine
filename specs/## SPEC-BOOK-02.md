@@ -80,6 +80,6 @@ Consigne utilisée :
 | Cas limite 2 (paiement en avance/retard) : deux options non tranchées → spec non validable en l'état | à trancher | Question ouverte (SPEC-FACT-01) |
 | Mise à jour des places : après réservation (AC-4) ici vs après paiement (SPEC-BOOK-01 AC-6) — incohérent pour l'hôtel qui paie en fin de mois | tranchée | Ce n'est pas une incohérence : R-101 confirme qu'une réservation hôtel passe à l'état « réservée » dès sa création (statut « en attente de paiement »), sans acompte préalable contrairement au client particulier. AC-4 était donc correct pour ce persona. |
 | Cas limites manquants : privatisation refusée (R-57), créneau complet | corrigée | Cas limites 3 et 4 ajoutés |
-| Le cahier des charges V5 introduit un acompte obligatoire pour les clients particuliers — s'applique-t-il aussi aux hôtels ? (question ouverte 16) | à trancher | R-101 (statut dédié « en attente de paiement » pour l'hôtel) laisse penser que non, mais ce n'est pas une réponse explicite à la question 16 — à confirmer avec le client avant implémentation |
+| Le cahier des charges V5 introduit un acompte obligatoire pour les clients particuliers — s'applique-t-il aussi aux hôtels ? (question ouverte 16) | tranchée | Confirmé par le client : non, l'hôtel reste exclu de l'acompte obligatoire car il paie en une fois chaque mois (toutes les réservations du mois). Cohérent avec R-101 (statut « en attente de paiement »). |
 
 Les refus se reportent aussi dans `docs/journal.md`.
