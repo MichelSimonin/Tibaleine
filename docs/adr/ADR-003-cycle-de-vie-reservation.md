@@ -1,8 +1,13 @@
 # ADR-003 — Cycle de vie d'une réservation : `payée | annulée`
 
-**Statut :** proposé
+**Statut :** remplacé par `ADR-007-cycle-de-vie-reservation-etat-statut.md`
 **Date :** 18/08/2026
 **Décidé par :** l'équipe 200ping
+
+> **Remplacé le 20/08/2026.** Le cahier des charges V5 (CR-05) introduit
+> l'acompte/solde différé, qui rend le modèle à deux états ci-dessous
+> obsolète (le paiement n'est plus un événement unique). Conservé tel quel
+> pour l'historique — voir `ADR-007` pour la décision applicable.
 
 ---
 
