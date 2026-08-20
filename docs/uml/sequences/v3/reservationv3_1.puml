@@ -1,0 +1,73 @@
+@startuml
+' ----------------------------------------------------------------------------
+' Diagramme de séquence — Réservation d'une sortie
+' Source : Cahier des charges V2 §4 (Règles métier / Réservation), CR-01/Q01,
+'          CR-01/Q03, CR-01/Q06, CR-01 §3, CR-02 §1
+' ----------------------------------------------------------------------------
+
+title Réservation d'une sortie (1/2)
+
+actor "Client" as Client
+actor "Patron" as Patron
+participant "Système" as Systeme
+participant "Prestataire de paiement" as Paiement
+
+
+
+Client -> Systeme : Demande de réservation
+Systeme -> Systeme : Bloque 2 places pendant 15 min
+
+Client -> Systeme : Envoie des informations (type, date/heure, nb places x,\nnb enfants, email, téléphone)
+activate Systeme
+
+Systeme -> Systeme : Vérifie la disponibilité\n(capacité du bateau,\nune sortie baleine par créneau)
+deactivate Systeme
+Systeme -> Systeme : Bloque x places pendant 15 min
+
+Systeme --> Client : Valide la demande de réservation
+Systeme -> Systeme: Création de la réservation
+
+
+alt Paiement dans les 15 mins
+Client -> Systeme : Paiement en ligne (accompte de 30%)
+activate Systeme
+Systeme -> Paiement : Demande de paiement (accompte)
+
+
+alt Paiement refusé
+Paiement --> Systeme : Paiement refusé
+Systeme --> Client : Renvoie une erreur de paiement
+end 
+
+
+alt Paiement accepté
+Paiement --> Systeme : Paiement accepté
+Systeme -> Systeme : Réservation en état "Payé", Paiement en état "Accompte payé"
+Systeme --> Client : Paiement enregistré
+deactivate Systeme
+
+Systeme --> Client : Réservation confirmée
+Systeme -> Client: Envoie du récapitulatif par email
+Systeme -> Patron: Envoie d'une notification de réservation par sms
+end
+else Paiement après 15 min
+Systeme -> Systeme : Libère x places
+Systeme -> Systeme : Annule la procédure de paiement
+Systeme --> Client : Notifie de l'annulation
+Systeme -> Systeme: Réservation supprimé
+
+end
+
+
+
+
+note right of Systeme
+  Règles :
+  - réservation min 2 personnes (CR-01 §3)
+  - paiement uniquement en ligne (CR-01/Q07)
+  - accompte de 30% au moment de réserver (au moins 24h avant le départ)
+  - paiement total entre 24h et 12h avant le départ ou sur place 12h ou moins avant de le depart.
+
+end note
+
+@enduml
