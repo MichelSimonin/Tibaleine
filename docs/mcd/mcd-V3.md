@@ -218,7 +218,7 @@ erDiagram
     RESERVATION {
         int id PK
         varchar etat
-        varchar statut_paiement
+        varchar statut_paiement FK
         varchar motif_annulation
         decimal montant_initial
         decimal acompte
