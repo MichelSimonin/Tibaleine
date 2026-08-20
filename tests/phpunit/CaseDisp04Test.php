@@ -15,7 +15,11 @@ final class CaseDisp04Test extends TestCase
     public function test_CASE_DISP_04(): void
     {
         $sortie = new \App\Entity\Sortie(); $sortie->setPlacesRestantes(0);
-        (new \App\Service\ReservationService())->libererSiExpire($sortie, new \DateTimeImmutable('2026-08-20 07:15'));
+        $sortie->setPlacesRestantes(1);
+        $service = new \App\Service\ReservationService();
+        $service->bloquerPlace($sortie, 1, new \DateTimeImmutable('2026-08-20 07:00'));
+        $service->libererSiExpire($sortie, new \DateTimeImmutable('2026-08-20 07:15'));
+        $this->assertSame(1, $sortie->getPlacesRestantes());
         $this->assertTrue($sortie->badgeNouvellePlace());
     }
 }

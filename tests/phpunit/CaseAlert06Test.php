@@ -23,7 +23,8 @@ final class CaseAlert06Test extends TestCase
         // Quand l'administrateur déclenche l'avertissement
         $notifications = $service->envoyerAvertissement($sortie, new \DateTimeImmutable('2026-07-11 18:00'));
 
-        // Alors l'application n'est pas bloquée et le repli est géré
-        $this->assertNotSame(0, count($notifications) + 0); // l'appel ne lève pas d'exception
+        // Alors l'application n'est pas bloquée et le mail prend le relais
+        $this->assertCount(1, $notifications);
+        $this->assertSame('email', $notifications[0]->getCanal());
     }
 }

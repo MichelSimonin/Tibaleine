@@ -6,25 +6,21 @@ namespace App\Tests\Acceptance;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * CASE-CONS-01 — Le client ne voit que ses propres réservations
- * Spécification : SPEC-CONS-01 — Critère d'acceptation : AC-01
- */
+/** CASE-CONS-01-A1 — Le client voit séparément état et statut. */
 final class CaseCons01Test extends TestCase
 {
-    public function test_CASE_CONS_01(): void
+    public function test_CASE_CONS_01_A1_client_voit_etat_statut(): void
     {
-        // Étant donné un client avec 2 réservations et 3 autres réservations étrangères
-        $client = new \App\Entity\Utilisateur();
-        $client->setRole('utilisateur');
-        $r1 = new \App\Entity\Reservation(); $r1->setUtilisateur($client);
-        $r2 = new \App\Entity\Reservation(); $r2->setUtilisateur($client);
-        $r3 = new \App\Entity\Reservation(); $r3->setUtilisateur(new \App\Entity\Utilisateur());
+        $client = (new \App\Entity\Utilisateur())->setRole('utilisateur');
+        $reservation = (new \App\Entity\Reservation())
+            ->setUtilisateur($client)->setEtat('réservée')->setStatutPaiement('acompte payé');
+        $etrangere = (new \App\Entity\Reservation())->setUtilisateur(new \App\Entity\Utilisateur());
 
-        // Quand il consulte ses réservations
-        $resultat = (new \App\Service\ConsultationService())->listerReservations($client, [$r1, $r2, $r3]);
+        $resultat = (new \App\Service\ConsultationService())
+            ->listerReservations($client, [$reservation, $etrangere]);
 
-        // Alors il ne voit que ses 2 réservations
-        $this->assertCount(2, $resultat);
+        $this->assertCount(1, $resultat);
+        $this->assertSame('réservée', $resultat[0]->getEtat());
+        $this->assertSame('acompte payé', $resultat[0]->getStatutPaiement());
     }
 }

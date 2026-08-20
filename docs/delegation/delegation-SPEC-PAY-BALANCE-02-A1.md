@@ -2,7 +2,7 @@
 
 **Date de préparation :** 20 août 2026  
 **Version de la spécification :** A1  
-**Statut du plan :** prévu — tests automatisés à implémenter  
+**Statut du plan :** réalisé — tests automatisés verts
 **Plan historique associé :** aucun plan antérieur
 
 > Les cas sont déjà rédigés. Ce plan est établi avant la délégation de leur
@@ -23,15 +23,15 @@ dans `delegation-SPEC-SYST-01-A1.md`.
 
 ## Après — ce qui s'est passé
 
-À compléter après l'exécution des tâches.
+Complété le 20 août 2026 après exécution de `bash tools/run-tests.sh`.
 
 | # | Résultat | Ce qui a fait reprendre la main |
 |---|---|---|
-| 1 | | |
-| 2 | | |
-| 3 | | |
-| 4 | | |
-| 5 | | |
+| 1 | `conforme` | Test automatisé vert dans la suite complète. |
+| 2 | `conforme` | Test automatisé vert dans la suite complète. |
+| 3 | `conforme` | Test automatisé vert dans la suite complète. |
+| 4 | `conforme` | Test automatisé vert dans la suite complète. |
+| 5 | `conforme` | Test automatisé vert dans la suite complète. |
 
 ## Ce qui sera regardé
 

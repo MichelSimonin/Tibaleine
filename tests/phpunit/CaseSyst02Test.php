@@ -19,6 +19,7 @@ final class CaseSyst02Test extends TestCase
         $sortie = new \App\Entity\Sortie();
         $sortie->addReservation((new \App\Entity\Reservation())->setEtat('payée'));
         $notifications = $service->envoyerAvertissement($sortie, new \DateTimeImmutable('2026-07-11 18:00'));
-        $this->assertIsArray($notifications);
+        $this->assertCount(1, $notifications);
+        $this->assertSame('email', $notifications[0]->getCanal());
     }
 }

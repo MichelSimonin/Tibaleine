@@ -4,6 +4,7 @@ namespace App\Entity;
 
 final class Supplement
 {
-    public function isDu(): bool { return true; }
-    public function getLienPaiementEnvoye(): bool { return true; }
+    public function __construct(private bool $du = true, private bool $lienPaiementEnvoye = false) {}
+    public function isDu(): bool { return $this->du; }
+    public function getLienPaiementEnvoye(): bool { return $this->lienPaiementEnvoye; }
 }

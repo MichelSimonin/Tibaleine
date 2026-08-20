@@ -6,28 +6,21 @@ namespace App\Tests\Acceptance;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * CASE-CANCEL-CLIENT-01 — Annulation client à moins de 48 heures
- * Spécification : SPEC-CANCEL-CLIENT-01 — Critère d'acceptation : AC-03
- */
+/** CASE-CANCEL-CLIENT-01-A1 — Complément dû à moins de 48 heures. */
 final class CaseCancelClient01Test extends TestCase
 {
-    public function test_CASE_CANCEL_CLIENT_01(): void
+    public function test_CASE_CANCEL_CLIENT_01_A1_complement_moins_48h(): void
     {
-        // Étant donné une réservation payée de 260 €, départ le 18 août à 09h00
-        $sortie = new \App\Entity\Sortie();
-        $sortie->setDate(new \DateTimeImmutable('2026-08-18 09:00'));
-        $reservation = new \App\Entity\Reservation();
-        $reservation->setEtat('payée');
-        $reservation->setMontantTotal(260.0);
-        $reservation->setSortie($sortie);
+        $sortie = (new \App\Entity\Sortie())->setDate(new \DateTimeImmutable('2026-08-18 09:00'));
+        $reservation = (new \App\Entity\Reservation())
+            ->setEtat('réservée')->setMontantTotal(260.0)->setMontantEncaisse(78.0)->setSortie($sortie);
 
-        // Quand le client annule 24 h avant le départ
-        $remboursement = (new \App\Service\AnnulationService())
-            ->annulerClient($reservation, new \DateTimeImmutable('2026-08-17 09:00'));
+        $resultat = (new \App\Service\AnnulationService())
+            ->calculerAnnulationClient($reservation, new \DateTimeImmutable('2026-08-17 09:00'));
 
-        // Alors 50 % sont retenus et 130 € remboursés
-        $this->assertSame(130.0, $remboursement->getMontant());
+        $this->assertSame(130.0, $resultat->getFrais());
+        $this->assertSame(52.0, $resultat->getComplementDu());
+        $this->assertNotNull($resultat->getLienPaiement());
         $this->assertSame('annulée', $reservation->getEtat());
     }
 }

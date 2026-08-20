@@ -6,22 +6,19 @@ namespace App\Tests\Acceptance;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * CASE-PAY-01 — Le client paie sa réservation en ligne
- * Spécification : SPEC-PAY-01 — Critère d'acceptation : AC-01
- */
+/** CASE-PAY-01-A1 — Enregistrement d'un acompte en ligne. */
 final class CasePay01Test extends TestCase
 {
-    public function test_CASE_PAY_01(): void
+    public function test_CASE_PAY_01_A1_enregistrement_acompte(): void
     {
-        // Étant donné une réservation d'un montant de 260 €
-        $reservation = new \App\Entity\Reservation();
-        $reservation->setMontantTotal(260.0);
+        $reservation = (new \App\Entity\Reservation())->setMontantTotal(260.0);
+        $service = new \App\Service\PaiementService();
 
-        // Quand le client paie en ligne
-        $paiement = (new \App\Service\PaiementService())->payer($reservation);
+        $paiement = $service->confirmerAcompte($reservation, 78.0, 'ACOMPTE-PAY-01');
 
-        // Alors le paiement est enregistré
-        $this->assertSame(260.0, $paiement->getMontant());
+        $this->assertSame(78.0, $paiement?->getMontant());
+        $this->assertSame('acompte', $paiement?->getType());
+        $this->assertSame(182.0, $reservation->getSoldeRestant());
+        $this->assertCount(1, $reservation->getPaiements());
     }
 }

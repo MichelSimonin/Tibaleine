@@ -14,7 +14,8 @@ final class CaseLang01Test extends TestCase
 {
     public function test_CASE_LANG_01(): void
     {
-        $langue = (new \App\Service\LangueService())->langueInterface('en');
-        $this->assertSame('en', $langue);
+        $service = new \App\Service\LangueService();
+        $this->assertSame('en', $service->langueInterface('en'));
+        $this->assertSame('fr', $service->langueInterface('fr'));
     }
 }

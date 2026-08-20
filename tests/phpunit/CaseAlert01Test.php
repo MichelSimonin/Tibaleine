@@ -31,5 +31,6 @@ final class CaseAlert01Test extends TestCase
         $this->assertCount(5, $notifications);
         $this->assertSame('avertissement', $notifications[0]->getType());
         $this->assertSame('2026-07-11 18:00:00', $notifications[0]->getDateEnvoi()->format('Y-m-d H:i:s'));
+        $this->assertTrue($sortie->alerteAffichee());
     }
 }

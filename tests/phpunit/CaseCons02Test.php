@@ -24,5 +24,6 @@ final class CaseCons02Test extends TestCase
 
         // Alors il voit les 5 réservations
         $this->assertCount(5, $resultat);
+        $this->assertFalse((new \App\Service\AutorisationService())->peutModifier($employe));
     }
 }

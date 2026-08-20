@@ -22,5 +22,6 @@ final class CaseAuth01Test extends TestCase
 
         // Alors le compte est créé avec le rôle « utilisateur »
         $this->assertSame('utilisateur', $compte->getRole());
+        $this->assertSame('Baleine974!', $compte->getMotDePasse());
     }
 }

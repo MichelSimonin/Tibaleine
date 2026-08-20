@@ -6,25 +6,23 @@ namespace App\Tests\Acceptance;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * CASE-BOOK-01 — Un client peut remplir le formulaire de réservation
- * Spécification : SPEC-BOOK-01 — Critère d'acceptation : AC-01
- */
+/** CASE-BOOK-01-A1 — Le formulaire conduit au paiement de l'acompte. */
 final class CaseBook01Test extends TestCase
 {
-    public function test_CASE_BOOK_01(): void
+    public function test_CASE_BOOK_01_A1_formulaire_conduit_au_paiement_acompte(): void
     {
-        // Quand le client remplit et envoie le formulaire
-        $reservation = new \App\Entity\Reservation();
-        $reservation->setNom('Edouard');
-        $reservation->setPrenom('Jean');
-        $reservation->setNbAdultes(4);
-        $reservation->setNbEnfants(1);
+        $sortie = (new \App\Entity\Sortie())->setPlacesRestantes(6);
+        $reservation = (new \App\Entity\Reservation())
+            ->setNom('Edouard')->setPrenom('Jean')
+            ->setNbAdultes(4)->setNbEnfants(1)
+            ->setMontantTotal(260.0)->setSortie($sortie);
+
         (new \App\Service\ReservationService())->reserver($reservation);
 
-        // Alors la réservation est enregistrée avec les bonnes informations
         $this->assertSame('Edouard', $reservation->getNom());
-        $this->assertSame(4, $reservation->getNbAdultes());
-        $this->assertSame(1, $reservation->getNbEnfants());
+        $this->assertSame('en attente', $reservation->getEtat());
+        $this->assertTrue($reservation->paiementAcompteRequis());
+        $this->assertFalse($reservation->placesAcquises());
+        $this->assertSame(6, $sortie->getPlacesRestantes());
     }
 }

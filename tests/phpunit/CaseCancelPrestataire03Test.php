@@ -6,26 +6,21 @@ namespace App\Tests\Acceptance;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * CASE-CANCEL-PRESTATAIRE-03-client-cancel Remboursement des clients après une annulation suite à une avertissement du prestataire
- * Spécification : SPEC-CANCEL-PRESTATAIRE-02 — Critère d'acceptation : AC-04
- */
+/** CASE-CANCEL-PRESTATAIRE-03-A1 — Remboursement intégral unique. */
 final class CaseCancelPrestataire03Test extends TestCase
 {
-    public function test_CASE_CANCEL_PRESTATAIRE_03(): void
+    public function test_CASE_CANCEL_PRESTATAIRE_03_A1_remboursement_unique(): void
     {
-        // Étant donné une réservation payée après avertissement du prestataire
-        $reservation = new \App\Entity\Reservation();
-        $reservation->setEtat('payée');
-        $reservation->setMontantTotal(260.0);
-        $reservation->setAvertissementRecu(true);
+        $reservation = (new \App\Entity\Reservation())
+            ->setEtat('annulée')->setMontantTotal(260.0)->setMontantEncaisse(260.0);
+        $service = new \App\Service\AnnulationService();
+        $service->choisirApresAnnulationPrestataire($reservation, 'remboursement');
 
-        // Quand le client annule le soir même
-        $remboursement = (new \App\Service\AnnulationService())
-            ->annulerApresAvertissement($reservation);
+        $premier = $service->confirmerRemboursement($reservation, 260.0, 'REF-PRESTATAIRE-03');
+        $second = $service->confirmerRemboursement($reservation, 260.0, 'REF-PRESTATAIRE-03');
 
-        // Alors il est remboursé intégralement
-        $this->assertSame(260.0, $remboursement->getMontant());
-        $this->assertSame('annulée', $reservation->getEtat());
+        $this->assertSame($premier, $second);
+        $this->assertCount(1, $reservation->getRemboursements());
+        $this->assertSame('remboursement', $reservation->getChoixApresAnnulation());
     }
 }

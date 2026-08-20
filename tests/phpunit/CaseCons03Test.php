@@ -6,25 +6,19 @@ namespace App\Tests\Acceptance;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * CASE-CONS-03 — L'administrateur voit toutes les réservations avec les actions de gestion
- * Spécification : SPEC-CONS-01 — Critère d'acceptation : AC-03
- */
+/** CASE-CONS-03-A1 — Le patron voit acompte, solde et mode prévu. */
 final class CaseCons03Test extends TestCase
 {
-    public function test_CASE_CONS_03(): void
+    public function test_CASE_CONS_03_A1_patron_voit_solde_mode(): void
     {
-        // Étant donné l'administrateur et 5 réservations dans le système
-        $admin = new \App\Entity\Utilisateur();
-        $admin->setRole('administrateur');
-        $reservations = array_fill(0, 5, new \App\Entity\Reservation());
-        $service = new \App\Service\ConsultationService();
+        $reservation = (new \App\Entity\Reservation())
+            ->setMontantTotal(260.0)->setMontantEncaisse(78.0)
+            ->setModePaiementPrevu('sur place')->setEtat('réservée')->setStatutPaiement('acompte payé');
 
-        // Quand il consulte les réservations
-        $resultat = $service->listerReservations($admin, $reservations);
-
-        // Alors il voit tout et dispose des actions de gestion
-        $this->assertCount(5, $resultat);
-        $this->assertTrue($service->actionsDeGestionDisponibles($admin));
+        $this->assertSame(78.0, $reservation->getMontantEncaisse());
+        $this->assertSame(182.0, $reservation->getSoldeRestant());
+        $this->assertSame('sur place', $reservation->getModePaiementPrevu());
+        $this->assertSame('réservée', $reservation->getEtat());
+        $this->assertSame('acompte payé', $reservation->getStatutPaiement());
     }
 }

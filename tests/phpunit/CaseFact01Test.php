@@ -6,18 +6,21 @@ namespace App\Tests\Acceptance;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * CASE-FACT-01 — L'hôtel est facturé en fin de mois
- * Spécification : SPEC-FACT-01 — Critère d'acceptation : AC-01
- */
+/** CASE-FACT-01-A1 — Émission d'une facture hôtel sans règlement. */
 final class CaseFact01Test extends TestCase
 {
-    public function test_CASE_FACT_01(): void
+    public function test_CASE_FACT_01_A1_emission_sans_reglement(): void
     {
-        $hotel = new \App\Entity\Utilisateur(); $hotel->setProfil('hotel');
-        $r1 = new \App\Entity\Reservation(); $r1->setMontantTotal(260.0); $r1->setEtat('payée');
-        $r2 = new \App\Entity\Reservation(); $r2->setMontantTotal(100.0); $r2->setEtat('payée');
+        $hotel = (new \App\Entity\Utilisateur())->setRole('hotel');
+        $r1 = (new \App\Entity\Reservation())->setUtilisateur($hotel)->setMontantTotal(260.0)->setEtat('réservée');
+        $r2 = (new \App\Entity\Reservation())->setUtilisateur($hotel)->setMontantTotal(100.0)->setEtat('réservée');
+
         $facture = (new \App\Service\FacturationService())->facturerHotel($hotel, [$r1, $r2]);
+
         $this->assertSame(360.0, $facture->getMontant());
+        $this->assertSame('en attente de paiement', $facture->getStatutPaiement());
+        $this->assertCount(0, $facture->getPaiements());
+        $this->assertSame('en attente de paiement', $r1->getStatutPaiement());
+        $this->assertSame('en attente de paiement', $r2->getStatutPaiement());
     }
 }

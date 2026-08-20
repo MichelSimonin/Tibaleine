@@ -16,5 +16,7 @@ final class CaseDisp02Test extends TestCase
     {
         $sortie = new \App\Entity\Sortie(); $sortie->setPlacesRestantes(0);
         $this->assertFalse((new \App\Service\DisponibiliteService())->estDisponible($sortie));
+        $reservation = (new \App\Entity\Reservation())->setSortie($sortie)->setNbAdultes(1);
+        $this->assertFalse((new \App\Service\ReservationService())->reserverSiDisponible($reservation));
     }
 }

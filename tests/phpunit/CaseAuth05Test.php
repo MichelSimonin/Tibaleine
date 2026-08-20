@@ -19,7 +19,11 @@ final class CaseAuth05Test extends TestCase
         $service->creerCompte(['email' => 'jean.edouard@email.fr']);
 
         // Quand un visiteur tente de créer un compte avec le même email
-        $this->expectException(\App\Exception\EmailDejaUtiliseException::class);
-        $service->creerCompte(['email' => 'jean.edouard@email.fr']);
+        try {
+            $service->creerCompte(['email' => 'jean.edouard@email.fr']);
+            $this->fail('La création avec un email déjà utilisé devait être refusée.');
+        } catch (\App\Exception\EmailDejaUtiliseException) {
+            $this->assertSame(1, $service->nombreComptes());
+        }
     }
 }

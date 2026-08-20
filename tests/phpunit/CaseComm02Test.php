@@ -15,6 +15,6 @@ final class CaseComm02Test extends TestCase
     public function test_CASE_COMM_02(): void
     {
         $liens = (new \App\Service\ReseauSocialService())->liensReseauxSociaux();
-        $this->assertContains('instagram', $liens);
+        $this->assertTrue(array_key_exists('instagram', $liens));
     }
 }

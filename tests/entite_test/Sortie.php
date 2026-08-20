@@ -12,6 +12,7 @@ final class Sortie
     private bool $alerteAffichee = false;
     private bool $hotelAAppeler = false;
     private bool $badgeNouvellePlace = false;
+    private string $etat = 'ouverte';
     private array $reservations = [];
 
     public function setDate(\DateTimeImmutable $date): self
@@ -41,6 +42,9 @@ final class Sortie
     public function addReservation(Reservation $reservation): self
     {
         $this->reservations[] = $reservation;
+        if ($reservation->getSortie() !== $this) {
+            $reservation->setSortie($this);
+        }
 
         return $this;
     }
@@ -64,6 +68,9 @@ final class Sortie
 
     public function decrementerPlaces(int $places): self
     {
+        if ($places < 0 || $places > $this->placesRestantes) {
+            throw new \LogicException('Places insuffisantes.');
+        }
         $this->placesRestantes -= $places;
 
         return $this;
@@ -110,4 +117,7 @@ final class Sortie
     {
         return $this->badgeNouvellePlace;
     }
+
+    public function setEtat(string $etat): self { $this->etat = $etat; return $this; }
+    public function getEtat(): string { return $this->etat; }
 }

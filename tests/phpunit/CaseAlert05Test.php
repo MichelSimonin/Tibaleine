@@ -16,8 +16,9 @@ final class CaseAlert05Test extends TestCase
     {
         // Étant donné un hôtel (4 places) et 3 clients particuliers sur le même créneau
         $sortie = new \App\Entity\Sortie();
+        $utilisateurHotel = (new \App\Entity\Utilisateur())->setRole('hotel');
         $hotel = new \App\Entity\Reservation();
-        $hotel->setProfil('hotel');
+        $hotel->setUtilisateur($utilisateurHotel);
         $sortie->addReservation($hotel);
         for ($i = 0; $i < 3; $i++) {
             $sortie->addReservation((new \App\Entity\Reservation())->setProfil('client'));

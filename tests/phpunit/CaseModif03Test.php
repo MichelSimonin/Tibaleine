@@ -6,20 +6,21 @@ namespace App\Tests\Acceptance;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * CASE-MODIF-03 — Un ajout de participant entraîne un supplément payé par mail
- * Spécification : SPEC-MODIF-01 — Critère d'acceptation : AC-03
- */
+/** CASE-MODIF-03-A1 — Ajout intégré au solde restant. */
 final class CaseModif03Test extends TestCase
 {
-    public function test_CASE_MODIF_03(): void
+    public function test_CASE_MODIF_03_A1_ajout_augmente_solde(): void
     {
-        $reservation = new \App\Entity\Reservation();
-        $reservation->setEtat('payée');
+        $reservation = (new \App\Entity\Reservation())
+            ->setMontantTotal(260.0)->setMontantEncaisse(78.0)->setNbAdultes(4);
 
-        $supplement = (new \App\Service\ReservationService())->ajouterParticipant($reservation, 1);
+        $supplement = (new \App\Service\ReservationService())
+            ->ajouterParticipant($reservation, 1, 325.0);
 
-        $this->assertTrue($supplement->isDu());
-        $this->assertTrue($supplement->getLienPaiementEnvoye());
+        $this->assertSame(260.0, $reservation->getMontantInitial());
+        $this->assertSame(325.0, $reservation->getMontantCourant());
+        $this->assertSame(78.0, $reservation->getMontantEncaisse());
+        $this->assertSame(247.0, $reservation->getSoldeRestant());
+        $this->assertFalse($supplement->getLienPaiementEnvoye());
     }
 }

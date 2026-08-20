@@ -6,21 +6,16 @@ namespace App\Tests\Acceptance;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * CASE-PAY-02 — La réservation passe à l'état « payée » après paiement
- * Spécification : SPEC-PAY-01 — Critère d'acceptation : AC-02
- */
+/** CASE-PAY-02-A1 — État réservé et statut acompte payé. */
 final class CasePay02Test extends TestCase
 {
-    public function test_CASE_PAY_02(): void
+    public function test_CASE_PAY_02_A1_etat_et_statut_separes(): void
     {
-        // Étant donné une réservation
-        $reservation = new \App\Entity\Reservation();
+        $reservation = (new \App\Entity\Reservation())->setMontantTotal(260.0);
+        (new \App\Service\PaiementService())->confirmerAcompte($reservation, 78.0, 'ACOMPTE-PAY-02');
 
-        // Quand le client paie en ligne
-        (new \App\Service\PaiementService())->payer($reservation);
-
-        // Alors la réservation passe à l'état « payée »
-        $this->assertSame('payée', $reservation->getEtat());
+        $this->assertSame('réservée', $reservation->getEtat());
+        $this->assertSame('acompte payé', $reservation->getStatutPaiement());
+        $this->assertNotSame('payée', $reservation->getEtat());
     }
 }

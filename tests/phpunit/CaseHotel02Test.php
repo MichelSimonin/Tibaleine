@@ -14,8 +14,10 @@ final class CaseHotel02Test extends TestCase
 {
     public function test_CASE_HOTEL_02(): void
     {
+        $hotel = (new \App\Entity\Utilisateur())->setRole('hotel');
         $sortie = new \App\Entity\Sortie(); $sortie->setPlacesRestantes(6);
         $dispo = (new \App\Service\ConsultationService())->getDisponibilite($sortie);
+        $this->assertSame('hotel', $hotel->getRole());
         $this->assertSame(6, $dispo->getPlacesRestantes());
     }
 }

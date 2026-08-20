@@ -31,5 +31,8 @@ final class CaseAlert03Test extends TestCase
         $langues = array_map(fn ($n) => $n->getLangue(), $notifications);
         sort($langues);
         $this->assertSame(['en', 'fr'], $langues);
+        foreach ($notifications as $notification) {
+            $this->assertStringContainsString('risque de forte houle', $notification->getContenu());
+        }
     }
 }

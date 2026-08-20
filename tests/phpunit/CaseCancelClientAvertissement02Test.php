@@ -18,16 +18,18 @@ final class CaseCancelClientAvertissement02Test extends TestCase
         $sortie = new \App\Entity\Sortie();
         $sortie->setDate(new \DateTimeImmutable('2026-08-18 09:00'));
         $reservation = new \App\Entity\Reservation();
-        $reservation->setEtat('payée');
+        $reservation->setEtat('réservée');
         $reservation->setMontantTotal(260.0);
+        $reservation->setMontantEncaisse(78.0);
         $reservation->setSortie($sortie);
         $reservation->setAvertissementRecu(false);
 
         // Quand le client annule 24 h avant le départ (sans avertissement)
-        $remboursement = (new \App\Service\AnnulationService())
-            ->annulerClient($reservation, new \DateTimeImmutable('2026-08-17 09:00'));
+        $resultat = (new \App\Service\AnnulationService())
+            ->calculerAnnulationClient($reservation, new \DateTimeImmutable('2026-08-17 09:00'));
 
-        // Alors le barème classique s'applique : 50 % retenus
-        $this->assertSame(130.0, $remboursement->getMontant());
+        // Alors le barème classique s'applique : 130 € de frais et 52 € restant dus
+        $this->assertSame(130.0, $resultat->getFrais());
+        $this->assertSame(52.0, $resultat->getComplementDu());
     }
 }

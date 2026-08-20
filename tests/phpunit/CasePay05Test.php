@@ -6,25 +6,22 @@ namespace App\Tests\Acceptance;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * CASE-PAY-05 — Le paiement échoue (carte refusée ou service indisponible)
- * Spécification : SPEC-PAY-01 — Critère d'acceptation : AC-05
- */
+/** CASE-PAY-05-A1 — Échec d'acompte sans réservation confirmée. */
 final class CasePay05Test extends TestCase
 {
-    public function test_CASE_PAY_05(): void
+    public function test_CASE_PAY_05_A1_echec_acompte_sans_reservation(): void
     {
-        // Étant donné une réservation et une carte refusée
-        $reservation = new \App\Entity\Reservation();
-        $service = new \App\Service\PaiementService();
+        $sortie = (new \App\Entity\Sortie())->setPlacesRestantes(4);
+        $reservation = (new \App\Entity\Reservation())
+            ->setSortie($sortie)->setNbAdultes(2)->setMontantTotal(260.0);
 
-        // Quand le client tente de payer
-        try {
-            $service->payer($reservation);
-            $this->fail('Une PaiementRefuseException était attendue.');
-        } catch (\App\Exception\PaiementRefuseException) {
-            // Alors la réservation n'est pas marquée « payée »
-            $this->assertNotSame('payée', $reservation->getEtat());
-        }
+        $paiement = (new \App\Service\PaiementService())
+            ->confirmerAcompte($reservation, 78.0, 'REF-PAY-05', false);
+
+        $this->assertNull($paiement);
+        $this->assertCount(0, $reservation->getPaiements());
+        $this->assertNotSame('réservée', $reservation->getEtat());
+        $this->assertNotSame('acompte payé', $reservation->getStatutPaiement());
+        $this->assertSame(4, $sortie->getPlacesRestantes());
     }
 }

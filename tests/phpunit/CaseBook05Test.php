@@ -12,10 +12,11 @@ use PHPUnit\Framework\TestCase;
  */
 final class CaseBook05Test extends TestCase
 {
-    public function test_CASE_BOOK_05(): void
+    public function test_CASE_BOOK_05_hotel_limite_6(): void
     {
         // Quand l'hôtel tente de réserver plus de 6 places
-        $this->expectException(\App\Exception\LimitePlacesDepasseeException::class);
-        (new \App\Service\ReservationService())->reserverPourHotel([['sortie' => '19.08', 'nb' => 36]]);
+        $resultat = (new \App\Service\ReservationService())->reserverPourHotel([['sortie' => '19.08', 'nb' => 7]]);
+        $this->assertCount(0, $resultat['reussies']);
+        $this->assertCount(1, $resultat['echouees']);
     }
 }

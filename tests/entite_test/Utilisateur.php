@@ -16,4 +16,5 @@ final class Utilisateur
     public function getProfil(): ?string { return $this->profil; }
     public function setEmail(string $email): self { $this->email = $email; return $this; }
     public function getEmail(): ?string { return $this->email; }
+    public function estHotel(): bool { return $this->role === 'hotel'; }
 }

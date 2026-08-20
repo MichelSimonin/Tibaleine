@@ -6,26 +6,21 @@ namespace App\Tests\Acceptance;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * CASE-CANCEL-CLIENT-AVERTISSEMENT-01 — Annulation client pendant la phase d'avertissement (remboursement intégral)
- * Spécification : SPEC-CANCEL-CLIENT-AVERTISSEMENT-03 — Critère d'acceptation : AC-03
- */
+/** CASE-CANCEL-CLIENT-AVERTISSEMENT-01-A1 — Remboursement de l'acompte. */
 final class CaseCancelClientAvertissement01Test extends TestCase
 {
-    public function test_CASE_CANCEL_CLIENT_AVERTISSEMENT_01(): void
+    public function test_CASE_CANCEL_CLIENT_AVERTISSEMENT_01_A1_remboursement_acompte(): void
     {
-        // Étant donné une réservation payée de 260 € et un avertissement reçu
-        $reservation = new \App\Entity\Reservation();
-        $reservation->setEtat('payée');
-        $reservation->setMontantTotal(260.0);
-        $reservation->setAvertissementRecu(true);
+        $reservation = (new \App\Entity\Reservation())
+            ->setEtat('réservée')->setMontantTotal(260.0)->setMontantEncaisse(78.0)->setAvertissementRecu(true);
+        $service = new \App\Service\AnnulationService();
+        $montant = $service->calculerApresAvertissement($reservation);
 
-        // Quand le client annule pendant la phase d'avertissement
-        $remboursement = (new \App\Service\AnnulationService())
-            ->annulerApresAvertissement($reservation);
+        $premier = $service->confirmerRemboursement($reservation, $montant, 'REF-AVERT-01');
+        $second = $service->confirmerRemboursement($reservation, $montant, 'REF-AVERT-01');
 
-        // Alors il est remboursé intégralement
-        $this->assertSame(260.0, $remboursement->getMontant());
-        $this->assertSame('annulée', $reservation->getEtat());
+        $this->assertSame(78.0, $premier->getMontant());
+        $this->assertSame($premier, $second);
+        $this->assertCount(1, $reservation->getRemboursements());
     }
 }

@@ -6,23 +6,22 @@ namespace App\Tests\Acceptance;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * CASE-BOOK-02 — L'hôtel réserve plusieurs créneaux (6 places max, échec si places insuffisantes)
- * Spécification : SPEC-BOOK-02 — Critère d'acceptation : AC-01
- */
+/** CASE-BOOK-02-A1 — Réservation immédiate par un hôtel. */
 final class CaseBook02Test extends TestCase
 {
-    public function test_CASE_BOOK_02(): void
+    public function test_CASE_BOOK_02_A1_reservation_hotel_immediate(): void
     {
-        // Quand l'hôtel réserve sur 3 créneaux (6, 4 et 4 places)
-        $resultat = (new \App\Service\ReservationService())->reserverPourHotel([
-            ['sortie' => '17.08', 'nb' => 6],
-            ['sortie' => '20.08', 'nb' => 4],
-            ['sortie' => '21.08', 'nb' => 4],
-        ]);
+        $hotel = (new \App\Entity\Utilisateur())->setRole('hotel');
+        $sortie = (new \App\Entity\Sortie())->setPlacesRestantes(4);
 
-        // Alors 2 réservations réussissent et 1 échoue (places insuffisantes)
-        $this->assertCount(2, $resultat['reussies']);
-        $this->assertCount(1, $resultat['echouees']);
+        $reservation = (new \App\Service\ReservationService())->reserverHotel($hotel, $sortie, 4);
+        $notifications = (new \App\Service\NotificationService())->notifierPatron($reservation);
+
+        $this->assertSame('réservée', $reservation->getEtat());
+        $this->assertSame('en attente de paiement', $reservation->getStatutPaiement());
+        $this->assertFalse($reservation->paiementAcompteRequis());
+        $this->assertCount(0, $reservation->getPaiements());
+        $this->assertSame(0, $sortie->getPlacesRestantes());
+        $this->assertCount(1, $notifications);
     }
 }

@@ -33,7 +33,7 @@ doivent pas être inventées.
 | Dernier changement client | `impacts/impact-CR-001.md` | Explique le passage à l'acompte, au solde, aux nouveaux états et aux documents. |
 | Spécifications | `../specs/` | Lire la SPEC principale et son éventuel fichier `-A1`. L'amendement applicable prévaut sur les points qu'il modifie. |
 | Cas de test métier | `../tests/cases/` | Un fichier `CASE-*.md` décrit le comportement attendu et cite sa SPEC. |
-| Prototypes PHPUnit | `../tests/phpunit/` | À adapter à Symfony/PHPUnit ; ils ne sont pas actuellement exécutables faute de projet Composer. |
+| Prototypes PHPUnit | `../tests/phpunit/` | Exécutables avec `bash tools/run-tests.sh` ; à déplacer vers les tests Symfony lors de la création de l'application. |
 | Prototypes métier | `../tests/entite_test/`, `../tests/service/`, `../tests/exception/` | Sources de compréhension uniquement. Le code de production doit vivre dans `src/`. |
 | Anciens tests | `../tests/old_test_files/` | Historique : ne pas prendre comme référence ni intégrer à la suite active. |
 | Modèle conceptuel courant | `mcd/mcd-V3.md` et `mcd/mcd-V3.dbml` | Référence pour les concepts, attributs et cardinalités. |
@@ -369,10 +369,16 @@ Stratégie cible :
 - tests navigateur limités aux parcours critiques et au responsive.
 
 ```bash
+# Disponible maintenant ; exécute tous les CASE avec un récapitulatif coloré.
+bash tools/run-tests.sh
+
+# Même commande via Composer.
+composer test
+
 # Disponible maintenant ; régénère la matrice.
 bash tools/traceability_v2.sh --check
 
-# Cible après initialisation Symfony/Composer ; impossible actuellement.
+# Cible Symfony lorsque les extensions PHP de PHPUnit sont disponibles.
 php bin/phpunit
 ```
 

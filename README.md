@@ -74,7 +74,17 @@ travail ; **après** la génération, vous critiquez le travail de l'IA.
 │   └── …                              tests automatisés
 ├── src/
 └── tools/
+    ├── run-tests.sh                  lance tous les CASE et affiche le bilan vert/rouge
+    ├── test-runner.php               harnais léger sans extension PHP supplémentaire
     └── traceability.sh
+```
+
+Pour lancer tous les tests et obtenir le récapitulatif par domaine :
+
+```bash
+bash tools/run-tests.sh
+# ou
+composer test
 ```
 
 Ce qui n'est **pas** dans ce dépôt n'existe pas. Une décision prise oralement et

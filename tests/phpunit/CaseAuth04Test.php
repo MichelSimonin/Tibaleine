@@ -16,6 +16,7 @@ final class CaseAuth04Test extends TestCase
     {
         // Étant donné un compte sans mot de passe
         $service = new \App\Service\CompteService();
+        $service->creerCompte(['email' => 'marie.dupont@email.fr', 'mot_de_passe' => null]);
 
         // Quand le client demande un lien de connexion à usage unique
         $lien = $service->genererLienConnexion('marie.dupont@email.fr');

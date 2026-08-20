@@ -23,5 +23,6 @@ final class CaseCons06Test extends TestCase
 
         // Alors la liste est vide
         $this->assertCount(0, $resultat);
+        $this->assertSame('aucune réservation', (new \App\Service\ConsultationService())->messageListeVide($resultat));
     }
 }

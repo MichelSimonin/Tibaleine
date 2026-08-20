@@ -6,15 +6,18 @@ namespace App\Tests\Acceptance;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * CASE-HOTEL-01 — Création d'un compte hôtel
- * Spécification : SPEC-HOTEL-01 — Critère d'acceptation : AC-01
- */
+/** CASE-HOTEL-01-A1 — Hôtel représenté uniquement par un rôle utilisateur. */
 final class CaseHotel01Test extends TestCase
 {
-    public function test_CASE_HOTEL_01(): void
+    public function test_CASE_HOTEL_01_A1_role_hotel_sans_profil(): void
     {
-        $compte = (new \App\Service\CompteService())->creerCompteHotel(['email' => 'hotel@email.fr']);
-        $this->assertSame('hotel', $compte->getProfil());
+        $hotel = (new \App\Entity\Utilisateur())->setEmail('hotel@example.test')->setRole('hotel');
+        $reservation = (new \App\Entity\Reservation())->setUtilisateur($hotel);
+
+        $this->assertTrue($reservation->estReservationHotel());
+        $this->assertSame($hotel, $reservation->getUtilisateur());
+        $this->assertSame('hotel', $reservation->getUtilisateur()?->getRole());
+        $this->assertNull($hotel->getProfil());
+        $this->assertNull($reservation->getProfil());
     }
 }

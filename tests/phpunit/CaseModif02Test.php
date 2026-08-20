@@ -6,21 +6,18 @@ namespace App\Tests\Acceptance;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * CASE-MODIF-02 — Le patron modifie une réservation payée
- * Spécification : SPEC-MODIF-01 — Critère d'acceptation : AC-02
- */
+/** CASE-MODIF-02-A1 — Montants initial et courant après modification. */
 final class CaseModif02Test extends TestCase
 {
-    public function test_CASE_MODIF_02(): void
+    public function test_CASE_MODIF_02_A1_montants_initial_courant(): void
     {
-        $reservation = new \App\Entity\Reservation();
-        $reservation->setEtat('payée');
-        $reservation->setNbAdultes(2);
-        $reservation->setNbEnfants(0);
+        $reservation = (new \App\Entity\Reservation())
+            ->setEtat('réservée')->setMontantTotal(260.0)->setMontantEncaisse(78.0);
 
-        (new \App\Service\ReservationService())->modifier($reservation, ['ajouter_adultes' => 1]);
+        (new \App\Service\ReservationService())->modifier($reservation, ['montant_courant' => 325.0]);
 
-        $this->assertSame(3, $reservation->getNbAdultes() + $reservation->getNbEnfants());
+        $this->assertSame(260.0, $reservation->getMontantInitial());
+        $this->assertSame(325.0, $reservation->getMontantCourant());
+        $this->assertSame(78.0, $reservation->getMontantEncaisse());
     }
 }

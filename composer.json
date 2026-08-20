@@ -14,6 +14,9 @@
       "tests/phpunit"
     ]
   },
+  "scripts": {
+    "test": "bash tools/run-tests.sh"
+  },
   "require-dev": {
     "phpunit/phpunit": "^11.0"
   }

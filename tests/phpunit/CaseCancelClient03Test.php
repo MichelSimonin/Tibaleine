@@ -6,27 +6,23 @@ namespace App\Tests\Acceptance;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * CASE-CANCEL-CLIENT-03 — Annulation client à plus de 7 jours
- * Spécification : SPEC-CANCEL-CLIENT-01 — Critère d'acceptation : AC-05
- */
+/** CASE-CANCEL-CLIENT-03-A1 — Remboursement unique des sommes encaissées. */
 final class CaseCancelClient03Test extends TestCase
 {
-    public function test_CASE_CANCEL_CLIENT_03(): void
+    public function test_CASE_CANCEL_CLIENT_03_A1_remboursement_unique(): void
     {
-        // Étant donné une réservation payée de 260 €, départ le 18 août à 09h00
-        $sortie = new \App\Entity\Sortie();
-        $sortie->setDate(new \DateTimeImmutable('2026-08-18 09:00'));
-        $reservation = new \App\Entity\Reservation();
-        $reservation->setEtat('payée');
-        $reservation->setMontantTotal(260.0);
-        $reservation->setSortie($sortie);
+        $sortie = (new \App\Entity\Sortie())->setDate(new \DateTimeImmutable('2026-08-18 09:00'));
+        $reservation = (new \App\Entity\Reservation())
+            ->setEtat('réservée')->setMontantTotal(260.0)->setMontantEncaisse(78.0)->setSortie($sortie);
+        $service = new \App\Service\AnnulationService();
+        $resultat = $service->calculerAnnulationClient($reservation, new \DateTimeImmutable('2026-08-08 09:00'));
 
-        // Quand le client annule plus de 7 jours avant le départ
-        $remboursement = (new \App\Service\AnnulationService())
-            ->annulerClient($reservation, new \DateTimeImmutable('2026-08-08 09:00'));
+        $premier = $service->confirmerRemboursement($reservation, $resultat->getTropPercu(), 'REF-CANCEL-03');
+        $second = $service->confirmerRemboursement($reservation, $resultat->getTropPercu(), 'REF-CANCEL-03');
 
-        // Alors 0 % sont retenus et 260 € remboursés
-        $this->assertSame(260.0, $remboursement->getMontant());
+        $this->assertSame(78.0, $premier->getMontant());
+        $this->assertSame($premier, $second);
+        $this->assertCount(1, $reservation->getRemboursements());
+        $this->assertSame('annulée', $reservation->getEtat());
     }
 }

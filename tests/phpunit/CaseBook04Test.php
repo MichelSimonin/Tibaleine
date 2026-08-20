@@ -6,23 +6,20 @@ namespace App\Tests\Acceptance;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * CASE-BOOK-04 — Le nombre de places disponibles pour une activité se met à jour après le paiement d'une réservation
- * Spécification : SPEC-BOOK-01 — Critère d'acceptation : AC-04
- */
+/** CASE-BOOK-04-A1 — Places acquises après confirmation de l'acompte. */
 final class CaseBook04Test extends TestCase
 {
-    public function test_CASE_BOOK_04(): void
+    public function test_CASE_BOOK_04_A1_places_acquises_apres_acompte(): void
     {
-        // Étant donné un créneau avec 6 places et une réservation de 5 personnes
-        $sortie = new \App\Entity\Sortie(); $sortie->setPlacesRestantes(6);
-        $reservation = new \App\Entity\Reservation();
-        $reservation->setSortie($sortie); $reservation->setNbAdultes(4); $reservation->setNbEnfants(1);
+        $sortie = (new \App\Entity\Sortie())->setPlacesRestantes(6);
+        $reservation = (new \App\Entity\Reservation())
+            ->setSortie($sortie)->setNbAdultes(4)->setNbEnfants(1)->setMontantTotal(300.0);
 
-        // Quand le client paie
-        (new \App\Service\PaiementService())->payer($reservation);
+        (new \App\Service\PaiementService())->confirmerAcompte($reservation, 90.0, 'ACOMPTE-BOOK-04');
 
-        // Alors les places restantes passent à 1
+        $this->assertSame('réservée', $reservation->getEtat());
+        $this->assertSame('acompte payé', $reservation->getStatutPaiement());
+        $this->assertTrue($reservation->placesAcquises());
         $this->assertSame(1, $sortie->getPlacesRestantes());
     }
 }
