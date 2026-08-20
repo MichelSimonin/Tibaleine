@@ -1,14 +1,18 @@
 ## SPEC-FACT-01 — Facturation hôtel en fin de mois
 
 **Exigence :** REQ-013
-**Statut :** revue IA faite
-**Version :** v1
+**Statut :** précisée (cahier des charges V5, R-101)
+**Version :** v2
 
 ### Règle
 
 > Les réservations d'un hôtel partenaire sont facturées **en fin de mois**, avec
 > une remise de 15 % sur le montant total. Les réservations d'un hôtel annulées
-> (annulation météo) ne sont **pas comptabilisées** dans la facture.
+> (annulation météo) ne sont **pas comptabilisées** dans la facture. La
+> facturation fait passer le statut de paiement des réservations concernées
+> de « en attente de paiement » à « intégralement payé » (R-101) ; l'état de
+> la réservation elle-même (« réservée ») n'est pas affecté par la
+> facturation.
 
 ### Portée
 
@@ -70,5 +74,6 @@ Consigne utilisée :
 | La facture de fin de mois est-elle générée automatiquement ou par le patron ? | à trancher | |
 | « Fin de mois » : date exacte non précisée (dernier jour, début du mois suivant) | à trancher | |
 | AC-1 à AC-3 vérifiables | OK | |
+| Sur quelles réservations le total est-il calculé ? | précisée | Le cahier V5 (R-101) indique que les réservations hôtel restent au statut « en attente de paiement » jusqu'à la facturation — le total porte donc sur les réservations « réservée »/« en attente de paiement » non annulées. Reste à confirmer si l'hôtel est bien exclu de l'acompte obligatoire (question ouverte 16, cf. `SPEC-BOOK-02`). |
 
 Les refus se reportent aussi dans `docs/journal.md`.
