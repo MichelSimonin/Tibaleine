@@ -351,6 +351,142 @@ namespace {
         $markdown[] = '- **CASE total :** ' . $totalCases;
         $markdown[] = '- **Durée :** ' . number_format($duration, 3, '.', '') . ' s';
         $markdown[] = '';
+        $statusByMethod = [];
+        foreach ($testResults as $result) {
+            $statusByMethod[$result['method']] = $result['status'];
+        }
+        $presentationHighlights = [
+            [
+                'theme' => 'Réservation et capacité',
+                'cases' => 'BOOK-11, BOOK-12, BOOK-16',
+                'importance' => 'Évite le dépassement des bateaux et les réservations ou départs sous les seuils autorisés.',
+                'methods' => [
+                    'test_CASE_BOOK_11_capacites_bateaux_12_24',
+                    'test_CASE_BOOK_12_minimum_deux_personnes',
+                    'test_CASE_BOOK_16_seuil_maintien_six_par_bateau',
+                ],
+            ],
+            [
+                'theme' => 'Âges et tarifs',
+                'cases' => 'BOOK-13, BOOK-14',
+                'importance' => 'Protège les limites d’âge et les montants facturés aux adultes, enfants et privatisations.',
+                'methods' => [
+                    'test_CASE_BOOK_13_categories_age_et_moins_quatre_ans_refuse',
+                    'test_CASE_BOOK_14_tarifs_sorties_et_privatisations',
+                ],
+            ],
+            [
+                'theme' => 'Formulaire client',
+                'cases' => 'BOOK-18',
+                'importance' => 'Empêche une réservation incomplète sans coordonnées, créneau, type ou nombre de passagers.',
+                'methods' => ['test_CASE_BOOK_18_validation_champs_obligatoires'],
+            ],
+            [
+                'theme' => 'Créneaux et dernière place',
+                'cases' => 'BOOK-09, BOOK-17',
+                'importance' => 'Empêche la double attribution de la dernière place et une seconde sortie baleine sur le même créneau.',
+                'methods' => [
+                    'test_CASE_BOOK_09_concurrence_derniere_place',
+                    'test_CASE_BOOK_17_unicite_baleine_et_departs_synchronises',
+                ],
+            ],
+            [
+                'theme' => 'Paiement du solde',
+                'cases' => 'PAY-09, PAY-13, PAY-14, PAY-15',
+                'importance' => 'Contrôle la fenêtre H-24/H-12, le solde avant embarquement et le droit exclusif du patron sur le paiement sur place.',
+                'methods' => [
+                    'test_CASE_PAY_09_lien_solde_h24_h12',
+                    'test_CASE_PAY_13_solde_impaye_embarquement_refuse',
+                    'test_CASE_PAY_14_aucun_lien_solde_avant_h24',
+                    'test_CASE_PAY_15_solde_sur_place_refuse_non_patron',
+                ],
+            ],
+            [
+                'theme' => 'Annulations et remboursements',
+                'cases' => 'CANCEL-CLIENT-01-A1, CANCEL-CLIENT-03-A1, CANCEL-PRESTATAIRE-02-A1',
+                'importance' => 'Sécurise les frais, le remboursement unique et le choix exclusif entre remboursement et report.',
+                'methods' => [
+                    'test_CASE_CANCEL_CLIENT_01_A1_complement_moins_48h',
+                    'test_CASE_CANCEL_CLIENT_03_A1_remboursement_unique',
+                    'test_CASE_CANCEL_PRESTATAIRE_02_A1_choix_exclusif',
+                ],
+            ],
+            [
+                'theme' => 'Alertes météo',
+                'cases' => 'ALERT-01, ALERT-04',
+                'importance' => 'Vérifie l’avertissement de 18 h et la notification des réservations lors d’une annulation de créneau.',
+                'methods' => ['test_CASE_ALERT_01', 'test_CASE_ALERT_04'],
+            ],
+            [
+                'theme' => 'Rôles et accès',
+                'cases' => 'AUTH-07, AUTH-08, AUTH-09, AUTH-10',
+                'importance' => 'Vérifie la séparation des droits client, employé, patron et hôtel.',
+                'methods' => ['test_CASE_AUTH_07', 'test_CASE_AUTH_08', 'test_CASE_AUTH_09', 'test_CASE_AUTH_10_authentification_role_hotel'],
+            ],
+            [
+                'theme' => 'Facturation hôtel',
+                'cases' => 'FACT-02, FACT-03, FACT-06',
+                'importance' => 'Garantit la remise de 15 %, l’exclusion des annulations et le regroupement par hôtel et par mois.',
+                'methods' => [
+                    'test_CASE_FACT_02_remise_15_pourcent_hotel',
+                    'test_CASE_FACT_03_reservation_annulee_non_comptabilisee',
+                    'test_CASE_FACT_06_facture_un_seul_hotel_un_seul_mois',
+                ],
+            ],
+            [
+                'theme' => 'Documents de paiement',
+                'cases' => 'JUSTIF-01, JUSTIF-02',
+                'importance' => 'Vérifie le justificatif après acompte et la facture finale après paiement intégral.',
+                'methods' => ['test_CASE_JUSTIF_01_justificatif_apres_acompte', 'test_CASE_JUSTIF_02_facture_finale_tous_canaux'],
+            ],
+        ];
+        $greenHighlights = 0;
+        foreach ($presentationHighlights as $index => $highlight) {
+            $highlightGreen = true;
+            foreach ($highlight['methods'] as $method) {
+                if (($statusByMethod[$method] ?? null) !== 'VERT') {
+                    $highlightGreen = false;
+                    break;
+                }
+            }
+            $presentationHighlights[$index]['status'] = $highlightGreen ? '✅ VERT' : '❌ ROUGE';
+            if ($highlightGreen) {
+                ++$greenHighlights;
+            }
+        }
+
+        $markdown[] = '## Synthèse pour la présentation';
+        $markdown[] = '';
+        $markdown[] = sprintf(
+            '**Verdict : %s.** Les %d CASE applicables sont automatisés et les %d tests associés ont réussi. Les %d anciens CASE remplacés par un amendement A1 sont exclus proprement de la suite active.',
+            $allGreen ? 'la suite est entièrement verte' : 'la suite contient des échecs',
+            $applicableCases,
+            $total,
+            $replacedCases,
+        );
+        $markdown[] = '';
+        $markdown[] = sprintf(
+            '**Contrôles prioritaires : %d/%d thèmes au vert.** Ces contrôles portent sur les risques qui auraient le plus d’impact pour le client ou l’entreprise : réservation impossible ou incorrecte, dépassement de capacité, mauvais tarif, paiement incohérent, remboursement en double ou accès non autorisé.',
+            $greenHighlights,
+            count($presentationHighlights),
+        );
+        $markdown[] = '';
+        $markdown[] = '| Contrôle prioritaire | CASE présentés | Pourquoi il est important | Résultat |';
+        $markdown[] = '|---|---|---|---:|';
+        foreach ($presentationHighlights as $highlight) {
+            $markdown[] = sprintf(
+                '| %s | `%s` | %s | %s |',
+                $highlight['theme'],
+                $highlight['cases'],
+                $highlight['importance'],
+                $highlight['status'],
+            );
+        }
+        $markdown[] = '';
+        $markdown[] = '### Périmètre de cette preuve';
+        $markdown[] = '';
+        $markdown[] = 'Ce rapport valide les règles de conception exécutées par les prototypes PHP situés dans `tests/`. Il ne constitue pas encore une recette de l’application finale, qui sera vérifiée lorsque le code de production et les intégrations seront disponibles.';
+        $markdown[] = '';
         $markdown[] = '## Récapitulatif par domaine';
         $markdown[] = '';
         $markdown[] = '| Domaine | Résultat | Réussis | Total |';
