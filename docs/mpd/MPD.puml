@@ -1,0 +1,116 @@
+@startuml MPD
+
+title Modèle physique de données — Tibaleine
+
+left to right direction
+hide circle
+
+skinparam linetype ortho
+skinparam shadowing false
+
+entity "Réservation" as Reservation {
+  * id : int <<PK>>
+  --
+  etat : varchar
+  motif_annulation : varchar
+  montant_initial : decimal
+  acompte : decimal
+  solde : decimal
+  nb_adultes : int
+  nb_enfants : int
+  paiement : int <<FK>>
+  utilisateur : int <<FK>>
+  sortie : int <<FK>>
+}
+
+entity "Utilisateur" as Utilisateur {
+  * id : int <<PK>>
+  --
+  nom : varchar
+  prenom : varchar
+  email : varchar
+  mot_de_passe : varchar
+  telephone : varchar
+  role : varchar
+}
+
+entity "Sortie" as Sortie {
+  * id : int <<PK>>
+  --
+  type : varchar
+  date : date
+  heure_depart : time
+  duree : time
+  bateau : int <<FK>>
+  etat : varchar
+}
+
+entity "Bateau" as Bateau {
+  * id : int <<PK>>
+  --
+  nom : varchar
+  capacité : int
+}
+
+entity "Tarif" as Tarif {
+  * id : int <<PK>>
+  --
+  type_sortie : varchar
+  categorie : varchar
+  montant : decimal
+  bateau : int <<FK>>
+}
+
+entity "Paiement" as Paiement {
+  * id : int <<PK>>
+  --
+  type : varchar
+  montant : decimal
+  canal : varchar
+  statut : varchar
+  date : datetime
+  reservation : int <<FK>>
+}
+
+entity "Document" as Document {
+  * id : int <<PK>>
+  --
+  type : varchar
+  reference : varchar
+  date_emeission : datetime
+  resservation : int <<FK>>
+}
+
+entity "Notification" as Notification {
+  * id : int <<PK>>
+  --
+  type : varchar
+  canal : varchar
+  date_envoi : datetime
+  contenu : varchar
+  utilisateur : int <<FK>>
+  reservation : int <<FK>>
+  sortie : int <<FK>>
+}
+
+Utilisateur ||--o{ Reservation : effectue
+Sortie ||--o{ Reservation : concerne
+Bateau ||--o{ Sortie : accueille
+Bateau ||--o{ Tarif : définit
+Reservation ||--o{ Paiement : donne lieu à
+Reservation ||--o{ Document : génère
+Utilisateur |o--o{ Notification : reçoit
+Reservation |o--o{ Notification : concerne
+Sortie |o--o{ Notification : déclenche
+
+note bottom of Document
+  Orthographe conservée depuis le Draw.io :
+  date_emeission et resservation.
+end note
+
+note bottom of Reservation
+  Le Draw.io contient une clé paiement dans Réservation
+  et une clé reservation dans Paiement.
+end note
+
+@enduml
