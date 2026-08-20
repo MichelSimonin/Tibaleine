@@ -1,0 +1,179 @@
+#!/usr/bin/env bash
+#
+# Génère docs/traceability_v2.md et vérifie la chaîne de traçabilité V5.
+#
+#   bash tools/traceability_v2.sh           régénère la matrice V2
+#   bash tools/traceability_v2.sh --check   régénère et sort en erreur s'il y a une rupture
+#
+# Conventions attendues (voir README §4) :
+#   docs/compte-rendu-entretien-nn.md  questions numérotées Qnn
+#   docs/cahier-des-charges.md         REQ-nnn, chacune citant CR-nn/Qnn ou « déduit »
+#   specs/<domaine>.md                 sections titrées SPEC-<DOM>-nn[-A<n>], citant au moins un REQ
+#   tests/cases/CASE-<DOM>-nn[-A<n>].md un fichier par cas, citant au moins un SPEC
+#   tests/**                           le nom du test contient l'ID CASE
+#   git log                            le message de commit contient l'ID SPEC
+#
+# Les identifiants sont reconnus avec « - » ou « _ » comme séparateur, parce que
+# la plupart des langages n'acceptent pas le tiret dans un nom de fonction :
+# CASE-CANCEL-11-A1 et test_CASE_CANCEL_11_A1_... désignent le même cas.
+
+set -u
+
+cd "$(dirname "$0")/.." || exit 1
+
+CDC="docs/cahiers_des_charges/Cahier_des_charges_200ping_V5.md"
+OUT="docs/traceability_v2.md"
+CHECK=0
+[ "${1:-}" = "--check" ] && CHECK=1
+
+RX_REQ='REQ-[0-9][0-9][0-9]'
+RX_SPEC='SPEC-[A-Z0-9-]+-[0-9][0-9](-A[0-9]+)?'
+RX_CASE_ANY='CASE[-_][A-Z0-9_-]+[-_][0-9][0-9]([-_]A[0-9]+)?'
+RX_SRC='CR-[0-9][0-9]/Q[0-9][0-9]'
+RX_SRC_SEC='CR-[0-9][0-9] §[0-9]+'
+RX_DEDUIT='d[ée]duit'
+
+ruptures=0
+warn() { printf 'RUPTURE  %s\n' "$1" >&2; ruptures=$((ruptures + 1)); }
+
+# Fichiers de tests automatisés : tout tests/ sauf les cas de test et les gabarits.
+test_files=$(find tests -type f ! -path 'tests/cases/*' ! -name 'TEMPLATE.md' 2>/dev/null)
+
+# Index exact des identifiants CASE par fichier de test. Comparer les identifiants
+# extraits évite qu'un CASE-...-01 soit confondu avec CASE-...-01-A1.
+test_case_refs=$(
+  printf '%s\n' "$test_files" \
+    | tr '\n' '\0' \
+    | xargs -0 -r grep -HIEo "$RX_CASE_ANY" 2>/dev/null \
+    | tr '_' '-' \
+    | awk -F':' '{ id = $NF; sub(/:[^:]*$/, "", $0); print id "\t" $0 }' \
+    | sort -u
+)
+
+# --- SPEC -> REQ ------------------------------------------------------------
+# Un REQ est rattaché au dernier SPEC rencontré au-dessus de lui, dans le même fichier.
+pairs_spec_req=$(
+  awk '
+    FNR == 1 { cur = "" }
+    { if (match($0, /SPEC-[A-Z0-9-]+-[0-9][0-9](-A[0-9]+)?/)) cur = substr($0, RSTART, RLENGTH) }
+    $0 ~ /Exigence/ {
+      line = $0
+      while (match(line, /REQ-[0-9][0-9][0-9]/)) {
+        if (cur != "") print cur "\t" substr(line, RSTART, RLENGTH)
+        line = substr(line, RSTART + RLENGTH)
+      }
+    }
+  ' specs/*.md specs/ValidéMaisSujetAChangement/*.md 2>/dev/null | sort -u
+)
+
+# --- SPEC -> CASE -----------------------------------------------------------
+pairs_spec_case=""
+for f in tests/cases/CASE-*.md; do
+  [ -e "$f" ] || continue
+  cid=$(basename "$f" .md | grep -oE "$RX_CASE_ANY" | head -1)
+  refs=$(grep -ohE "$RX_SPEC" "$f" 2>/dev/null | sort -u)
+  if [ -z "$refs" ]; then
+    warn "$cid ne cite aucune spécification"
+    continue
+  fi
+  for sp in $refs; do
+    pairs_spec_case="${pairs_spec_case}${sp}	${cid}
+"
+  done
+done
+
+# --- Matrice ----------------------------------------------------------------
+specs=$(grep -rhoE "$RX_SPEC" specs 2>/dev/null | sort -u)
+[ -z "$specs" ] && warn "aucune spécification trouvée dans specs/"
+
+{
+  echo "<!-- Généré par tools/traceability_v2.sh — ne pas éditer à la main. -->"
+  echo
+  echo "# Matrice de traçabilité V2"
+  echo
+  echo "| SPEC | REQ | Cas de test | Tests | Commits |"
+  echo "|---|---|---|---|---|"
+
+  for spec in $specs; do
+    reqs=$(printf '%s\n' "$pairs_spec_req" | awk -F'\t' -v s="$spec" '$1 == s { print $2 }' | sort -u | paste -sd' ' -)
+    cases=$(printf '%s\n' "$pairs_spec_case" | awk -F'\t' -v s="$spec" '$1 == s { print $2 }' | sort -u)
+
+    ntests=0
+    for cid in $cases; do
+      n=$(printf '%s\n' "$test_case_refs" \
+        | awk -F'\t' -v c="$cid" '$1 == c { n++ } END { print n + 0 }')
+      ntests=$((ntests + n))
+    done
+
+    ncommits=0
+    [ -d .git ] && ncommits=$(git log --oneline --extended-regexp \
+      --grep="(^|[^A-Z0-9-])${spec}([^A-Z0-9-]|$)" 2>/dev/null \
+      | grep -c .)
+
+    [ -z "$reqs" ]  && { warn "$spec ne cite aucune exigence"; reqs="—"; }
+    [ -z "$cases" ] && warn "$spec n'est couverte par aucun cas de test"
+    [ "$ntests" -eq 0 ] && warn "$spec n'a aucun test automatisé"
+
+    cases_cell=$(printf '%s\n' "$cases" | paste -sd' ' -)
+    [ -z "$cases_cell" ] && cases_cell="—"
+
+    printf '| %s | %s | %s | %s | %s |\n' "$spec" "$reqs" "$cases_cell" "$ntests" "$ncommits"
+  done
+} > "$OUT"
+
+# --- Exigences non couvertes ------------------------------------------------
+if [ -f "$CDC" ]; then
+  for req in $(grep -ohE "$RX_REQ" "$CDC" 2>/dev/null | sort -u); do
+    grep -rqE "$req" specs 2>/dev/null || warn "$req n'est couverte par aucune spécification"
+  done
+fi
+
+# --- REQ -> échange consigné ------------------------------------------------
+# Chaque exigence cite soit un échange d'entretien (CR-nn/Qnn), soit « déduit ».
+# Une règle métier qui ne vient d'aucun échange consigné ne vient de nulle part.
+ndeduits=0
+if [ -f "$CDC" ]; then
+  while IFS= read -r line; do
+    req=$(printf '%s\n' "$line" | grep -oE "$RX_REQ" | head -1)
+    [ -z "$req" ] && continue
+    if printf '%s\n' "$line" | grep -qE "$RX_SRC"; then
+      src=$(printf '%s\n' "$line" | grep -oE "$RX_SRC" | head -1)
+      cr=${src%%/*}
+      q=${src##*/}
+      f="docs/compte_rendu/compte-rendu-entretien-${cr#CR-}.md"
+      if [ ! -f "$f" ]; then
+        warn "$req cite $src, mais $f n'existe pas"
+      elif ! grep -q "$q" "$f"; then
+        warn "$req cite $src, mais $q est absent de $f"
+      fi
+    elif printf '%s\n' "$line" | grep -qE "$RX_SRC_SEC"; then
+      src=$(printf '%s\n' "$line" | grep -oE "$RX_SRC_SEC" | head -1)
+      cr=$(printf '%s\n' "$src" | grep -oE 'CR-[0-9][0-9]')
+      f="docs/compte_rendu/compte-rendu-entretien-${cr#CR-}.md"
+      [ -f "$f" ] || warn "$req cite $src, mais $f n'existe pas"
+    elif printf '%s\n' "$line" | grep -qiE "$RX_DEDUIT"; then
+      ndeduits=$((ndeduits + 1))
+    elif printf '%s\n' "$line" | grep -qi 'Aucune source'; then
+      :
+    else
+      warn "$req ne cite aucune source (ni CR-nn/Qnn, ni CR-nn §x, ni « déduit »)"
+    fi
+  done < "$CDC"
+fi
+
+# --- Cas de test référencés dans les tests mais non définis -----------------
+used=$(printf '%s\n' "$test_files" | tr '\n' '\0' | xargs -0 grep -hoIE "$RX_CASE_ANY" 2>/dev/null | tr '_' '-' | sort -u)
+for cid in $used; do
+  compgen -G "tests/cases/${cid}*.md" >/dev/null || warn "$cid est utilisé dans les tests mais n'est défini nulle part"
+done
+
+# --- Sortie -----------------------------------------------------------------
+echo "$OUT régénéré."
+if [ "$ndeduits" -gt 0 ]; then
+  echo "$ndeduits exigence(s) marquée(s) « déduit » — à justifier, ce n'est pas une rupture."
+fi
+if [ "$ruptures" -gt 0 ]; then
+  echo "$ruptures rupture(s) de traçabilité." >&2
+  [ "$CHECK" -eq 1 ] && exit 1
+fi
+exit 0
