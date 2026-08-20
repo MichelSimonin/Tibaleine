@@ -1,5 +1,8 @@
 # CASE-ALERT-04 — Annulation définitive : notification simultanée « sans frais »
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_ALERT_04`
+
 **Spécification :** `SPEC-ALERT-01`
 **Critère d'acceptation :** `AC-02`, `AC-05`
 **Type :** acceptation

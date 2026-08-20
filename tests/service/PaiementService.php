@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Entity\Paiement;
 use App\Entity\Reservation;
 use App\Entity\Sortie;
+use App\Entity\Utilisateur;
 use App\Exception\PaiementRefuseException;
 
 final class PaiementService
@@ -96,7 +97,7 @@ final class PaiementService
             return ['sur_place'];
         }
         $heures = ($date->getTimestamp() - $maintenant->getTimestamp()) / 3600;
-        return $heures > 12 ? ['en_ligne', 'sur_place'] : ['sur_place'];
+        return $heures > 12 && $heures <= 24 ? ['en_ligne', 'sur_place'] : ['sur_place'];
     }
 
     public function creerLienSolde(Reservation $reservation, \DateTimeImmutable $maintenant): ?string
@@ -130,8 +131,11 @@ final class PaiementService
         return $paiement;
     }
 
-    public function enregistrerSoldeSurPlace(Reservation $reservation, string $reference): Paiement
+    public function enregistrerSoldeSurPlace(Reservation $reservation, Utilisateur $acteur, string $reference): Paiement
     {
+        if ($acteur->getRole() !== 'patron') {
+            throw new PaiementRefuseException('Seul le patron peut enregistrer un solde payé sur place.');
+        }
         if (isset($this->tentativesSolde[spl_object_id($reservation)])) {
             throw new PaiementRefuseException('Un paiement en ligne du solde existe déjà.');
         }

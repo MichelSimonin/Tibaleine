@@ -1,5 +1,8 @@
 # CASE-FACT-03 — Les réservations annulées ne sont pas comptabilisées
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_FACT_03_reservation_annulee_non_comptabilisee`
+
 **Spécifications :** `SPEC-FACT-01-A1`, `SPEC-CANCEL-PRESTATAIRE-02-A1`
 **Critères d'acceptation :** `SPEC-FACT-01-A1/AC-1`, `SPEC-CANCEL-PRESTATAIRE-02-A1/AC-6`
 **Type :** acceptation  

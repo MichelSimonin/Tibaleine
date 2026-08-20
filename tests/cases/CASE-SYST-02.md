@@ -1,5 +1,8 @@
 # CASE-SYST-02 — Une panne d'un service externe ne bloque pas l'application
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_SYST_02`
+
 **Spécification :** `SPEC-SYST-01`  
 **Critère d'acceptation :** `AC-02`  
 **Type :** acceptation  

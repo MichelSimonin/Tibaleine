@@ -1,5 +1,8 @@
 # CASE-AUTH-07 — L'employé accède aux réservations en lecture seule
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_AUTH_07`
+
 **Spécification :** `SPEC-AUTH-01`
 **Critère d'acceptation :** `AC-03`
 **Type :** acceptation

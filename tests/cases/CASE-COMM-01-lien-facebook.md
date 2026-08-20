@@ -1,5 +1,8 @@
 # CASE-COMM-01 — Le site affiche un lien vers Facebook
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_COMM_01`
+
 **Spécification :** `SPEC-COMM-01`  
 **Critère d'acceptation :** `AC-01`  
 **Type :** acceptation  

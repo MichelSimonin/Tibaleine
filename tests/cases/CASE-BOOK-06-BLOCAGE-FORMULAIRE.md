@@ -1,5 +1,8 @@
 # CASE-BOOK-06 — Le blocage temporaire des places pendant la saisie du formulaire 
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_BOOK_06`
+
 **Spécification :** `SPEC-BOOK-03-A1`
 **Critère d'acceptation :** `AC-1`
 **Type :** acceptation  

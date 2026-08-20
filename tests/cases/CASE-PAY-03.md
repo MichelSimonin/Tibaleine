@@ -1,5 +1,7 @@
 # CASE-PAY-03 — Les places sont mises à jour après le paiement
 
+**Statut :** remplacé
+
 **Amendé par :** `CASE-PAY-03-A1`
 
 > Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-PAY-03-A1`.

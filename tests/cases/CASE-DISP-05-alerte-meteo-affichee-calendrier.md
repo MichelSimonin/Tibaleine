@@ -1,5 +1,8 @@
 # CASE-DISP-05 — L'alerte météo est affichée sur le calendrier pour les créneaux concernés
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_DISP_05`
+
 **Spécification :** `SPEC-DISP-01`
 **Critère d'acceptation :** — (cas limite 3, aucun AC direct de cette spec — voir remarque)
 **Type :** acceptation

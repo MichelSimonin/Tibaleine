@@ -1,5 +1,7 @@
 # CASE-BOOK-04 — Le nombre de places disponibles pour une activité se met à jour après le paiement d'une réservation
 
+**Statut :** remplacé
+
 **Amendé par :** `CASE-BOOK-04-A1`
 
 > Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-BOOK-04-A1`.

@@ -1,5 +1,8 @@
 # CASE-CONS-06 — Le client sans réservation voit un message dédié
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_CONS_06`
+
 **Spécification :** `SPEC-CONS-01`
 **Critère d'acceptation :** — (cas limite 3, aucun AC direct de cette spec — voir remarque)
 **Type :** acceptation

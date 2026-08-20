@@ -1,5 +1,8 @@
 # CASE-LANG-02 — Le message d'alerte/annulation est envoyé dans la langue du client
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_LANG_02`
+
 **Spécification :** `SPEC-LANG-01`  
 **Critère d'acceptation :** `AC-02`  
 **Type :** acceptation  

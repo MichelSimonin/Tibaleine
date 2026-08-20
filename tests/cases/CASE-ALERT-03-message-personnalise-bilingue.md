@@ -1,5 +1,8 @@
 # CASE-ALERT-03 — Message d'avertissement personnalisé et bilingue (FR/EN)
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_ALERT_03`
+
 **Spécification :** `SPEC-ALERT-01`
 **Critère d'acceptation :** `AC-04`
 **Type :** acceptation

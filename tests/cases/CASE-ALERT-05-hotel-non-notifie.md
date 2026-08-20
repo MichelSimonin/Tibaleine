@@ -1,5 +1,8 @@
 # CASE-ALERT-05 — L'hôtel partenaire n'est pas notifié par SMS/mail
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_ALERT_05`
+
 **Spécification :** `SPEC-ALERT-01`
 **Critère d'acceptation :** — (cas limite 4, aucun AC direct de cette spec — voir remarque)
 **Type :** acceptation

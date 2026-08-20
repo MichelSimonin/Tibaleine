@@ -1,5 +1,8 @@
 # CASE-AUTH-01 — Création d'un compte au moment de la réservation, avec mot de passe
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_AUTH_01`
+
 **Spécification :** `SPEC-AUTH-01`
 **Critère d'acceptation :** `AC-01`
 **Type :** acceptation

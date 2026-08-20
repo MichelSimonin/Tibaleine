@@ -1,5 +1,8 @@
 # CASE-CONS-05 — Une tentative de modification par l'employé est bloquée
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_CONS_05`
+
 **Spécification :** `SPEC-CONS-01`
 **Critère d'acceptation :** — (cas limite 2, aucun AC direct de cette spec — voir remarque)
 **Type :** acceptation

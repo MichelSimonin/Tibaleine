@@ -1,5 +1,8 @@
 # CASE-AUTH-05 — Refus de création si l'email est déjà utilisé
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_AUTH_05`
+
 **Spécification :** `SPEC-AUTH-01`
 **Critère d'acceptation :** — (cas limite 1, aucun AC direct de cette spec — voir remarque)
 **Type :** acceptation

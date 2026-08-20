@@ -1,5 +1,8 @@
 # CASE-FACT-02 — Remise de 15 % sur la facture hôtel
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_FACT_02_remise_15_pourcent_hotel`
+
 **Spécification :** `SPEC-FACT-01`  
 **Critère d'acceptation :** `AC-02`  
 **Type :** acceptation  

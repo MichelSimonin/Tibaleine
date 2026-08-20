@@ -1,5 +1,8 @@
 # CASE-SYST-03 — Le client est informé en cas d'indisponibilité d'un service
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_SYST_03`
+
 **Spécification :** `SPEC-SYST-01`  
 **Critère d'acceptation :** `AC-03`  
 **Type :** acceptation  

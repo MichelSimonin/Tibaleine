@@ -1,5 +1,8 @@
 # CASE-SYST-01 — Le système détecte l'indisponibilité d'un service externe
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_SYST_01`
+
 **Spécification :** `SPEC-SYST-01`  
 **Critère d'acceptation :** `AC-01`  
 **Type :** acceptation  

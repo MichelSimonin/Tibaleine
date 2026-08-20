@@ -1,5 +1,7 @@
 # CASE-MODIF-02 — Le patron modifie une réservation payée
 
+**Statut :** remplacé
+
 **Amendé par :** `CASE-MODIF-02-A1`
 
 > Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-MODIF-02-A1`.

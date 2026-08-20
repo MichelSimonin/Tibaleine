@@ -1,5 +1,8 @@
 # CASE-AUTH-03 — Connexion d'un client avec email et mot de passe
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_AUTH_03`
+
 **Spécification :** `SPEC-AUTH-01`
 **Critère d'acceptation :** `AC-02`
 **Type :** acceptation

@@ -1,5 +1,7 @@
 # CASE-CANCEL-CLIENT-AVERTISSEMENT-03 — Remboursement intégral maintenu même si la sortie a finalement lieu
 
+**Statut :** remplacé
+
 **Amendé par :** `CASE-CANCEL-CLIENT-AVERTISSEMENT-03-A1`
 
 > Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-CANCEL-CLIENT-AVERTISSEMENT-03-A1`.

@@ -13,14 +13,23 @@ final class FacturationService
 {
     private array $reglements = [];
 
-    public function facturerHotel(Utilisateur $hotel, array $reservations): Facture
+    public function facturerHotel(Utilisateur $hotel, array $reservations, ?\DateTimeImmutable $mois = null): Facture
     {
         if ($hotel->getRole() !== 'hotel') {
             throw new \LogicException('La facturation mensuelle est réservée aux hôtels.');
         }
         $facturables = array_values(array_filter(
             $reservations,
-            static fn (Reservation $reservation): bool => $reservation->getEtat() !== 'annulée' && $reservation->getUtilisateur() === $hotel,
+            static function (Reservation $reservation) use ($hotel, $mois): bool {
+                if ($reservation->getEtat() === 'annulée' || $reservation->getUtilisateur() !== $hotel) {
+                    return false;
+                }
+                if ($mois === null) {
+                    return true;
+                }
+                $dateSortie = $reservation->getSortie()?->getDate();
+                return $dateSortie !== null && $dateSortie->format('Y-m') === $mois->format('Y-m');
+            },
         ));
         $montant = array_sum(array_map(static fn (Reservation $reservation): float => $reservation->getMontantTotal(), $facturables));
         return new Facture($montant, $montant * 0.85, $facturables);

@@ -1,5 +1,7 @@
 # CASE-CONS-01 — Le client ne voit que ses propres réservations
 
+**Statut :** remplacé
+
 **Amendé par :** `CASE-CONS-01-A1`
 
 > Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-CONS-01-A1`.

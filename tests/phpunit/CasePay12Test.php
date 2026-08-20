@@ -14,9 +14,10 @@ final class CasePay12Test extends TestCase
         $reservation = (new \App\Entity\Reservation())
             ->setMontantTotal(260.0)->setMontantEncaisse(78.0)
             ->setEtat('réservée')->setStatutPaiement('acompte payé');
+        $patron = (new \App\Entity\Utilisateur())->setRole('patron');
         $service = new \App\Service\PaiementService();
 
-        $paiement = $service->enregistrerSoldeSurPlace($reservation, 'SUR-PLACE-12');
+        $paiement = $service->enregistrerSoldeSurPlace($reservation, $patron, 'SUR-PLACE-12');
         $this->assertSame(182.0, $paiement->getMontant());
         $this->assertSame('intégralement payé', $reservation->getStatutPaiement());
         $this->assertSame('réservée', $reservation->getEtat());
@@ -26,6 +27,6 @@ final class CasePay12Test extends TestCase
             ->setSortie($sortie)->setMontantTotal(260.0)->setMontantEncaisse(78.0);
         $service->commencerPaiementSolde($avecTentative, 'ONLINE-12', new \DateTimeImmutable('2026-08-21 21:00'));
         $this->expectException(\App\Exception\PaiementRefuseException::class);
-        $service->enregistrerSoldeSurPlace($avecTentative, 'SUR-PLACE-REFUSE-12');
+        $service->enregistrerSoldeSurPlace($avecTentative, $patron, 'SUR-PLACE-REFUSE-12');
     }
 }

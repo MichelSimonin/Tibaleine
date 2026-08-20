@@ -1,5 +1,8 @@
 # CASE-DISP-07 — Les places sont décomptées dès le clic sur « Réserver »
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_DISP_07`
+
 **Spécification :** `SPEC-DISP-01`
 **Critère d'acceptation :** `AC-01`
 **Type :** acceptation

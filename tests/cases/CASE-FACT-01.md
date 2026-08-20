@@ -1,5 +1,7 @@
 # CASE-FACT-01 — L'hôtel est facturé en fin de mois
 
+**Statut :** remplacé
+
 **Amendé par :** `CASE-FACT-01-A1`
 
 > Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-FACT-01-A1`.

@@ -1,5 +1,7 @@
 # CASE-BOOK-02 — L'hôtel réserve plusieurs créneaux (6 places max, échec si places insuffisantes)
 
+**Statut :** remplacé
+
 **Amendé par :** `CASE-BOOK-02-A1`
 
 > Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-BOOK-02-A1`.

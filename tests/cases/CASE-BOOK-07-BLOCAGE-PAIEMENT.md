@@ -1,5 +1,7 @@
 # CASE-BOOK-07— La place est libérée si le paiement n'est pas fait sous 15 minutes. 
 
+**Statut :** remplacé
+
 **Amendé par :** `CASE-BOOK-07-A1`
 
 > Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-BOOK-07-A1`.

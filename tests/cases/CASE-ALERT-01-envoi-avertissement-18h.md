@@ -1,5 +1,8 @@
 # CASE-ALERT-01 — Envoi de l'avertissement météo à 18h aux clients concernés
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_ALERT_01`
+
 **Spécification :** `SPEC-ALERT-01`
 **Critère d'acceptation :** `AC-01`, `AC-02`
 **Type :** acceptation

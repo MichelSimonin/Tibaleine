@@ -1,5 +1,8 @@
 # CASE-BOOK-05— L'hôtel ne peut pas réserver plus de 6 places sur un même créneau. 
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_BOOK_05_hotel_limite_6`
+
 **Spécification :** `SPEC-BOOK-02-A1`
 **Critère d'acceptation :** `AC-4`
 **Type :** acceptation  

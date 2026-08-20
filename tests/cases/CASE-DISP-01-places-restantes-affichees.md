@@ -1,5 +1,8 @@
 # CASE-DISP-01 — Un client voit les places restantes d'un créneau
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_DISP_01`
+
 **Spécification :** `SPEC-DISP-01`
 **Critère d'acceptation :** `AC-01`
 **Type :** acceptation

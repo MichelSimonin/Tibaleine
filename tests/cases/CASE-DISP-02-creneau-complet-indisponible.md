@@ -1,5 +1,8 @@
 # CASE-DISP-02 — Un créneau complet est affiché comme indisponible
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_DISP_02`
+
 **Spécification :** `SPEC-DISP-01`
 **Critère d'acceptation :** `AC-02`
 **Type :** acceptation

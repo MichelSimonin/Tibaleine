@@ -1,5 +1,8 @@
 # CASE-HOTEL-02 — L'hôtel consulte les créneaux disponibles
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_HOTEL_02`
+
 **Spécification :** `SPEC-HOTEL-01`  
 **Critère d'acceptation :** `AC-02`  
 **Type :** acceptation  

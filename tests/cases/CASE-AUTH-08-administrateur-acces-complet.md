@@ -1,5 +1,8 @@
 # CASE-AUTH-08 — L'administrateur a un accès complet
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_AUTH_08`
+
 **Spécification :** `SPEC-AUTH-01`
 **Critère d'acceptation :** `AC-04`
 **Type :** acceptation

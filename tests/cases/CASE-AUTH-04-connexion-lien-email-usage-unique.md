@@ -1,5 +1,8 @@
 # CASE-AUTH-04 — Connexion sans mot de passe via un lien email à usage unique
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_AUTH_04`
+
 **Spécification :** `SPEC-AUTH-01`
 **Critère d'acceptation :** `AC-02`
 **Type :** acceptation

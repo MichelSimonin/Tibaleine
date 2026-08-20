@@ -1,5 +1,8 @@
 # CASE-COMM-02 — Le site affiche un lien vers Instagram
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_COMM_02`
+
 **Spécification :** `SPEC-COMM-01`  
 **Critère d'acceptation :** `AC-02`  
 **Type :** acceptation  

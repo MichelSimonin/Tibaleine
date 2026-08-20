@@ -1,5 +1,7 @@
 # CASE-CONS-03 — L'administrateur voit toutes les réservations avec les actions de gestion
 
+**Statut :** remplacé
+
 **Amendé par :** `CASE-CONS-03-A1`
 
 > Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-CONS-03-A1`.

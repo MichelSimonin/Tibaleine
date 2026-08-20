@@ -1,5 +1,8 @@
 # CASE-ALERT-02 — Alerte site pour un client réservant après l'avertissement de 18h
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_ALERT_02`
+
 **Spécification :** `SPEC-ALERT-01`
 **Critère d'acceptation :** `AC-03`
 **Type :** acceptation

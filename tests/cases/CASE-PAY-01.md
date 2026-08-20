@@ -1,5 +1,7 @@
 # CASE-PAY-01 — Le client paie sa réservation en ligne
 
+**Statut :** remplacé
+
 **Amendé par :** `CASE-PAY-01-A1`
 
 > Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-PAY-01-A1`.

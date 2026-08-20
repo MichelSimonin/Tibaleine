@@ -1,5 +1,8 @@
 # CASE-DISP-06 — Un créneau à moins de 2h du départ est affiché indisponible
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_DISP_06`
+
 **Spécification :** `SPEC-DISP-01`
 **Critère d'acceptation :** — (cas limite 4, aucun AC direct de cette spec — voir remarque)
 **Type :** acceptation

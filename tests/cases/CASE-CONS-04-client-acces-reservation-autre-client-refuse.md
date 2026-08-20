@@ -1,5 +1,8 @@
 # CASE-CONS-04 — Un client ne peut pas accéder à la réservation d'un autre client
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_CONS_04`
+
 **Spécification :** `SPEC-CONS-01`
 **Critère d'acceptation :** — (cas limite 1, aucun AC direct de cette spec — voir remarque)
 **Type :** acceptation

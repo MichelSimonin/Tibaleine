@@ -1,5 +1,8 @@
 # CASE-AUTH-02 — Création d'un compte sans mot de passe
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_AUTH_02`
+
 **Spécification :** `SPEC-AUTH-01`
 **Critère d'acceptation :** `AC-01`
 **Type :** acceptation

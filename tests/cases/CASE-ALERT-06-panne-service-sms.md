@@ -1,5 +1,8 @@
 # CASE-ALERT-06 — Panne du service SMS lors d'un avertissement
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_ALERT_06`
+
 **Spécification :** `SPEC-ALERT-01`
 **Critère d'acceptation :** — (cas limite 5, aucun AC direct de cette spec — voir remarque)
 **Type :** acceptation

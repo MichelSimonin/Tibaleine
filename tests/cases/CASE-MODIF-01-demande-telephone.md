@@ -1,5 +1,8 @@
 # CASE-MODIF-01 — La demande de modification s'effectue par téléphone
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_MODIF_01`
+
 **Spécification :** `SPEC-MODIF-01`  
 **Critère d'acceptation :** `AC-01`  
 **Type :** acceptation  

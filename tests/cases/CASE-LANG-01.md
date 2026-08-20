@@ -1,5 +1,8 @@
 # CASE-LANG-01 — L'interface est disponible en français et en anglais
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_LANG_01`
+
 **Spécification :** `SPEC-LANG-01`  
 **Critère d'acceptation :** `AC-01`  
 **Type :** acceptation  

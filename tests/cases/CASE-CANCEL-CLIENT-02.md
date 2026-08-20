@@ -1,5 +1,7 @@
 # CASE-CANCEL-CLIENT-02 — Annulation client à entre 48h et 7 jours
 
+**Statut :** remplacé
+
 **Amendé par :** `CASE-CANCEL-CLIENT-02-A1`
 
 > Ce cas est conservé pour l’historique. Le comportement actuellement applicable est défini dans `CASE-CANCEL-CLIENT-02-A1`.

@@ -1,5 +1,8 @@
 # CASE-AUTH-09 — Un client ne peut pas accéder à la vue patron
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_AUTH_09`
+
 **Spécification :** `SPEC-AUTH-01`
 **Critère d'acceptation :** `AC-05`
 **Type :** acceptation

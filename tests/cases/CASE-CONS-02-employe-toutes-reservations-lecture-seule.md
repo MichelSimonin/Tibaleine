@@ -1,5 +1,8 @@
 # CASE-CONS-02 — L'employé voit toutes les réservations en lecture seule
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_CONS_02`
+
 **Spécification :** `SPEC-CONS-01`
 **Critère d'acceptation :** `AC-02`
 **Type :** acceptation

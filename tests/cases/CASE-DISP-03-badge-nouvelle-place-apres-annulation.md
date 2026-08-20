@@ -1,5 +1,8 @@
 # CASE-DISP-03 — Badge « nouvelle place disponible » après une annulation
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_DISP_03`
+
 **Spécification :** `SPEC-DISP-01`
 **Critère d'acceptation :** `AC-03`
 **Type :** acceptation

@@ -1,5 +1,8 @@
 # CASE-DISP-04 — Badge « nouvelle place disponible » après expiration du délai de paiement
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_DISP_04`
+
 **Spécification :** `SPEC-DISP-01`
 **Critère d'acceptation :** `AC-03`
 **Type :** acceptation

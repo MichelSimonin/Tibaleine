@@ -1,5 +1,8 @@
 # CASE-CANCEL-PRESTATAIRE-01 — Le prestataire envoie un avertissement à 18h la veille en cas de risque météo
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_CANCEL_PRESTATAIRE_01`
+
 **Spécification :** `SPEC-CANCEL-PRESTATAIRE-02`  
 **Critère d'acceptation :** `AC-01`  
 **Type :** acceptation  

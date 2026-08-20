@@ -1,5 +1,8 @@
 # CASE-AUTH-06 — Refus d'un mot de passe trop faible
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_AUTH_06`
+
 **Spécification :** `SPEC-AUTH-01`
 **Critère d'acceptation :** — (cas limite 3, aucun AC direct de cette spec — voir remarque)
 **Type :** acceptation

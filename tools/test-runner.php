@@ -132,6 +132,7 @@ namespace {
     $failed = 0;
     $groups = [];
     $executedMethods = [];
+    $methodOwners = [];
     $testResults = [];
     $startedAt = microtime(true);
 
@@ -151,7 +152,8 @@ namespace {
             preg_match('/^test_CASE_((?:[A-Z]+_)*[A-Z]+)_\d+/', $method, $matches);
             $group = str_replace('_', '-', $matches[1] ?? 'AUTRE');
             $groups[$group] ??= ['passed' => 0, 'failed' => 0];
-            $executedMethods[$method] = true;
+            $executedMethods[$method] = ($executedMethods[$method] ?? 0) + 1;
+            $methodOwners[$method][] = $testClass;
             $test = new $testClass();
 
             try {
@@ -191,22 +193,79 @@ namespace {
     ksort($groups);
     $duration = microtime(true) - $startedAt;
 
+    $totalCases = 0;
     $applicableCases = 0;
+    $replacedCases = 0;
     $coveredCases = 0;
     $missingCases = [];
+    $caseErrors = [];
+    $expectedCaseMethods = [];
+    $orphanTests = [];
     if ($filter === null) {
         foreach (glob($projectRoot . '/tests/cases/CASE-*.md') ?: [] as $caseFile) {
             $caseContents = file_get_contents($caseFile);
-            if (!str_contains($caseContents, '**Statut :** applicable')) {
+            $caseName = basename($caseFile, '.md');
+            ++$totalCases;
+
+            if (preg_match('/^\*\*Statut\s*:\*\*\s*([^\r\n]+)/miu', $caseContents, $statusMatch) !== 1) {
+                $caseErrors[] = "{$caseName} : statut absent";
                 continue;
             }
+
+            $status = trim(mb_strtolower($statusMatch[1]));
+            if ($status === 'remplacé') {
+                ++$replacedCases;
+                if (preg_match('/^\*\*Amendé par\s*:\*\*\s*`([^`]+)`/miu', $caseContents, $replacementMatch) !== 1) {
+                    $caseErrors[] = "{$caseName} : CASE remplaçant absent";
+                    continue;
+                }
+
+                $replacementPath = $projectRoot . '/tests/cases/' . $replacementMatch[1] . '.md';
+                if (!is_file($replacementPath)) {
+                    $caseErrors[] = "{$caseName} : {$replacementMatch[1]} introuvable";
+                    continue;
+                }
+                $replacementContents = file_get_contents($replacementPath);
+                if (preg_match('/^\*\*Statut\s*:\*\*\s*applicable\s*$/miu', $replacementContents) !== 1) {
+                    $caseErrors[] = "{$caseName} : {$replacementMatch[1]} n'est pas applicable";
+                }
+                continue;
+            }
+
+            if ($status !== 'applicable') {
+                $caseErrors[] = "{$caseName} : statut inconnu « {$statusMatch[1]} »";
+                continue;
+            }
+
             ++$applicableCases;
-            if (preg_match('/\*\*Nom attendu\s*:\*\*\s*`([^`]+)`/u', $caseContents, $methodMatch) === 1
-                && isset($executedMethods[$methodMatch[1]])) {
+            if (preg_match('/\*\*Nom attendu\s*:\*\*\s*`([^`]+)`/u', $caseContents, $methodMatch) !== 1) {
+                $missingCases[] = "{$caseName} : nom de test attendu absent";
+                continue;
+            }
+
+            $expectedMethod = $methodMatch[1];
+            $expectedCaseMethods[$expectedMethod][] = $caseName;
+            if (($executedMethods[$expectedMethod] ?? 0) === 1) {
                 ++$coveredCases;
                 continue;
             }
-            $missingCases[] = basename($caseFile, '.md');
+            $missingCases[] = isset($executedMethods[$expectedMethod])
+                ? "{$caseName} : méthode {$expectedMethod} déclarée plusieurs fois"
+                : "{$caseName} : méthode {$expectedMethod} introuvable";
+        }
+
+        foreach ($expectedCaseMethods as $method => $caseNames) {
+            if (count($caseNames) > 1) {
+                $caseErrors[] = $method . ' est revendiquée par plusieurs CASE : ' . implode(', ', $caseNames);
+            }
+        }
+        foreach ($executedMethods as $method => $declarationCount) {
+            if ($declarationCount > 1) {
+                $caseErrors[] = $method . ' est déclarée dans plusieurs classes : ' . implode(', ', $methodOwners[$method]);
+            }
+            if (!isset($expectedCaseMethods[$method])) {
+                $orphanTests[] = $method;
+            }
         }
     }
     echo "\n{$bold}Récapitulatif par domaine{$reset}\n";
@@ -218,10 +277,19 @@ namespace {
     }
 
     if ($filter === null) {
-        $coverageColor = $missingCases === [] ? $green : $red;
-        $coverageStatus = $missingCases === [] ? 'VERTE' : 'INCOMPLÈTE';
+        $coverageOk = $missingCases === [] && $caseErrors === [] && $orphanTests === [];
+        $coverageColor = $coverageOk ? $green : $red;
+        $coverageStatus = $coverageOk ? 'VERTE' : 'INCOMPLÈTE';
         echo sprintf(
-            "\n%sCouverture des CASE applicables : %s%s — %d/%d automatisés%s\n",
+            "\n%sInventaire CASE : %d applicable(s), %d remplacé(s), %d total%s\n",
+            $bold,
+            $applicableCases,
+            $replacedCases,
+            $totalCases,
+            $reset,
+        );
+        echo sprintf(
+            "%sCouverture des CASE applicables : %s%s — %d/%d automatisés%s\n",
             $bold,
             $coverageColor,
             $coverageStatus,
@@ -230,12 +298,18 @@ namespace {
             $reset,
         );
         foreach ($missingCases as $missingCase) {
-            echo "{$red}  - test manquant : {$missingCase}{$reset}\n";
+            echo "{$red}  - couverture manquante : {$missingCase}{$reset}\n";
+        }
+        foreach ($caseErrors as $caseError) {
+            echo "{$red}  - métadonnée invalide : {$caseError}{$reset}\n";
+        }
+        foreach ($orphanTests as $orphanTest) {
+            echo "{$red}  - test sans CASE applicable : {$orphanTest}{$reset}\n";
         }
     }
 
     $total = $passed + $failed;
-    $allGreen = $failed === 0 && $missingCases === [];
+    $allGreen = $failed === 0 && $missingCases === [] && $caseErrors === [] && $orphanTests === [];
     $summaryColor = $allGreen ? $green : $red;
     $summary = $allGreen ? 'TOUT EST VERT' : 'DES TESTS SONT ROUGES';
     echo sprintf(
@@ -273,6 +347,8 @@ namespace {
         $markdown[] = '- **Résultat :** ' . ($allGreen ? '✅ TOUT EST VERT' : '❌ DES TESTS SONT ROUGES');
         $markdown[] = '- **Tests :** ' . $passed . '/' . $total . ' réussis, ' . $failed . ' échec(s)';
         $markdown[] = '- **CASE applicables :** ' . $coveredCases . '/' . $applicableCases . ' automatisés';
+        $markdown[] = '- **CASE remplacés :** ' . $replacedCases;
+        $markdown[] = '- **CASE total :** ' . $totalCases;
         $markdown[] = '- **Durée :** ' . number_format($duration, 3, '.', '') . ' s';
         $markdown[] = '';
         $markdown[] = '## Récapitulatif par domaine';
@@ -310,6 +386,22 @@ namespace {
             $markdown[] = '';
             foreach ($missingCases as $missingCase) {
                 $markdown[] = '- `' . $missingCase . '`';
+            }
+        }
+        if ($caseErrors !== []) {
+            $markdown[] = '';
+            $markdown[] = '## Métadonnées CASE invalides';
+            $markdown[] = '';
+            foreach ($caseErrors as $caseError) {
+                $markdown[] = '- ' . $caseError;
+            }
+        }
+        if ($orphanTests !== []) {
+            $markdown[] = '';
+            $markdown[] = '## Tests sans CASE applicable';
+            $markdown[] = '';
+            foreach ($orphanTests as $orphanTest) {
+                $markdown[] = '- `' . $orphanTest . '`';
             }
         }
         $markdown[] = '';

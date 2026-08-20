@@ -1,5 +1,8 @@
 # CASE-CANCEL-CLIENT-AVERTISSEMENT-02 — Annulation avant l'envoi de l'avertissement (barème classique)
 
+**Statut :** applicable
+**Nom attendu :** `test_CASE_CANCEL_CLIENT_AVERTISSEMENT_02`
+
 **Spécifications :** `SPEC-CANCEL-CLIENT-01-A1`, `SPEC-CANCEL-CLIENT-AVERTISSEMENT-03-A1`
 **Critère d'acceptation :** `SPEC-CANCEL-CLIENT-01-A1/AC-2` (frontière avant avertissement)
 **Type :** acceptation
