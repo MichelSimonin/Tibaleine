@@ -1,14 +1,18 @@
 ## SPEC-CANCEL-CLIENT-AVERTISSEMENT-03 — Annulation de la réservation à l'initiative du client suite à un avertissement du prestataire
 
 **Exigence :** REQ-018
-**Statut :** revue IA faite
-**Version :** v1
+**Statut :** modifiée (cahier des charges V5, R-095)
+**Version :** v2
 
 ### Règle
 
 > Si un client annule sa réservation pendant la phase d'avertissement (après
-> avoir reçu l'avertissement du prestataire), il est remboursé intégralement,
-> indépendamment de la décision finale d'annulation de la sortie.
+> avoir reçu l'avertissement du prestataire), il est remboursé intégralement
+> **des sommes déjà payées** (acompte seul, ou acompte + solde selon ce qui a
+> été réglé au moment de l'annulation), indépendamment de la décision finale
+> d'annulation de la sortie (R-095). Comme pour `SPEC-CANCEL-PRESTATAIRE-02`,
+> le calcul se fait sur les sommes effectivement encaissées, pas sur le
+> montant initial de la réservation.
 
 ### Portée
 
@@ -76,5 +80,6 @@ Consigne utilisée :
 | Condition du 100 % : comment savoir qu'un client « a reçu l'avertissement » ? | à trancher | Nécessite la trace des notifications (MCD V2) |
 | Cas 2 : que devient la réservation d'origine si la sortie est maintenue ? | à trancher | |
 | Exécution du remboursement manuelle (R-49) non précisée | à trancher | |
+| Cahier des charges V5 (R-095) : précise que le remboursement intégral porte sur les sommes déjà payées (acompte seul ou acompte + solde), pas sur le montant initial | tranchée | Cohérent avec `SPEC-CANCEL-PRESTATAIRE-02` — AC-3 le disait déjà correctement (« 100 % du montant payé ») |
 
 Les refus se reportent aussi dans `docs/journal.md`.

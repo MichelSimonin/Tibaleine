@@ -29,9 +29,9 @@ Systeme -> Systeme: Création de la réservation
 
 
 alt Paiement dans les 15 mins
-Client -> Systeme : Paiement en ligne (accompte complet)
+Client -> Systeme : Paiement en ligne (prix réservation total)
 activate Systeme
-Systeme -> Paiement : Demande de paiement (montant
+Systeme -> Paiement : Demande de paiement (montant)
 
 
 alt Paiement refusé
@@ -42,7 +42,7 @@ end
 
 alt Paiement accepté
 Paiement --> Systeme : Paiement accepté
-Systeme -> Systeme : Réservation en état "Payé", Paiement en état "Accompte payé"
+Systeme -> Systeme : Réservation en état "Payé", Paiement en état "Intégralement payé"
 Systeme --> Client : Paiement enregistré
 deactivate Systeme
 
