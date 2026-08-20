@@ -19,7 +19,7 @@ Le patron devra pouvoir indiquer manuellement dans l'application que le solde a 
 
 Si le client ne paie pas le solde sur place, il ne pourra pas participer à la prestation ou embarquer et sa réservation sera annulée. Une absence le jour de la prestation sera également considérée comme une annulation tardive.
 
-Le client souhaite conserver les états de réservation suivants : « réservée », « payée » et « annulée ». Les statuts de paiement resteront : « acompte payé », « intégralement payé » et « remboursé ».
+Le client souhaite conserver les états de réservation suivants : « réservée », « réalisée » et « annulée ». Les statuts de paiement resteront : « en attente de paiement », « acompte payé », « intégralement payé » et « remboursé ».
 
 En cas d'annulation par le client moins de 48 heures avant la prestation, les frais d'annulation correspondront à 50 % du montant initial de la réservation. L'acompte déjà versé sera déduit de cette somme. Ainsi, pour une réservation initiale de 100 € avec un acompte de 30 €, le client devra encore payer 20 €. Ce complément pourra être réglé au moyen d'un lien de paiement valable 24 heures ou sur place. S'il n'est jamais payé, il restera impayé.
 
@@ -52,8 +52,8 @@ Enfin, le système devra générer un justificatif après le paiement de l'acomp
 | Q74 | Que se passe-t-il si la réservation est réalisée moins de 12 heures avant le créneau ?           | Le client paie l'acompte en ligne, puis obligatoirement le solde sur place.                                                         |
 | Q75 | Le patron peut-il enregistrer un paiement effectué sur place ?                                   | Oui, mais uniquement pour le solde. L'acompte doit toujours être payé en ligne.                                                     |
 | Q76 | Que se passe-t-il si le client ne paie pas le solde sur place ?                                  | Il ne peut pas participer ou embarquer et sa réservation est annulée.                                                               |
-| Q77 | Quels états de réservation faut-il conserver ?                                                   | « Réservée », « payée » et « annulée ».                                                                                             |
-| Q78 | Quels statuts de paiement faut-il conserver ?                                                    | « Acompte payé », « intégralement payé » et « remboursé ».                                                                          |
+| Q77 | Quels états de réservation faut-il conserver ?                                                   | « Réservée », « réalisée » et « annulée ».                                                                                           |
+| Q78 | Quels statuts de paiement faut-il conserver ?                                                    | « En attente de paiement », « acompte payé », « intégralement payé » et « remboursé ».                                               |
 | Q79 | Que se passe-t-il si le client annule moins de 48 heures avant le créneau ?                      | Il doit payer des frais correspondant à 50 % du montant initial de la réservation. L'acompte déjà payé est déduit de cette somme.   |
 | Q80 | Comment le client paie-t-il un complément dû après une annulation tardive ?                      | Au moyen d'un lien de paiement valable 24 heures ou sur place. Si le complément n'est jamais payé, il reste impayé.                 |
 | Q81 | Que se passe-t-il si le client est absent le jour de la prestation ?                             | Le client n'est pas remboursé.                                                                                                      |
@@ -73,7 +73,7 @@ Le paiement du solde ne sera pas proposé longtemps à l'avance. Un lien sera en
 
 Pour une réservation effectuée entre 24 heures et 12 heures avant la prestation, le client pourra payer la totalité en ligne ou conserver le solde pour un paiement sur place. Pour une réservation effectuée moins de 12 heures avant, seul l'acompte pourra être payé en ligne et le solde sera obligatoirement payé sur place.
 
-Le client souhaite conserver son fonctionnement actuel avec trois états de réservation, « réservée », « payée » et « annulée », et trois statuts de paiement, « acompte payé », « intégralement payé » et « remboursé ».
+Le client souhaite conserver son fonctionnement actuel avec trois états de réservation, « réservée », « réalisée » et « annulée », et quatre statuts de paiement, « en attente de paiement », « acompte payé », « intégralement payé » et « remboursé ».
 
 En cas d'annulation par le client moins de 48 heures avant la prestation ou en cas d'absence, 50 % du montant initial de la réservation seront dus. L'acompte viendra en déduction de ce montant. À partir de 48 heures avant la prestation, les règles de remboursement déjà présentes resteront applicables.
 
@@ -108,8 +108,8 @@ Enfin, les modifications du nombre de personnes feront évoluer le solde, mais p
 | Paiement du solde sur place moins de 12 heures avant           | « Comme dépassé 12h alors peut plus payer en ligne, sur place obligatoirement. » | Oui    |
 | Enregistrement du solde sur place par le patron                | « Faut que patron puisse renseigner oui payé. »                                  | Oui    |
 | Refus d'embarquement sans paiement du solde                    | « Il ne peut pas embarquer + sa réservation est annulée. »                       | Oui    |
-| Maintien des états de réservation                              | « Réservée, payée, annulée. »                                                    | Oui    |
-| Maintien des statuts de paiement                               | « Acompte payé, intégralement payé, remboursé. »                                 | Oui    |
+| Maintien des états de réservation                              | « Réservée, réalisée, annulée. »                                                 | Oui    |
+| Maintien des statuts de paiement                               | « En attente de paiement, acompte payé, intégralement payé, remboursé. »         | Oui    |
 | Frais d'annulation tardive de 50 %                             | « Retenue de 50 %. »                                                             | Oui    |
 | Déduction de l'acompte des frais dus                           | « Il a déjà payé 30 € [...] le client doit toujours 20 €. »                      | Oui    |
 | Même règle en cas d'absence                                    | « Oui, 50% du total. »                                                           | Oui    |
