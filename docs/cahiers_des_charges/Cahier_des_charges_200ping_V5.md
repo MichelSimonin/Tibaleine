@@ -16,7 +16,7 @@
 - acompte de 30 % du montant total pour une réservation standard et de 50 % pour une privatisation ;
 - paiement différé du solde en ligne entre 24 heures et 12 heures avant le départ, puis sur place ;
 - enregistrement manuel du paiement du solde sur place par le patron ;
-- ajout des états « réservée », « payée » et « annulée » et des statuts de paiement associés ;
+- ajout des états « réservée », « réalisée » et « annulée » et des statuts de paiement « en attente de paiement », « acompte payé », « intégralement payé » et « remboursé » ;
 - adaptation des annulations, absences et modifications au fonctionnement par acompte et solde ;
 - génération d'un justificatif d'acompte puis d'une facture finale.
 
@@ -140,7 +140,7 @@ Priorité : **Must / Should / Could / Won't**
 | REQ-024 | Générer un justificatif après le paiement de l'acompte et une facture finale après le paiement intégral. | Must | Client, patron | CR-05/Q88 |
 | REQ-025 | Conserver séparément l'état de la réservation et son statut global de paiement. | Must | Client, patron | CR-05/Q77 à Q78 |
 
-> **Hypothèse provisoire concernant les hôtels :** les exigences REQ-011 à REQ-013 et la facturation mensuelle restent inchangées tant que le client n'a pas confirmé si l'acompte obligatoire s'applique également aux réservations des hôtels. Voir la question ouverte n°16.
+> **Précision concernant les hôtels :** l'acompte obligatoire ne s'applique pas aux réservations des hôtels. Celles-ci conservent la facturation en fin de mois et portent le statut « en attente de paiement » jusqu'à leur règlement intégral.
 
 ## 4.1 Règles métier
 
@@ -198,7 +198,7 @@ Priorité : **Must / Should / Could / Won't**
 | R-55 | Un hôtel partenaire peut réserver des places pour une sortie baleine ou dauphin. | CR-03 §3 |
 | R-56 | Un hôtel peut réserver au maximum 6 places par créneau. | CR-03 §3 |
 | R-57 | Un hôtel ne peut pas réserver une privatisation. | CR-03 §3 |
-| R-58 | Les réservations d'un hôtel sont facturées en fin de mois, sous réserve de la question ouverte n°16. | CR-03 §3 |
+| R-58 | Les réservations d'un hôtel sont facturées en fin de mois et portent le statut « en attente de paiement » jusqu'à leur règlement intégral. | CR-03 §3 ; CR-05/Q78 |
 | R-60 | Un hôtel partenaire bénéficie d'une remise de 15 % sur le montant total facturé en fin de mois. | CR-03 §3 |
 | R-61 | Une réservation pour un hôtel peut être créée par le patron à la suite d'un appel, d'un email ou d'un contact direct. | CR-03 §5 |
 | R-62 | Une personne de l'hôtel gère la réservation, reçoit les informations et prévient les clients de l'hôtel. | CR-04/Q60 |
@@ -229,8 +229,8 @@ Priorité : **Must / Should / Could / Won't**
 | R-87 | À moins de 12 heures du départ, le client paie l'acompte en ligne et le solde sur place. | CR-05/Q74 |
 | R-88 | Seul le patron peut enregistrer manuellement le solde comme payé sur place ; l'acompte ne peut jamais être enregistré de cette manière. | CR-05/Q75 |
 | R-89 | Si le solde exigible n'est pas payé sur place, le client ne peut pas participer ou embarquer et la réservation est annulée. | CR-05/Q76 |
-| R-90 | Une réservation possède l'un des états suivants : « réservée », « payée » ou « annulée ». | CR-05/Q77 |
-| R-91 | Le statut global du paiement est « acompte payé », « intégralement payé » ou « remboursé ». | CR-05/Q78 |
+| R-90 | Une réservation possède l'un des états suivants : « réservée », « réalisée » ou « annulée ». | CR-05/Q77 |
+| R-91 | Le statut global du paiement est « en attente de paiement », « acompte payé », « intégralement payé » ou « remboursé ». | CR-05/Q78 |
 | R-92 | À moins de 48 heures du départ, les frais d'annulation client sont égaux à 50 % du montant initial. Les sommes déjà payées sont déduites. Un complément peut être payé par un lien valable 24 heures ou sur place ; s'il n'est pas payé, il reste impayé. | CR-05/Q79 à Q80 |
 | R-93 | En cas d'absence le jour de la prestation, le client n'est pas remboursé et les sommes déjà encaissées sont conservées. | CR-05/Q81 |
 | R-94 | Si l'entreprise annule, le client reçoit 100 % des sommes déjà payées ou accepte un report sur un autre créneau. | CR-05/Q83 |
@@ -239,8 +239,8 @@ Priorité : **Must / Should / Could / Won't**
 | R-97 | Lors d'une modification du nombre de participants, l'acompte déjà payé n'est pas recalculé ; seul le montant courant et le solde évoluent. | CR-05/Q85 à Q86 |
 | R-98 | Les frais d'annulation restent calculés sur le montant initial de la réservation, même après une modification. | CR-05/Q87 |
 | R-99 | Un justificatif est généré après le paiement de l'acompte et une facture finale après le paiement intégral. | CR-05/Q88 |
-| R-100 | Les moyens de paiement acceptés restent ceux utilisés par l'entreprise ; l'acompte reste obligatoirement en ligne. | CR-05 §1 |
-| R-101 | Après paiement de l'acompte, la réservation est « réservée » et son paiement est « acompte payé ». Après règlement du solde, elle est « payée » et son paiement est « intégralement payé ». Une annulation fait passer la réservation à « annulée ». | CR-05/Q68, Q77 à Q78 |
+| R-100 | Les moyens de paiement acceptés restent ceux utilisés par l'entreprise ; pour un client particulier, l'acompte reste obligatoirement en ligne. | CR-05 §1 |
+| R-101 | Lors de sa confirmation, une réservation passe à l'état « réservée ». Pour un client particulier, son statut est « acompte payé ». Pour un hôtel facturé en fin de mois, son statut est « en attente de paiement ». Le règlement complet fait passer le statut à « intégralement payé » sans modifier l'état de la réservation. Après la prestation, la réservation passe à l'état « réalisée ». Une annulation la fait passer à l'état « annulée ». | CR-05/Q68, Q77 à Q78 |
 
 > Note : les numéros R-03, R-04, R-05, R-12, R-13 et R-59 n'apparaissent pas dans le document source historique.
 
@@ -270,8 +270,8 @@ Nature : budget / délai / technique / réglementaire / humaine / métier / fina
 | 4 | La date de livraison prévue est le 21/08/2026. | Délai | Planning projet |
 | 5 | La solution est un site web responsive. | Technique | CR-01/Q09 |
 | 6 | Le projet traite et héberge des données personnelles et doit respecter le RGPD. | Réglementaire | CR-03/Q42 |
-| 7 | L'acompte est obligatoirement payé en ligne. | Financière / métier | CR-05/Q67 |
-| 8 | Une réservation standard nécessite un acompte de 30 % et une privatisation un acompte de 50 %. | Financière / métier | CR-05/Q64 à Q65 |
+| 7 | Pour un client particulier, l'acompte est obligatoirement payé en ligne. | Financière / métier | CR-05/Q67 |
+| 8 | Pour un client particulier, une réservation standard nécessite un acompte de 30 % et une privatisation un acompte de 50 %. | Financière / métier | CR-05/Q64 à Q65 |
 | 9 | Une réservation d'un client particulier n'existe pas sans acompte payé. | Métier | CR-05/Q66 à Q69 |
 | 10 | Le paiement en ligne du solde est disponible uniquement entre 24 heures et 12 heures avant le départ. | Temporelle / financière | CR-05/Q71 à Q74 |
 | 11 | Après expiration du lien, le solde est payé sur place et enregistré par le patron. | Métier / financière | CR-05/Q72, Q75 |
@@ -301,14 +301,14 @@ Nature : budget / délai / technique / réglementaire / humaine / métier / fina
 | 9 | Le patron peut-il refuser une demande de réservation déjà accompagnée d'un acompte ? | — | Le paiement de l'acompte confirme automatiquement la réservation. | Aucun refus manuel après encaissement, hors annulation de la sortie. |
 | 10 | Le client annule-t-il depuis le site ou uniquement par téléphone ? | — | — | Demande possible depuis le site avec motif, puis traitement par le patron. |
 | 15 | Pour quels motifs et à quelle étape le patron peut-il refuser une réservation ? | — | — | Aucun refus après paiement réussi de l'acompte. |
-| 16 | L'acompte obligatoire s'applique-t-il aussi aux réservations des hôtels, actuellement facturées en fin de mois ? | 19/08/2026 | Q66 indique « toutes les réservations », mais CR-03 prévoit une facturation mensuelle. | Le fonctionnement des hôtels reste inchangé jusqu'à confirmation. |
+| 16 | L'acompte obligatoire s'applique-t-il aussi aux réservations des hôtels, actuellement facturées en fin de mois ? | 19/08/2026 | Non. Les hôtels restent facturés en fin de mois avec le statut « en attente de paiement ». | Le fonctionnement des hôtels reste inchangé. |
 | 17 | Quelle règle d'arrondi faut-il appliquer lorsque l'acompte comporte une fraction de centime ? | 19/08/2026 | — | Arrondi monétaire au centime le plus proche, à valider. |
 | 18 | Quel contenu exact doit comporter le mail du lien de paiement du solde ? | 19/08/2026 | Il doit avertir du paiement sur place après expiration. | Contenu fonctionnel minimal en français et en anglais. |
 | 19 | Quel format, quelle numérotation et quelles mentions doivent comporter le justificatif d'acompte et la facture finale ? | 19/08/2026 | — | Documents PDF avec références uniques, à valider. |
 | 20 | Les échéances de 24 heures et 12 heures sont-elles calculées à la minute exacte et dans quel fuseau horaire ? | 19/08/2026 | — | Calcul à la minute dans le fuseau horaire local de la prestation. |
 | 21 | En cas d'absence, un éventuel solde non encore payé reste-t-il dû en plus de l'absence de remboursement ? | 19/08/2026 | Q81 confirme uniquement qu'aucun remboursement n'est effectué. | Les sommes encaissées sont conservées ; aucun complément n'est recouvré sans confirmation. |
 | 22 | Quels moyens de paiement sont acceptés pour régler le solde sur place ? | 19/08/2026 | Les moyens de paiement restent « les mêmes qu'actuellement », sans liste explicite. | Le patron utilise les moyens déjà disponibles dans l'entreprise. |
-| 23 | Le statut « remboursé » doit-il distinguer un remboursement partiel d'un remboursement total ? | 19/08/2026 | Trois statuts seulement ont été demandés. | Conserver le montant remboursé dans l'historique, même si le statut global reste « remboursé ». |
+| 23 | Le statut « remboursé » doit-il distinguer un remboursement partiel d'un remboursement total ? | 19/08/2026 | Quatre statuts seulement ont été demandés, sans distinction entre remboursement partiel et total. | Conserver le montant remboursé dans l'historique, même si le statut global reste « remboursé ». |
 
 # 9. Validation du document
 
