@@ -5,7 +5,7 @@
 '          CR-01/Q03, CR-01/Q06, CR-01 §3, CR-02 §1
 ' ----------------------------------------------------------------------------
 
-title Réservation d'une sortie (1/2)
+title Réservation d'une sortie (+ 24H avant sortie) (1/2)
 
 actor "Client" as Client
 actor "Patron" as Patron
