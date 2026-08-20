@@ -1,7 +1,7 @@
 # CASE-CONS-03-A1 — Le patron voit acompte, solde et mode prévu
 
-**Spécifications :** `SPEC-CONS-01`, `SPEC-PAY-BALANCE-02`
-**Critères d'acceptation :** `SPEC-CONS-01/AC-3`, `SPEC-PAY-BALANCE-02/AC-4`, `AC-8`
+**Spécification :** `SPEC-CONS-01`
+**Critère d'acceptation :** `AC-4`
 **Statut :** applicable
 **Version :** A1
 **Amende :** `CASE-CONS-03`

@@ -14,6 +14,7 @@
 Quand il soumet le formulaire
 Alors les informations sont validées
 Et il est dirigé vers le paiement de l’acompte
+Et aucune option ne permet de confirmer la réservation sans payer cet acompte
 Et la réservation n’est pas encore confirmée à l’état « réservée »
 ```
 

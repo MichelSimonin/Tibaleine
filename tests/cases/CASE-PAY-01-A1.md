@@ -1,7 +1,7 @@
 # CASE-PAY-01-A1 — Enregistrement d’un acompte en ligne
 
-**Spécifications :** `SPEC-PAY-01`, `SPEC-PAY-01-A1`
-**Critères d'acceptation :** `SPEC-PAY-01/AC-1`, `SPEC-PAY-01-A1/AC-1`
+**Spécification :** `SPEC-PAY-01`
+**Critère d'acceptation :** `AC-2`
 **Statut :** applicable
 **Version :** A1
 **Amende :** `CASE-PAY-01`

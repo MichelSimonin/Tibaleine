@@ -10,8 +10,11 @@
 ## Cas
 
 ```gherkin
-Étant donné une tentative de paiement commencée avant la fin du second délai de 15 minutes
-Quand la confirmation arrive après l’expiration du délai
+Étant donné une demande de réservation dont le premier délai n’est pas expiré
+Quand le client accède au paiement de l’acompte
+Alors un second délai de 15 minutes commence
+Et une tentative de paiement est commencée avant la fin de ce second délai
+Quand la confirmation de cette tentative arrive après l’expiration du délai
 Alors cette tentative peut être confirmée une seule fois
 Et la réservation devient « réservée »
 Quand le client tente ensuite de démarrer un nouveau paiement avec la réservation expirée

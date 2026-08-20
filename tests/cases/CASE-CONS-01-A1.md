@@ -1,7 +1,7 @@
 # CASE-CONS-01-A1 — Le client voit l’état et le statut de paiement
 
-**Spécifications :** `SPEC-CONS-01`, `SPEC-PAY-BALANCE-02`
-**Critères d'acceptation :** `SPEC-CONS-01/AC-1`, `SPEC-PAY-BALANCE-02/AC-8`
+**Spécification :** `SPEC-CONS-01`
+**Critère d'acceptation :** `AC-1`
 **Statut :** applicable
 **Version :** A1
 **Amende :** `CASE-CONS-01`
