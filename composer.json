@@ -1,0 +1,20 @@
+{
+  "name": "deepsea/project-tests",
+  "description": "Tests PHPUnit du projet DeepSea",
+  "type": "project",
+  "autoload": {
+    "classmap": [
+      "tests/entite_test",
+      "tests/service",
+      "tests/exception"
+    ]
+  },
+  "autoload-dev": {
+    "classmap": [
+      "tests/phpunit"
+    ]
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^11.0"
+  }
+}
