@@ -1,6 +1,8 @@
-# Plan de délégation — `<SPEC-BOOK-03>`
+# Plan de délégation — `SPEC-BOOK-03`
 
-Copiez ce gabarit en `docs/delegation-<SPEC-DOM-nn>.md`.
+> **Plan historique incomplet.** Le découpage « Avant » a bien été renseigné,
+> mais le retour « Après » n'a pas été consigné le jour de l'exécution. Les
+> résultats ne sont pas reconstitués rétroactivement.
 
 Lorsqu'un client réserve, une place est bloquée temporairement dès que l'utilisateur clique sur « Réserver » et arrive sur le formulaire, pour une durée de 15 minutes. Au passage au paiement, un nouveau délai d'environ 15 minutes lui est accordé. Si le paiement n'est pas effectué dans ce délai, la place redevient disponible.
 
@@ -14,27 +16,17 @@ Lorsqu'un client réserve, une place est bloquée temporairement dès que l'util
 | 2 | Vérification qu'une place est libérée si le paiement n'est pas effectué dans le délai imparti.| `CASE-BOOK-07` | `SPEC-BOOK-03`, `CASE-BOOK-07`, fichiers de test sur la libération de place et la durée de 15 minutes avant expiration. | L'agent ne touche pas le service de paiement, la logique de disponibilité affichée, les notifications client ni les autres specs du domaine (`SPEC-BOOK-01`, `SPEC-BOOK-02`). |
 
 
-**Colonne 3.** Un identifiant `CASE`, pas une phrase. Si vous ne savez pas quel test
-va changer d'état, la tâche est mal découpée — c'est le repère du module 07.
-
-**Colonne 4.** Ce que l'agent reçoit : les fichiers, les spécifications, les cas de
-test. Pas le dépôt entier.
-
-**Colonne 5.** Ce qu'il n'a pas à modifier. Une colonne vide veut dire que vous
-n'avez pas pensé au rayon d'action — or « l'agent modifie des fichiers que vous ne
-lui avez pas désignés » est le premier des trois signaux de reprise en main.
-
 ---
 
 ## Après — ce qui s'est passé
 
-Complété au rituel de 16h15, le même jour.
+Non renseigné au rituel de 16h15. L'absence de retour est conservée comme un
+écart documentaire plutôt que remplacée par un compte rendu reconstruit.
 
 | # | Résultat | Ce qui a fait reprendre la main |
 |---|---|---|
-| 1 | | |
-| 2 | | |
-| 3 | | |
+| 1 | *(non renseigné)* | Retour non consigné le jour même. |
+| 2 | *(non renseigné)* | Retour non consigné le jour même. |
 
 | Résultat | Sens |
 |---|---|
@@ -51,6 +43,5 @@ Pas le nombre de `conforme`. Ce qui se lit, c'est **l'écart entre ce que vous a
 prévu et ce qui est arrivé, et le fait que vous l'ayez vu**.
 
 Une équipe avec quatre `repris` qui sait dire pourquoi pilote mieux qu'une équipe
-avec six `conforme` qui n'a rien observé.
-
-C'est une des trois questions obligatoires de la présentation de J10.
+avec six `conforme` qui n'a rien observé. Ici, l'écart à présenter est l'absence
+de retour « Après » consigné le jour même.
