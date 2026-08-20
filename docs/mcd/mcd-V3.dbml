@@ -1,0 +1,102 @@
+// =============================================================================
+// MCD — TI Baleine App — V3 (schéma DBML)
+// -----------------------------------------------------------------------------
+// Équipe  : 200ping
+// Source  : Cahier_des_charges_200ping_V5.md (V5.0, 19/08/2026), CR-01 → CR-05,
+//           impact CR-001
+// Décisions équipe (12/08/2026) : compte client OUI · mot de passe optionnel ·
+//           hôtel = Utilisateur ordinaire (pas de table Hotel) · 3 rôles
+//           (utilisateur / employe / administrateur)
+// -----------------------------------------------------------------------------
+// Changements V2 → V3 (cahier V5, 19/08/2026) :
+//   - Reservation.etat : payée|annulée  →  réservée|réalisée|annulée (R-90)
+//   - Reservation.statut_paiement (nouveau) : en_attente_paiement|acompte_paye|
+//       integralement_paye|rembourse (R-91, REQ-025) — séparé de l'état
+//   - Reservation.montant_initial, acompte, solde (nouveaux) — acompte 30 %
+//       (standard) / 50 % (privatisation), jamais recalculé (R-81/82/97)
+//   - Paiement : trace d'opérations (acompte|solde|complement|remboursement),
+//       0..n par réservation (R-42/52/54, contrainte 15)
+//   - Document (nouveau) : justificatif d'acompte + facture finale (REQ-024, R-99)
+// =============================================================================
+
+Table Utilisateur {
+  id int [pk, increment]
+  nom varchar
+  prenom varchar
+  email varchar [not null, unique]
+  mot_de_passe varchar
+  telephone varchar
+  role varchar [not null, default: 'utilisateur']
+  // utilisateur (client) | employe (lecture seule) | administrateur (accès complet)
+}
+
+Table Bateau {
+  id int [pk, increment]
+  nom varchar [not null]   // Ti Kap (12 places), Grand Bleu (24 places)
+  capacite int [not null]
+}
+
+Table Sortie {
+  id int [pk, increment]
+  type varchar [not null]      // baleine | dauphin | privatisation
+  date date [not null]
+  heure_depart time [not null] // créneaux 7 h / 10 h / 14 h
+  duree time [not null]        // 2 h 30 baleine, 2 h dauphin
+  bateau int [not null, ref: > Bateau.id]
+  etat varchar [not null, default: 'planifiée']
+  // planifiée | avertie | annulée (par créneau, SPEC-CANCEL-02)
+}
+
+Table Reservation {
+  id int [pk, increment]
+  etat varchar [not null, default: 'réservée']
+  // réservée | réalisée | annulée (R-90)
+  statut_paiement varchar [not null, default: 'en_attente_paiement']
+  // en_attente_paiement | acompte_paye | integralement_paye | rembourse (R-91)
+  motif_annulation varchar
+  montant_initial decimal [not null] // total à la réservation, base frais + acompte (R-98)
+  acompte decimal [not null]         // 30 % standard / 50 % privatisation, non recalculé (R-81/82/97)
+  solde decimal [not null]           // restant à payer (R-52/54)
+  nb_adultes int [not null]
+  nb_enfants int [not null]
+  utilisateur int [not null, ref: > Utilisateur.id]
+  sortie int [not null, ref: > Sortie.id]
+}
+
+Table Paiement {
+  id int [pk, increment]
+  type varchar [not null]   // acompte | solde | complement | remboursement
+  montant decimal [not null]
+  canal varchar [not null]  // en_ligne | sur_place (R-42/86/88)
+  statut varchar [not null, default: 'paye']
+  // paye | impaye (complément non réglé, R-92)
+  date datetime [not null]  // trace temporelle (REQ-108)
+  reservation int [not null, ref: > Reservation.id]
+}
+
+Table Tarif {
+  id int [pk, increment]
+  type_sortie varchar [not null] // baleine | dauphin | privatisation
+  categorie varchar              // adulte | enfant (null pour privatisation)
+  bateau int [ref: > Bateau.id]  // tarif privatisation lié au bateau (600 / 1 100 €)
+  montant decimal [not null]     // 65/40 baleine, 50/30 dauphin
+}
+
+Table Notification {
+  id int [pk, increment]
+  type varchar [not null]   // avertissement | annulation | confirmation_demande | creneau_indisponible
+  canal varchar [not null]  // sms | email | popup_site
+  date_envoi datetime [not null]
+  contenu varchar
+  utilisateur int [ref: > Utilisateur.id]
+  reservation int [ref: > Reservation.id]
+  sortie int [ref: > Sortie.id]
+}
+
+Table Document {
+  id int [pk, increment]
+  type varchar [not null]  // justificatif_acompte | facture_finale (REQ-024)
+  reference varchar [not null, unique]
+  date_emission datetime [not null]
+  reservation int [not null, ref: > Reservation.id]
+}
