@@ -23,6 +23,22 @@
 >   contrainte 15 ;
 > - nouvelle entité **`Document`** : justificatif d'acompte + facture finale
 >   (REQ-024, R-99).
+>
+> **Compléments V3 (20/08/2026, audit croisé multi-agents — ChatGPT, DeepSeek) :**
+> - `Utilisateur.role` : ajout de la valeur **`hotel`** (pas de table `Hotel`
+>   séparée, décision confirmée) ;
+> - `Réservation` : ajout de **`montant_courant`**, distinct de
+>   `montant_initial` (figé) — évolue avec les modifications de participants,
+>   demandé explicitement par `impact-CR-001.md` mais absent de la V3 initiale
+>   (R-52/54/97) ;
+> - `Paiement` : ajout de **`reference_externe`**, **`date_initiation`**,
+>   **`date_confirmation`** et élargissement de `statut`
+>   (`en_attente` / `paye` / `echoue` / `impaye`) — idempotence des webhooks,
+>   pour éviter un double encaissement (REQ-108) ;
+> - `Document` : le FK `reservation` est retiré au profit de
+>   **`Reservation.document`** (0..n réservations → 1 document), pour
+>   permettre une **facture hôtel mensuelle regroupant plusieurs
+>   réservations** (REQ-013) ; nouveau type `facture_hotel_mensuelle`.
 
 > **Règle de construction :** ce MCD est issu **uniquement** du cahier des
 > charges et, pour les éléments qu'il ne précisait pas, des comptes-rendus
@@ -65,7 +81,7 @@ sont des règles portées par la `Réservation` (état + motif + montants), voir
 | Email | « Notification par mail », « Connexion » ; CR-01/Q01 (email demandé à la réservation) |
 | Mot de passe | « Connexion » — *nullable* dans le MCD LucidChart (mot de passe optionnel, à confirmer) |
 | Téléphone | CR-01/Q03 : « Le client laisse son numéro de téléphone lors de la réservation. Appel si annulation. » |
-| Rôle | décision équipe (corrigée le 12/08/2026) : `utilisateur` (client) / `employe` (salarié, consultation seule) / `administrateur` (patron, accès complet) — « Vérification des rôles → Accès à la vue concernée (client, salarié ou patron) » |
+| Rôle | décision équipe (corrigée le 12/08/2026 ; complétée le 20/08/2026) : `utilisateur` (client) / `hotel` (client pro — 6 places max, pas d'acompte, facturation fin de mois, remise 15 %) / `employe` (salarié, consultation seule) / `administrateur` (patron, accès complet) — « Vérification des rôles → Accès à la vue concernée (client, salarié ou patron) » |
 
 ### SORTIE  *(créneau réservable)*
 
@@ -99,9 +115,10 @@ sont des règles portées par la `Réservation` (état + motif + montants), voir
 | État | R-90 : `réservée`, `réalisée`, `annulée` (le paiement de l'acompte confirme la réservation → `réservée` ; après la prestation → `réalisée` ; annulation → `annulée`) |
 | Statut de paiement | R-91, REQ-025 : `en_attente_paiement`, `acompte_paye`, `integralement_paye`, `rembourse` — **séparé de l'état** |
 | Motif d'annulation | « Demande d'annulation → Envoi du motif » (renseigné uniquement si annulation) |
-| Montant initial | total à la réservation, **conservé** pour le calcul des frais d'annulation et de l'acompte (R-98, contrainte 13) |
+| Montant initial | total à la réservation, **conservé** pour le calcul des frais d'annulation et de l'acompte (R-98, contrainte 13) — jamais modifié |
+| Montant courant | prix courant de la réservation après ajout/retrait de participants ; distinct du montant initial (R-52/54/97 ; demandé par `impact-CR-001.md`, absent de la V3 initiale) |
 | Acompte | 30 % (standard) / 50 % (privatisation) du montant initial ; **jamais recalculé** à la modification (R-81/82/97, contrainte 14) |
-| Solde | restant à payer ; augmenté/diminué par les modifications (R-52/54) |
+| Solde | restant à payer = montant courant − acompte − sommes déjà réglées ; augmenté/diminué par les modifications (R-52/54) |
 | Nombre d'adultes | CR-01/Q01 : « nombre de personnes (+ nombre d'adultes et d'enfants) » |
 | Nombre d'enfants | CR-01/Q01 ; tranche d'âge enfant : 4-11 ans (CR-01/Q14, décision équipe 12/08/2026) |
 
@@ -118,14 +135,22 @@ sont des règles portées par la `Réservation` (état + motif + montants), voir
 | Type | R-42/52/54, contrainte 15 : `acompte`, `solde`, `complement` (ajout de participants), `remboursement` |
 | Montant | montant de l'opération (acompte, solde, complément ou remboursement) |
 | Canal | R-42/86/88 : `en_ligne` (acompte obligatoirement, solde entre 24 h et 12 h) / `sur_place` (solde enregistré par le patron) |
-| Statut | R-92 : `paye`, `impaye` (un complément non réglé reste impayé) |
-| Date | trace temporelle de l'opération (REQ-108 : « ne pas être enregistrée deux fois ») |
+| Statut | `en_attente`, `paye`, `echoue`, `impaye` (R-92 : un complément non réglé reste impayé) — élargi pour l'idempotence des paiements en ligne |
+| Référence externe | id de transaction PSP (Stripe) ou de webhook, **unique** — sert à rejeter un webhook déjà traité (REQ-108) |
+| Date d'initiation | moment du déclenchement du paiement |
+| Date de confirmation | nullable, remplie à la confirmation (webhook ou enregistrement patron) — trace le délai autour de H-12 |
 
 > Chaque acompte, solde, complément et remboursement est **tracé
 > individuellement** (contrainte 15, REQ-108). L'acompte est **toujours en
 > ligne** (R-42, R-88) ; le solde se règle en ligne (24 h → 12 h avant) ou sur
 > place (enregistré par le patron). Remboursement exécuté **manuellement** par
 > le patron (R-49) ; le modèle en assure le calcul et la traçabilité.
+>
+> **Idempotence** : `reference_externe` empêche qu'un webhook de confirmation
+> reçu plusieurs fois (ou après l'expiration du lien de solde, cas limite 3 de
+> `SPEC-PAY-BALANCE-02`) ne crée deux opérations pour le même paiement. Avant
+> d'enregistrer un paiement sur place, il faut vérifier qu'aucun paiement en
+> ligne n'est déjà `paye` ou encore `en_attente` pour la même réservation.
 
 ### TARIF
 
@@ -163,10 +188,15 @@ sont des règles portées par la `Réservation` (état + motif + montants), voir
 | Attribut | Justification |
 |---|---|
 | Identifiant | identifiant technique |
-| Type | REQ-024 : `justificatif_acompte` (après l'acompte), `facture_finale` (après le paiement intégral) |
+| Type | REQ-024 : `justificatif_acompte` (après l'acompte), `facture_finale` (après le paiement intégral), `facture_hotel_mensuelle` (REQ-013, regroupe les réservations hôtel du mois) |
 | Référence | référence unique du document (numérotation à valider — question ouverte 19) |
 | Date d'émission | date d'émission du document |
-| Réservation | réservation concernée |
+
+> Pas de FK vers `Réservation` ici : la relation est portée par
+> `Reservation.document`, pour permettre à **plusieurs réservations de
+> partager un même document** (facture hôtel mensuelle). Un justificatif
+> d'acompte ou une facture finale reste malgré tout rattaché à une seule
+> réservation en pratique.
 
 ---
 
@@ -177,7 +207,7 @@ sont des règles portées par la `Réservation` (état + motif + montants), voir
 | **effectue** | UTILISATEUR (0,n) | RÉSERVATION (1,1) | un utilisateur effectue 0..n réservations ; une réservation est effectuée par un seul utilisateur |
 | **concerne** | RÉSERVATION (1,1) | SORTIE (0,n) | une réservation concerne une seule sortie (créneau) ; une sortie est concernée par 0..n réservations |
 | **donne lieu à** | RÉSERVATION (0,n) | PAIEMENT (1,1) | une réservation donne lieu à 0..n opérations financières ; une opération règle une seule réservation |
-| **génère** | RÉSERVATION (0,n) | DOCUMENT (1,1) | une réservation génère 0..n documents ; un document concerne une seule réservation |
+| **est couverte par** | RÉSERVATION (0,n) | DOCUMENT (0,1) | 0..n réservations peuvent partager un même document (facture hôtel mensuelle) ; un document couvre 0..1 réservation ou plus |
 | **est organisée sur** | SORTIE (1,1) | BATEAU (0,n) | une sortie est organisée sur un seul bateau ; un bateau accueille 0..n sorties |
 | **est tarifé en** | BATEAU (0,1) | TARIF (1,1) | un bateau a au plus un tarif de privatisation ; un tarif de privatisation concerne un seul bateau |
 | **reçoit** | UTILISATEUR (0,n) | NOTIFICATION (0,1) | un utilisateur reçoit 0..n notifications ; une notification est adressée à 0..1 utilisateur (null pour pop-up site) |
@@ -221,12 +251,14 @@ erDiagram
         varchar statut_paiement FK
         varchar motif_annulation
         decimal montant_initial
+        decimal montant_courant
         decimal acompte
         decimal solde
         int nb_adultes
         int nb_enfants
         int utilisateur FK
         int sortie FK
+        int document FK
     }
     PAIEMENT {
         int id PK
@@ -234,7 +266,9 @@ erDiagram
         decimal montant
         varchar canal
         varchar statut
-        datetime date
+        varchar reference_externe UK
+        datetime date_initiation
+        datetime date_confirmation
         int reservation FK
     }
     TARIF {
@@ -259,14 +293,13 @@ erDiagram
         varchar type
         varchar reference UK
         datetime date_emission
-        int reservation FK
     }
 
     UTILISATEUR ||--o{ RESERVATION : "effectue"
     SORTIE ||--o{ RESERVATION : "concerne"
     BATEAU ||--o{ SORTIE : "est organisée sur"
     RESERVATION ||--o{ PAIEMENT : "donne lieu à"
-    RESERVATION ||--o{ DOCUMENT : "génère"
+    DOCUMENT ||--o{ RESERVATION : "couvre"
     BATEAU |o--|| TARIF : "est tarifé en (privatisation)"
     UTILISATEUR o|--o{ NOTIFICATION : "reçoit"
     RESERVATION o|--o{ NOTIFICATION : "concerne"
@@ -311,13 +344,17 @@ Chacune est issue du cahier (V5) :
    départ, puis sur place (enregistré par le patron) ; le client ne peut pas
    embarquer si le solde exigible n'est pas réglé. (R-85 à R-89, R-42.)
 5. **Modification sans recalcul** : à la modification, l'acompte déjà payé n'est
-   pas recalculé ; l'ajout augmente le solde, la suppression le diminue. Les
-   frais d'annulation restent calculés sur le **montant initial**. (R-52/54,
-   R-97/98, contraintes 13 et 14.)
-6. **Annulation client** : barème existant au-delà de 48 h (100 % > 7 jours,
-   75 % entre 7 jours et 48 h) ; à moins de 48 h, frais de 50 % du montant
-   initial, sommes déjà payées déduites, complément possible par lien ou sur
-   place. (R-08, R-92.)
+   pas recalculé ; l'ajout augmente le **montant courant** et le solde, le
+   retrait les diminue. Les frais d'annulation restent calculés sur le
+   **montant initial**, qui ne change jamais. (R-52/54, R-97/98, contraintes
+   13 et 14.)
+6. **Annulation client** : barème calculé sur le montant initial — 0 % de frais
+   à plus de 7 jours du départ, 25 % **à partir de** 48 h (48 h incluses) et
+   jusqu'à 7 jours, 50 % à moins de 48 h ; sommes déjà payées déduites,
+   complément possible par lien ou sur place. R-08 parle d'une annulation
+   effectuée « au moins 48 heures » avant le départ pour la tranche 75 % de
+   remboursement (25 % de frais) : **48 h00 pile relève donc de cette
+   tranche**, pas de la tranche à moins de 48 h (R-92). (R-08, R-92.)
 7. **Annulation entreprise (météo)** : remboursement intégral des sommes déjà
    payées ou report accepté ; si seul l'acompte a été payé, il est remboursé
    intégralement. (R-74, R-94, R-95.)
@@ -326,16 +363,33 @@ Chacune est issue du cahier (V5) :
 9. **Capacité** : une sortie ne dépasse jamais la capacité du bateau (12 ou 24
    places). (« deux bateaux de 12 et 24 places »)
 10. **Accès par rôle** : `utilisateur` (client) réserve et consulte ses propres
-    réservations ; `employe` (salarié) consulte sans modifier ;
-    `administrateur` (patron) accès complet. (décision équipe 12/08/2026.)
+    réservations ; `hotel` (client pro) réserve sans acompte, dans la limite de
+    6 places, sans validation du patron (simple notification) ; `employe`
+    (salarié) consulte sans modifier ; `administrateur` (patron) accès complet.
+    (décision équipe 12/08/2026, complétée 20/08/2026.)
 11. **Places** : minimum 2 personnes par réservation, minimum 6 personnes par
     bateau, maximum = capacité du bateau. (CR-01 §3, CR-01/Q02.)
-12. **Clientèle hôtel** : l'acompte obligatoire ne s'applique **pas** aux hôtels ;
+12. **Clientèle hôtel** : portée par `Utilisateur.role = 'hotel'` (pas de table
+    dédiée). L'acompte obligatoire ne s'applique **pas** aux hôtels ;
     facturation en fin de mois avec remise 15 %, statut `en_attente_paiement`
-    jusqu'au règlement intégral, 6 places max, pas de privatisation. (R-58,
-    R-60, précision §4 du cahier V5.)
+    jusqu'au règlement intégral (pas à l'émission de la facture, cf. règle 15),
+    6 places max, pas de privatisation. (R-58, R-60, R-101, précision §4 du
+    cahier V5.)
 13. **Justificatif / facture** : un justificatif est généré après l'acompte, une
     facture finale après le paiement intégral. (R-99, REQ-024.)
+14. **Idempotence des paiements** : un paiement en ligne initié avant
+    l'expiration d'un lien (H-12) peut être confirmé après ; `reference_externe`
+    empêche qu'un webhook reçu plusieurs fois ne crée deux opérations. Avant
+    d'enregistrer un paiement sur place, vérifier qu'aucun paiement en ligne
+    n'est déjà `paye` ou `en_attente` pour la même réservation. (REQ-108,
+    complément d'audit du 20/08/2026.)
+15. **Facturation hôtel = émission, pas paiement** : l'émission d'une facture
+    mensuelle ne change pas le statut de paiement des réservations concernées
+    (elles restent `en_attente_paiement`) ; seul l'enregistrement du règlement
+    par le patron les fait passer à `integralement_paye`. Une facture peut
+    regrouper plusieurs réservations via `Reservation.document`. (R-101,
+    REQ-013, correction du 20/08/2026 — la V3 initiale confondait facturation
+    et règlement.)
 
 ---
 
@@ -348,7 +402,9 @@ Chacune est issue du cahier (V5) :
 | Remboursement automatique | l'**exécution** du remboursement reste manuelle par le patron (R-49) ; le modèle assure le calcul et la traçabilité (`Paiement.type = remboursement`). |
 | Paiement de l'acompte sur place | exclu du périmètre : l'acompte est obligatoirement en ligne. |
 | Recouvrement automatique des compléments | un complément non réglé reste `impaye` ; aucune relance automatique. |
-| Avoir / référence de transaction | « pas de prestataire fixe » (CR-01 §3) ; ADR-001 prévoit Stripe — référence à préciser. |
+| Avoir client | déjà listé ci-dessus — pas de document d'avoir distinct. |
+| Déclenchement automatique du remboursement Stripe | l'exécution reste manuelle (R-49) : le patron effectue le remboursement puis le confirme dans l'application, qui enregistre une seule opération `remboursement`. L'app ne déclenche pas elle-même l'appel Stripe. |
+| Tableau de bord de disponibilité des services externes, filtres/tri avancés, gestion comptable | hors périmètre exprimé par le cahier V5 ; non demandés. |
 
 ---
 
@@ -360,7 +416,18 @@ Chacune est issue du cahier (V5) :
 |---|---|---|
 | 17 | Règle d'arrondi lorsque l'acompte comporte une fraction de centime | `acompte`/`solde` en `decimal` ; arrondi monétaire à valider |
 | 19 | Format, numérotation et mentions du justificatif et de la facture | `Document.reference` (unique) — format à valider |
-| 20 | Échéances 24 h / 12 h calculées à la minute et fuseau horaire | `Paiement.date` + fenêtre de paiement en ligne |
+| 20 | Échéances 24 h / 12 h calculées à la minute et fuseau horaire | `Paiement.date_initiation`/`date_confirmation` + fenêtre de paiement en ligne — hypothèse d'équipe retenue (minute exacte, fuseau local de la prestation), **non confirmée par le client** |
+
+### 7.3 Compléments issus de l'audit croisé (20/08/2026)
+
+| Sujet | Statut | Détail |
+|---|---|---|
+| Rôle hôtel | résolu | `Utilisateur.role = 'hotel'`, pas de table dédiée (règle 12) |
+| `montant_courant` manquant | résolu | Ajouté sur `Reservation` (règle 5, `impact-CR-001.md` l.117/162) |
+| Idempotence des paiements | résolu au niveau modèle | Champs ajoutés sur `Paiement` (règle 14) ; la logique applicative (verrou transactionnel, traitement des webhooks) reste à détailler en ADR avant l'implémentation |
+| Facture hôtel mensuelle | résolu | `Document` détaché de `Reservation`, relation inversée (règle 15) |
+| Base de calcul du remboursement 7j-48h/>7j | **encore ouvert** | R-08 donne les pourcentages sans préciser explicitement la base (montant initial vs sommes payées) pour ces deux tranches ; l'extension au montant initial (cohérente avec R-98 et évite un remboursement supérieur aux sommes payées) reste une inférence, pas une confirmation client explicite |
+| Frontière exactement 48h | corrigé | Relève de la tranche 75 % remboursement / 25 % frais (R-08 « au moins 48 heures »), pas de la tranche à 50 % (règle 6) |
 | 22 | Moyens de paiement acceptés pour le solde sur place | `Paiement.canal = sur_place` — moyens non listés |
 | 23 | Statut `rembourse` : distinguer partiel / total | le montant remboursé est tracé dans `Paiement`, le statut global reste `rembourse` |
 

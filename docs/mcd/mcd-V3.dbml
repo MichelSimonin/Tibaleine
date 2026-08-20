@@ -17,6 +17,17 @@
 //   - Paiement : trace d'opérations (acompte|solde|complement|remboursement),
 //       0..n par réservation (R-42/52/54, contrainte 15)
 //   - Document (nouveau) : justificatif d'acompte + facture finale (REQ-024, R-99)
+// -----------------------------------------------------------------------------
+// Compléments V3 (20/08/2026, audit croisé multi-agents) :
+//   - Utilisateur.role : ajout de la valeur 'hotel' (pas de table Hotel séparée)
+//   - Reservation.montant_courant (nouveau) : prix courant après modification
+//       de participants, distinct de montant_initial (figé) — R-52/54/97/98,
+//       impact-CR-001.md
+//   - Paiement : reference_externe, date_initiation, date_confirmation
+//       (nouveaux) + statut élargi — idempotence des webhooks (REQ-108)
+//   - Document : FK reservation retiré ; Reservation.document (nouveau, 0..n
+//       réservations peuvent partager un document) — permet la facture hôtel
+//       mensuelle multi-réservations (REQ-013) ; type facture_hotel_mensuelle
 // =============================================================================
 
 Table Utilisateur {
@@ -27,7 +38,9 @@ Table Utilisateur {
   mot_de_passe varchar
   telephone varchar
   role varchar [not null, default: 'utilisateur']
-  // utilisateur (client) | employe (lecture seule) | administrateur (accès complet)
+  // utilisateur (client) | hotel (client pro, 6 places max, pas d'acompte,
+  // facturation fin de mois, remise 15 %) | employe (lecture seule) |
+  // administrateur (accès complet)
 }
 
 Table Bateau {
@@ -54,13 +67,15 @@ Table Reservation {
   statut_paiement varchar [not null, default: 'en_attente_paiement']
   // en_attente_paiement | acompte_paye | integralement_paye | rembourse (R-91)
   motif_annulation varchar
-  montant_initial decimal [not null] // total à la réservation, base frais + acompte (R-98)
+  montant_initial decimal [not null] // total à la réservation, base frais + acompte (R-98) — jamais modifié
+  montant_courant decimal [not null] // prix courant après modification de participants (R-52/54/97, impact-CR-001)
   acompte decimal [not null]         // 30 % standard / 50 % privatisation, non recalculé (R-81/82/97)
-  solde decimal [not null]           // restant à payer (R-52/54)
+  solde decimal [not null]           // restant à payer = montant_courant - acompte - sommes réglées (R-52/54)
   nb_adultes int [not null]
   nb_enfants int [not null]
   utilisateur int [not null, ref: > Utilisateur.id]
   sortie int [not null, ref: > Sortie.id]
+  document int [ref: > Document.id]  // 0..n réservations peuvent partager un document (facture hôtel mensuelle, REQ-013)
 }
 
 Table Paiement {
@@ -68,9 +83,11 @@ Table Paiement {
   type varchar [not null]   // acompte | solde | complement | remboursement
   montant decimal [not null]
   canal varchar [not null]  // en_ligne | sur_place (R-42/86/88)
-  statut varchar [not null, default: 'paye']
-  // paye | impaye (complément non réglé, R-92)
-  date datetime [not null]  // trace temporelle (REQ-108)
+  statut varchar [not null, default: 'en_attente']
+  // en_attente | paye | echoue | impaye (complément non réglé, R-92)
+  reference_externe varchar [unique] // nullable — id transaction PSP/webhook, déduplication idempotente (REQ-108)
+  date_initiation datetime [not null]   // moment du déclenchement du paiement
+  date_confirmation datetime            // nullable — rempli à la confirmation (webhook ou enregistrement patron)
   reservation int [not null, ref: > Reservation.id]
 }
 
@@ -95,8 +112,8 @@ Table Notification {
 
 Table Document {
   id int [pk, increment]
-  type varchar [not null]  // justificatif_acompte | facture_finale (REQ-024)
+  type varchar [not null]  // justificatif_acompte | facture_finale | facture_hotel_mensuelle (REQ-024, REQ-013)
   reference varchar [not null, unique]
   date_emission datetime [not null]
-  reservation int [not null, ref: > Reservation.id]
+  // pas de FK reservation ici : voir Reservation.document (0..n réservations → 1 document)
 }
