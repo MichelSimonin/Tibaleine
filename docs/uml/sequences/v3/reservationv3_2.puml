@@ -1,0 +1,64 @@
+@startuml
+' ----------------------------------------------------------------------------
+' Diagramme de séquence — Réservation d'une sortie
+' Source : Cahier des charges V2 §4 (Règles métier / Réservation), CR-01/Q01,
+'          CR-01/Q03, CR-01/Q06, CR-01 §3, CR-02 §1
+' ----------------------------------------------------------------------------
+
+title Réservation d'une sortie (2/2)
+
+actor "Client" as Client
+actor "Patron" as Patron
+participant "Système" as Systeme
+participant "Prestataire de paiement" as Paiement
+
+
+activate Systeme
+Systeme -> Systeme : Vérification de l'heure actuel par rapport à l'heure de départ
+deactivate Systeme
+
+
+alt 24h/12h avant la sortie
+Systeme -> Client : Envoie de lien de paiement
+Client -> Systeme : Paiement en ligne (somme totale - accompte)
+Systeme -> Systeme: Vérification de la validité du lien
+activate Systeme
+Systeme -> Paiement : Demande de paiement (montant)
+
+
+alt Paiement refusé
+Paiement --> Systeme : Paiement refusé
+Systeme --> Client : Renvoie une erreur de paiement
+end 
+
+
+alt Paiement accepté
+Paiement --> Systeme : Paiement accepté
+Systeme -> Systeme : Réservation en état "Payé" + Paiement en état "Intégralement payé"
+Systeme --> Client : Paiement enregistré
+deactivate Systeme
+
+end
+else 12 avant la sortie
+Client -> Systeme : Paiement en ligne (somme totale - accompte)
+Systeme -> Systeme: Vérification de la validité du lien
+Systeme --> Client : Lien invalide. Processus bloqué.
+Client -> Patron : Paiement sur place 
+Patron -> Systeme : Validation du paiement
+Systeme -> Systeme : Réservation en état "Réalisée"
+
+end
+
+
+
+
+note right of Systeme
+  Règles :
+  - réservation min 2 personnes (CR-01 §3)
+  - paiement uniquement en ligne (CR-01/Q07)
+  - accompte de 30% au moment de réserver (au moins 24h avant le départ)
+  - paiement total entre 24h et 12h avant le départ ou sur place 12h ou moins avant de le depart.
+
+end note
+
+@enduml
