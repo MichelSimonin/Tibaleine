@@ -121,6 +121,7 @@ dans `LIBRARIES.md`. Un changement exige un nouvel ADR avant développement.
 | Besoin | Choix vérifié | État actuel |
 |---|---|---|
 | Backend | PHP / Symfony (`ADR-001`) | Versions PHP/Symfony non précisées ; à fixer avant `composer create-project`. |
+| Environnement local | Docker + Docker Compose | À créer pour fournir PHP/Symfony et PostgreSQL avec les mêmes versions à toute l'équipe. |
 | Interface | Twig, Symfony Form et Validator (`LIBRARIES.md`) | Non installés ; maquette Figma absente. |
 | Persistance | Doctrine ORM + migrations, PostgreSQL (`ADR-001`, `ADR-006`) | Pas de base ni de migration. |
 | Authentification | Symfony Security | Non configuré. |
@@ -200,6 +201,9 @@ translations/                   # messages.fr.yaml et messages.en.yaml
 migrations/                     # migrations Doctrine versionnées
 config/                         # sécurité, Doctrine, Messenger, Mailer
 public/                         # point d'entrée et assets publics
+Dockerfile                      # image PHP/Symfony du projet
+compose.yaml                    # application, PostgreSQL et services locaux
+.docker/                        # configuration des images et services Docker
 tests/
 ├── Unit/                       # domaine pur
 ├── Integration/                # Doctrine et adaptateurs simulés
@@ -384,6 +388,13 @@ La cible n'est pas décidée. `ADR-001` évoque un hébergement mutualisé PHP a
 de 5 €/mois, mais son tableau indique aussi 0 €/mois ; aucun hébergeur, CI/CD ou
 responsable de production n'est nommé.
 
+Docker et Docker Compose constituent l'environnement de développement et de
+test reproductible. Le `Dockerfile` fixe la version de PHP et les extensions
+requises par Symfony/Doctrine ; `compose.yaml` démarre au minimum l'application
+et PostgreSQL. Les données locales de PostgreSQL sont conservées dans un volume
+nommé et les secrets ne sont jamais écrits dans l'image. L'utilisation de la
+même image en production dépendra de l'hébergeur retenu.
+
 Le choix final doit supporter :
 
 - les versions retenues de PHP/Symfony et PostgreSQL ;
@@ -402,6 +413,7 @@ d'un cron à la minute ou d'un stockage local durable.
 ## 12. Limites et décisions restant à prendre
 
 - versions PHP et Symfony ;
+- versions des images Docker et services définis dans `compose.yaml` ;
 - remplacement officiel de l'ADR-003 obsolète ;
 - validation des ADR encore tous `proposé` ;
 - schéma des blocages, tentatives et liens de paiement ;
