@@ -87,6 +87,11 @@ bash tools/run-tests.sh
 composer test
 ```
 
+Chaque exécution complète crée aussi une trace horodatée dans
+`docs/test-reports/rapport-tests-AAAA-MM-JJ_HH-MM-SS.md`. Utilisez
+`--no-report` pour ne pas générer de fichier. Une exécution avec `--filter`
+reste volontairement sans rapport, car elle ne représente pas toute la suite.
+
 Ce qui n'est **pas** dans ce dépôt n'existe pas. Une décision prise oralement et
 non écrite est une décision perdue.
 

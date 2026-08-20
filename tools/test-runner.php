@@ -102,9 +102,13 @@ namespace {
 
     $projectRoot = dirname(__DIR__);
     $filter = null;
+    $generateReport = true;
     foreach (array_slice($argv, 1) as $argument) {
         if (str_starts_with($argument, '--filter=')) {
             $filter = substr($argument, 9);
+        }
+        if ($argument === '--no-report') {
+            $generateReport = false;
         }
     }
 
@@ -128,6 +132,7 @@ namespace {
     $failed = 0;
     $groups = [];
     $executedMethods = [];
+    $testResults = [];
     $startedAt = microtime(true);
 
     echo "{$bold}{$cyan}Suite Tibaleine — vérification de tous les CASE{$reset}\n\n";
@@ -157,18 +162,26 @@ namespace {
 
                 ++$passed;
                 ++$groups[$group]['passed'];
+                $testResults[] = ['method' => $method, 'group' => $group, 'status' => 'VERT', 'detail' => 'Réussi'];
                 echo "{$green}✅ VERT{$reset} — " . str_replace('_', ' ', substr($method, 5)) . "\n";
             } catch (\Throwable $exception) {
                 $expected = $test->expectedException();
                 if ($expected !== null && $exception instanceof $expected) {
                     ++$passed;
                     ++$groups[$group]['passed'];
+                    $testResults[] = ['method' => $method, 'group' => $group, 'status' => 'VERT', 'detail' => 'Refus attendu correctement appliqué'];
                     echo "{$green}✅ VERT{$reset} — " . str_replace('_', ' ', substr($method, 5)) . " (refus attendu)\n";
                     continue;
                 }
 
                 ++$failed;
                 ++$groups[$group]['failed'];
+                $testResults[] = [
+                    'method' => $method,
+                    'group' => $group,
+                    'status' => 'ROUGE',
+                    'detail' => $exception::class . ': ' . $exception->getMessage(),
+                ];
                 echo "{$red}❌ ROUGE{$reset} — " . str_replace('_', ' ', substr($method, 5)) . "\n";
                 echo "   " . $exception::class . ': ' . $exception->getMessage() . "\n";
             }
@@ -236,6 +249,77 @@ namespace {
         $duration,
         $reset,
     );
+
+    if ($filter === null && $generateReport) {
+        date_default_timezone_set(getenv('TZ') ?: 'Asia/Dubai');
+        $reportDirectory = $projectRoot . '/docs/test-reports';
+        if (!is_dir($reportDirectory)) {
+            mkdir($reportDirectory, 0775, true);
+        }
+
+        $reportBaseName = 'rapport-tests-' . date('Y-m-d_H-i-s');
+        $reportPath = $reportDirectory . '/' . $reportBaseName . '.md';
+        $suffix = 2;
+        while (file_exists($reportPath)) {
+            $reportPath = $reportDirectory . '/' . $reportBaseName . '-' . $suffix . '.md';
+            ++$suffix;
+        }
+
+        $markdown = [];
+        $markdown[] = '# Rapport d’exécution des tests';
+        $markdown[] = '';
+        $markdown[] = '- **Date :** `' . date(DATE_ATOM) . '`';
+        $markdown[] = '- **Commande :** `bash tools/run-tests.sh` ou `composer test`';
+        $markdown[] = '- **Résultat :** ' . ($allGreen ? '✅ TOUT EST VERT' : '❌ DES TESTS SONT ROUGES');
+        $markdown[] = '- **Tests :** ' . $passed . '/' . $total . ' réussis, ' . $failed . ' échec(s)';
+        $markdown[] = '- **CASE applicables :** ' . $coveredCases . '/' . $applicableCases . ' automatisés';
+        $markdown[] = '- **Durée :** ' . number_format($duration, 3, '.', '') . ' s';
+        $markdown[] = '';
+        $markdown[] = '## Récapitulatif par domaine';
+        $markdown[] = '';
+        $markdown[] = '| Domaine | Résultat | Réussis | Total |';
+        $markdown[] = '|---|---:|---:|---:|';
+        foreach ($groups as $group => $result) {
+            $groupTotal = $result['passed'] + $result['failed'];
+            $markdown[] = sprintf(
+                '| %s | %s | %d | %d |',
+                $group,
+                $result['failed'] === 0 ? '✅ VERT' : '❌ ROUGE',
+                $result['passed'],
+                $groupTotal,
+            );
+        }
+        $markdown[] = '';
+        $markdown[] = '## Détail des tests';
+        $markdown[] = '';
+        $markdown[] = '| Test | Domaine | Résultat | Détail |';
+        $markdown[] = '|---|---|---:|---|';
+        foreach ($testResults as $result) {
+            $detail = str_replace('|', '\\|', $result['detail']);
+            $markdown[] = sprintf(
+                '| `%s` | %s | %s | %s |',
+                $result['method'],
+                $result['group'],
+                $result['status'] === 'VERT' ? '✅ VERT' : '❌ ROUGE',
+                $detail,
+            );
+        }
+        if ($missingCases !== []) {
+            $markdown[] = '';
+            $markdown[] = '## CASE applicables sans test';
+            $markdown[] = '';
+            foreach ($missingCases as $missingCase) {
+                $markdown[] = '- `' . $missingCase . '`';
+            }
+        }
+        $markdown[] = '';
+        $markdown[] = '> Rapport généré automatiquement par `tools/test-runner.php`.';
+        $markdown[] = '';
+
+        file_put_contents($reportPath, implode("\n", $markdown));
+        $relativeReportPath = substr($reportPath, strlen($projectRoot) + 1);
+        echo "{$cyan}Trace Markdown générée : {$relativeReportPath}{$reset}\n";
+    }
 
     exit($allGreen ? 0 : 1);
 }

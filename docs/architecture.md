@@ -375,6 +375,8 @@ bash tools/run-tests.sh
 # Même commande via Composer.
 composer test
 
+# Le rapport Markdown horodaté est écrit dans docs/test-reports/.
+
 # Disponible maintenant ; régénère la matrice.
 bash tools/traceability_v2.sh --check
 
