@@ -80,6 +80,8 @@ décoratif : c'est ce qui permet de distinguer un arbitrage d'un acquiescement.
 
 **Décisions.**
 
+Symfony retenu comme stack (ADR-001)
+
 **Critiques de l'IA acceptées.**
 
 **Critiques de l'IA refusées, et pourquoi.**
@@ -92,7 +94,8 @@ décoratif : c'est ce qui permet de distinguer un arbitrage d'un acquiescement.
 
 **Ce qui a été généré aujourd'hui.**
 
-- Rien.
+Cahier des charges V1 puis V2 (PDF + md).
+ADR-001-stack rempli (choix de la stack).
 
 ## **Questions ouvertes pour le client.**
 
