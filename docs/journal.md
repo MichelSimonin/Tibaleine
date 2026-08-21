@@ -250,8 +250,6 @@ Entités/services de test « en dur ».
 
 ## **Questions ouvertes pour le client.**
 
-Taux d'acompte 30%/50% (Q64-Q66), obligation de l'acompte (Q67-Q69), fenêtre de paiement du solde H-24/H-12 (Q70-Q74), enregistrement du solde sur place par le patron (Q75), non-paiement du solde → pas d'embarquement (Q76), états/statuts à conserver (Q77-Q78), barème d'annulation à moins de 48h (Q79-Q80), absence (Q81), annulation ≥48h — conditions existantes conservées (Q82), annulation entreprise (Q83-Q84), modification du nombre de participants (Q85-Q87), justificatifs/facture (Q88).
-
 
 ## J9 — 19/08/2026
 
@@ -288,6 +286,8 @@ Delegations manquantes, corrections CASE-BOOK-07/08, notification patron.
 Renommage/placement des entités et services de test placeholder
 
 ## **Questions ouvertes pour le client.**
+
+Taux d'acompte 30%/50% (Q64-Q66), obligation de l'acompte (Q67-Q69), fenêtre de paiement du solde H-24/H-12 (Q70-Q74), enregistrement du solde sur place par le patron (Q75), non-paiement du solde → pas d'embarquement (Q76), états/statuts à conserver (Q77-Q78), barème d'annulation à moins de 48h (Q79-Q80), absence (Q81), annulation ≥48h — conditions existantes conservées (Q82), annulation entreprise (Q83-Q84), modification du nombre de participants (Q85-Q87), justificatifs/facture (Q88).
 
 
 ## J10 — 20/08/2026
