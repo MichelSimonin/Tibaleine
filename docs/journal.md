@@ -73,6 +73,11 @@ décoratif : c'est ce qui permet de distinguer un arbitrage d'un acquiescement.
 
 ## **Questions ouvertes pour le client.**
 
+Réservation : infos client nécessaires (Q01), capacité des bateaux (Q02), canal de confirmation/annulation (Q03), délai d'annulation (Q04), tranches d'âge (Q14), min. 6 personnes par bateau (Q22), jours d'ouverture (Q23), réservation des deux bateaux ensemble (Q26).
+Annulation côté entreprise : quand l'entreprise décide-t-elle d'annuler (Q05), ancien processus WhatsApp (Q06).
+Paiement/remboursement : méthodes de paiement (Q07), comment se déroule un remboursement (Q15).
+Généralités produit : météo consultée (Q08), appareils cibles (Q09), compte client (Q10), espace admin (Q11), nom de l'appli (Q12), privatisations le matin (Q13), budget — sans réponse (Q16), absence sans prévenir — sans réponse (Q17), réglementations (Q18), rôles/employés (Q19), heure limite veille — sans réponse (Q20), horaires identiques les deux bateaux — sans réponse (Q21), annulation entreprise — sans réponse (Q24), modification de réservation (Q25).
+
 
 ## J2 — 11/08/2026
 
@@ -98,6 +103,8 @@ Cahier des charges V1 puis V2 (PDF + md).
 ADR-001-stack rempli (choix de la stack).
 
 ## **Questions ouvertes pour le client.**
+
+Prestataire externe d'hébergement (Q41), exigence RGPD (Q42), préférence navigateur (Q43), modification après paiement/supplément (Q44), charte graphique (Q45), réseaux sociaux à afficher (Q46), infos à afficher avant réservation (Q47).
 
 
 ## J3 — 12/08/2026
@@ -174,6 +181,8 @@ ADR-001-stack rempli (choix de la stack).
 
 ## **Questions ouvertes pour le client.**
 
+Avertissement 18h la veille (Q48), canal d'envoi (Q49), motifs d'annulation (Q50), contenu du message (Q51), alerte sur le site (Q52), réservations possibles après avertissement (Q53), moment de l'annulation définitive (Q54), annulation par créneau (Q55), notification automatique (Q56), remboursement à 100% si annulation entreprise (Q57), remboursement si client annule après avertissement (Q58), choix remboursement/report (Q59), gestion des hôtels — appel téléphonique conservé (Q60), blocage temporaire des places 15 min (Q61), badge nouvelle place (Q62), disponibilité des services externes (Q63).
+
 
 ## J6 — 17/08/2026
 
@@ -240,6 +249,8 @@ Premiers plans de délégation.
 Entités/services de test « en dur ».
 
 ## **Questions ouvertes pour le client.**
+
+Taux d'acompte 30%/50% (Q64-Q66), obligation de l'acompte (Q67-Q69), fenêtre de paiement du solde H-24/H-12 (Q70-Q74), enregistrement du solde sur place par le patron (Q75), non-paiement du solde → pas d'embarquement (Q76), états/statuts à conserver (Q77-Q78), barème d'annulation à moins de 48h (Q79-Q80), absence (Q81), annulation ≥48h — conditions existantes conservées (Q82), annulation entreprise (Q83-Q84), modification du nombre de participants (Q85-Q87), justificatifs/facture (Q88).
 
 
 ## J9 — 19/08/2026
