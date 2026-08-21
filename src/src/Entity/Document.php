@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Enum\TypeDocument;
+use App\Enum\StatutPaiement;
 use App\Repository\DocumentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -27,8 +28,11 @@ class Document
     #[ORM\Column]
     private \DateTimeImmutable $dateEmission;
 
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
+    private ?string $montant = null;
+
     /** @var Collection<int, Reservation> */
-    #[ORM\OneToMany(mappedBy: 'document', targetEntity: Reservation::class)]
+    #[ORM\ManyToMany(targetEntity: Reservation::class, mappedBy: 'documents')]
     private Collection $reservations;
 
     public function __construct()
@@ -43,6 +47,14 @@ class Document
     public function getReference(): string { return $this->reference; }
     public function setReference(string $reference): self { $this->reference = $reference; return $this; }
     public function getDateEmission(): \DateTimeImmutable { return $this->dateEmission; }
+    public function getMontant(): ?string { return $this->montant; }
+    public function setMontant(?string $montant): self { $this->montant = $montant; return $this; }
     /** @return Collection<int, Reservation> */
     public function getReservations(): Collection { return $this->reservations; }
+    public function addReservation(Reservation $reservation): self { if (!$this->reservations->contains($reservation)) { $this->reservations->add($reservation); } return $this; }
+    public function estRegle(): bool
+    {
+        return !$this->reservations->isEmpty()
+            && $this->reservations->forAll(static fn (int $index, Reservation $reservation): bool => $reservation->getStatutPaiement() === StatutPaiement::INTEGRALEMENT_PAYE);
+    }
 }

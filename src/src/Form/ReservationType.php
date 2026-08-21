@@ -10,6 +10,9 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use App\Enum\Langue;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -28,7 +31,12 @@ final class ReservationType extends AbstractType
                 'label' => 'Mot de passe (facultatif)',
                 'required' => false,
                 'help' => 'Ajoutez un mot de passe pour retrouver vos réservations.',
-            ]);
+            ])
+            ->add('langue', ChoiceType::class, [
+                'label' => 'Langue des notifications',
+                'choices' => ['Français' => Langue::FR, 'English' => Langue::EN],
+            ])
+            ->add('blocageToken', HiddenType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

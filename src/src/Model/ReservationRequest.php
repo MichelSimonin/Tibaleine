@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model;
 
+use App\Enum\Langue;
 use Symfony\Component\Validator\Constraints as Assert;
 
 final class ReservationRequest
@@ -33,6 +34,11 @@ final class ReservationRequest
     #[Assert\Length(min: 8, max: 72)]
     #[Assert\Regex(pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).+$/', message: 'Le mot de passe doit contenir une minuscule, une majuscule, un chiffre et un caractère spécial.')]
     public ?string $motDePasse = null;
+
+    public Langue $langue = Langue::FR;
+
+    #[Assert\NotBlank]
+    public string $blocageToken = '';
 
     #[Assert\IsTrue(message: 'Une réservation doit concerner au minimum deux personnes.')]
     public function isMinimumDeuxPersonnes(): bool

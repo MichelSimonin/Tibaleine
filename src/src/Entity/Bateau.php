@@ -42,4 +42,5 @@ class Bateau
     public function setCapacite(int $capacite): self { $this->capacite = $capacite; return $this; }
     /** @return Collection<int, Sortie> */
     public function getSorties(): Collection { return $this->sorties; }
+    public function addSortie(Sortie $sortie): self { if (!$this->sorties->contains($sortie)) { $this->sorties->add($sortie); } return $this; }
 }

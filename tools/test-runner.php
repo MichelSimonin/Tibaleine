@@ -136,7 +136,8 @@ namespace {
     $testResults = [];
     $startedAt = microtime(true);
 
-    echo "{$bold}{$cyan}Suite Tibaleine — vérification de tous les CASE{$reset}\n\n";
+    echo "{$bold}{$cyan}Suite Tibaleine — prototypes de conception des CASE{$reset}\n";
+    echo "La recette Symfony réelle se lance séparément dans src/ avec PHPUnit.\n\n";
 
     foreach ($testClasses as $testClass) {
         foreach (get_class_methods($testClass) as $method) {
@@ -485,7 +486,7 @@ namespace {
         $markdown[] = '';
         $markdown[] = '### Périmètre de cette preuve';
         $markdown[] = '';
-        $markdown[] = 'Ce rapport valide les règles de conception exécutées par les prototypes PHP situés dans `tests/`. Il ne constitue pas encore une recette de l’application finale, qui sera vérifiée lorsque le code de production et les intégrations seront disponibles.';
+        $markdown[] = 'Ce rapport valide uniquement les règles de conception exécutées par les prototypes PHP situés dans `tests/`. La recette de l’application Symfony se trouve dans `src/tests/` et doit être lancée séparément avec `docker compose -f src/compose.yaml exec app vendor/bin/phpunit`.';
         $markdown[] = '';
         $markdown[] = '## Récapitulatif par domaine';
         $markdown[] = '';

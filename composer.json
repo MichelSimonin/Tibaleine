@@ -1,6 +1,7 @@
 {
   "name": "deepsea/project-tests",
-  "description": "Tests PHPUnit du projet DeepSea",
+  "description": "Tests de conception et de traçabilité du projet Ti Baleine",
+  "license": "proprietary",
   "type": "project",
   "autoload": {
     "classmap": [

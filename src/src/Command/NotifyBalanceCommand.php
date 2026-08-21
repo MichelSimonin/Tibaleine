@@ -7,6 +7,7 @@ namespace App\Command;
 use App\Entity\Notification;
 use App\Entity\Reservation;
 use App\Enum\EtatReservation;
+use App\Enum\StatutNotification;
 use App\Enum\TypeNotification;
 use App\Service\Notification\NotificationService;
 use App\Service\Paiement\SoldeService;
@@ -32,7 +33,11 @@ final class NotifyBalanceCommand extends Command
         $nombre = 0;
         foreach ($reservations as $reservation) {
             if (!$this->soldes->paiementEnLigneOuvert($reservation)
-                || $notificationRepository->findOneBy(['reservation' => $reservation, 'type' => TypeNotification::LIEN_SOLDE]) !== null) {
+                || $notificationRepository->findOneBy([
+                    'reservation' => $reservation,
+                    'type' => TypeNotification::LIEN_SOLDE,
+                    'statut' => StatutNotification::ENVOYEE,
+                ]) !== null) {
                 continue;
             }
             $this->notifications->tracerLienSolde($reservation);

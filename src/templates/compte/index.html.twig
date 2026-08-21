@@ -18,11 +18,32 @@
                     <div><dt>Total</dt><dd>{{ reservation.montantInitial|number_format(2, ',', ' ') }} €</dd></div>
                     <div><dt>Paiement</dt><dd>{{ reservation.statutPaiement.label }}</dd></div>
                 </dl>
+                {% if reservation.documents|length %}
+                    <div class="document-links">
+                        {% for document in reservation.documents %}<a href="{{ path('app_document_pdf', {id: document.id}) }}">Télécharger {{ document.type.value == 'justificatif_acompte' ? 'le justificatif' : 'la facture' }} PDF</a>{% endfor %}
+                    </div>
+                {% endif %}
                 {% if paiement_solde_ouvert[reservation.id] ?? false %}
                     <form method="post" action="{{ path('app_payer_solde', {id: reservation.id}) }}">
                         <input type="hidden" name="_token" value="{{ csrf_token('payer-solde-' ~ reservation.id) }}">
                         <button class="button button--primary button--small" type="submit">Payer le solde en ligne</button>
                     </form>
+                {% endif %}
+                {% if complement_en_attente[reservation.id] ?? false %}
+                    <form method="post" action="{{ path('app_payer_complement', {id: reservation.id}) }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token('payer-complement-' ~ reservation.id) }}">
+                        <button class="button button--danger button--small" type="submit">Payer le complément d’annulation</button>
+                    </form>
+                {% endif %}
+                {% if reservation.etat.value == 'annulee' and reservation.origineAnnulation and reservation.origineAnnulation.value == 'prestataire' and not reservation.choixAnnulation %}
+                    <div class="provider-choice">
+                        <p>Ti Baleine a annulé cette sortie. Choisissez une solution :</p>
+                        <form method="post" action="{{ path('app_choix_remboursement', {id: reservation.id}) }}"><input type="hidden" name="_token" value="{{ csrf_token('remboursement-' ~ reservation.id) }}"><button class="button button--outline button--small">Remboursement intégral</button></form>
+                        <form method="post" action="{{ path('app_choix_report', {id: reservation.id}) }}">
+                            <select name="sortie" required><option value="">Nouveau créneau</option>{% for proposition in sorties_report %}{% if proposition.type == reservation.sortie.type and proposition.etat.value == 'planifiee' %}<option value="{{ proposition.id }}">{{ proposition.date|date('d/m/Y') }} à {{ proposition.heureDepart|date('H:i') }}</option>{% endif %}{% endfor %}</select>
+                            <input type="hidden" name="_token" value="{{ csrf_token('report-' ~ reservation.id) }}"><button class="button button--primary button--small">Reporter</button>
+                        </form>
+                    </div>
                 {% endif %}
                 {% if reservation.etat.value == 'reservee' and reservation.sortie.depart > date() %}
                     <details class="cancel-request">
