@@ -6,19 +6,27 @@ automatiquement si aucun `composer.json` n'est présent.
 
 ## Démarrage
 
-Depuis ce dossier :
+Prérequis : Docker Desktop doit être installé et démarré.
+
+Depuis le dossier `src` :
 
 ```bash
 docker compose up --build
 ```
 
-Sous Windows, la commande est identique dans PowerShell :
+Depuis la racine du dépôt sous Linux ou macOS :
 
-```powershell
-docker compose up --build
+```bash
+docker compose -f src/compose.yaml up --build
 ```
 
-L'application est ensuite disponible sur <http://localhost:8000>. PostgreSQL
+Depuis la racine du dépôt sous Windows, dans PowerShell :
+
+```powershell
+docker compose -f .\src\compose.yaml up --build
+```
+
+L'application est ensuite disponible sur <http://localhost:8026>. PostgreSQL
 est accessible depuis la machine sur le port `5433` et sur le port `5432` entre
 les conteneurs. Le code généré reste dans ce dossier et les
 données PostgreSQL sont conservées dans un volume Docker.
@@ -65,3 +73,33 @@ php .\tools\test-runner.php
 
 `docker compose down` arrête les services sans supprimer la base. La suppression
 du volume PostgreSQL doit rester une action explicite.
+
+## Dépannage sous Windows
+
+Les conteneurs utilisent Linux. Les scripts `.sh` doivent donc avoir des fins
+de ligne LF et non CRLF. Le fichier `.gitattributes` placé à la racine du dépôt
+impose automatiquement le format LF lors des prochains clones et extractions
+Git. Le Dockerfile normalise également les scripts au moment de la construction.
+
+Après avoir récupéré cette correction, reconstruisez complètement l'image dans
+PowerShell, depuis la racine du dépôt :
+
+```powershell
+git pull
+docker compose -f .\src\compose.yaml down
+docker compose -f .\src\compose.yaml build --no-cache
+docker compose -f .\src\compose.yaml up
+```
+
+Si l'application ne démarre toujours pas, affichez les journaux du service
+d'initialisation :
+
+```powershell
+docker compose -f .\src\compose.yaml logs init
+```
+
+Une erreur telle que `/usr/bin/env: 'bash\r': No such file or directory` ou un
+code de sortie `127` signale généralement un ancien script en CRLF. Vérifiez
+aussi dans VS Code que `src/.docker/init-project.sh` et
+`src/.docker/run-worker.sh` affichent `LF` en bas à droite, puis relancez la
+reconstruction avec `--no-cache`.

@@ -87,6 +87,24 @@ bash tools/run-tests.sh
 composer test
 ```
 
+### Lancer l'application avec Docker
+
+Docker Desktop doit être installé et démarré. Depuis la racine du dépôt :
+
+```bash
+docker compose -f src/compose.yaml up --build
+```
+
+Sous Windows, exécutez la commande dans PowerShell :
+
+```powershell
+docker compose -f .\src\compose.yaml up --build
+```
+
+L'application est ensuite accessible sur <http://localhost:8026>. La procédure
+complète de démarrage et de dépannage Windows se trouve dans
+[`src/README.md`](src/README.md).
+
 Sous Windows (PowerShell ou Invite de commandes) :
 
 ```powershell

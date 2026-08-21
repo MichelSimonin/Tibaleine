@@ -38,6 +38,15 @@ COPY .docker/php.ini /usr/local/etc/php/conf.d/tibaleine.ini
 COPY --chmod=0755 .docker/init-project.sh /usr/local/bin/init-project
 COPY --chmod=0755 .docker/run-worker.sh /usr/local/bin/run-tibaleine-worker
 
+# Docker exécute Linux, même lorsque l'image est construite depuis Windows.
+# Cette normalisation protège aussi les scripts provenant d'un clone en CRLF.
+RUN sed -i 's/\r$//' \
+        /usr/local/bin/init-project \
+        /usr/local/bin/run-tibaleine-worker \
+    && chmod 0755 \
+        /usr/local/bin/init-project \
+        /usr/local/bin/run-tibaleine-worker
+
 WORKDIR /var/www/html
 
 EXPOSE 80
