@@ -33,21 +33,34 @@
                 <header><strong>{{ jour.libelle|capitalize }}</strong><span>{{ jour.date|date('d/m') }}</span></header>
                 <div class="slots">
                     {% for creneau in jour.creneaux %}
-                        {% set sortie = creneau.sortie %}
-                        {% set indisponible = not creneau.reservable or (hotel and sortie.type.value == 'privatisation') %}
-                        <a class="slot {{ indisponible ? 'slot--disabled' : '' }}" {% if not indisponible %}href="{{ path('app_reservation', {id: sortie.id, canal: hotel ? 'hotel' : 'client'}) }}"{% else %}aria-disabled="true"{% endif %}>
-                            <span class="slot-time">{{ sortie.heureDepart|date('H:i') }}</span>
-                            <span class="slot-detail"><strong>{{ sortie.type.label }}</strong><small>{{ sortie.bateau.nom }}</small></span>
-                            <span class="slot-places">{{ creneau.places }} place{{ creneau.places > 1 ? 's' : '' }}</span>
-                            {% if sortie.nouvellePlaceDisponible %}<span class="status status--reservee">Nouvelle place disponible</span>{% endif %}
-                        </a>
+                        <section class="slot-group">
+                            <div class="slot-group__heading">
+                                <span class="slot-time">{{ creneau.heure|date('H:i') }}</span>
+                                {% if creneau.nouvelle_place %}<span class="status status--reservee">Nouvelle place disponible</span>{% endif %}
+                            </div>
+                            <div class="slot-options">
+                                {% for option in creneau.options %}
+                                    {% set route_params = {id: creneau.reference.id, type: option.type.value, canal: hotel ? 'hotel' : 'client'} %}
+                                    {% if option.bateau %}{% set route_params = route_params|merge({bateau: option.bateau.id}) %}{% endif %}
+                                    <a class="slot-option" href="{{ path('app_reservation', route_params) }}">
+                                        <span class="slot-detail">
+                                            <strong>{{ option.type.label }}</strong>
+                                            <small>{{ option.bateau ? option.bateau.nom ~ ' (' ~ option.bateau.capacite ~ ' places)' : 'Jusqu’à ' ~ option.places ~ ' places' }}</small>
+                                        </span>
+                                        <span aria-hidden="true">→</span>
+                                    </a>
+                                {% else %}
+                                    <span class="slot-option slot-option--disabled">Créneau indisponible</span>
+                                {% endfor %}
+                            </div>
+                        </section>
                     {% else %}
-                        <p class="no-slot">Aucune sortie</p>
+                        <p class="no-slot">Aucun créneau</p>
                     {% endfor %}
                 </div>
             </article>
         {% endfor %}
     </div>
-    <p class="planning-help">Sélectionnez un créneau disponible pour poursuivre votre réservation.</p>
+    <p class="planning-help">Sélectionnez d’abord un horaire, puis le type de sortie disponible.</p>
 </section>
 {% endblock %}

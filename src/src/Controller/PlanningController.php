@@ -9,7 +9,7 @@ use App\Repository\NotificationRepository;
 use App\Enum\CanalNotification;
 use App\Enum\EtatSortie;
 use App\Enum\TypeNotification;
-use App\Service\Reservation\DisponibiliteService;
+use App\Service\Reservation\DisponibiliteCreneauService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +23,7 @@ final class PlanningController extends AbstractController
         Request $request,
         SortieRepository $sorties,
         NotificationRepository $notifications,
-        DisponibiliteService $disponibilite,
+        DisponibiliteCreneauService $disponibilite,
         bool $hotel = false,
     ): Response
     {
@@ -33,12 +33,20 @@ final class PlanningController extends AbstractController
         $start = $date->modify('monday this week')->setTime(0, 0);
         $parDate = [];
         $sortiesSemaine = $sorties->findForWeek($start);
+        $parCreneau = [];
         foreach ($sortiesSemaine as $sortie) {
-            $key = $sortie->getDate()->format('Y-m-d');
+            $key = $sortie->getDate()->format('Y-m-d').'_'.$sortie->getHeureDepart()->format('H:i');
+            $parCreneau[$key][] = $sortie;
+        }
+        $maintenant = new \DateTimeImmutable('now', $timezone);
+        foreach ($parCreneau as $groupe) {
+            $reference = $groupe[0];
+            $key = $reference->getDate()->format('Y-m-d');
             $parDate[$key][] = [
-                'sortie' => $sortie,
-                'places' => $disponibilite->placesRestantes($sortie),
-                'reservable' => $disponibilite->estReservable($sortie, 2),
+                'reference' => $reference,
+                'heure' => $reference->getHeureDepart(),
+                'options' => $disponibilite->options($groupe, $maintenant, $hotel),
+                'nouvelle_place' => array_filter($groupe, static fn ($sortie): bool => $sortie->hasNouvellePlaceDisponible()) !== [],
             ];
         }
         $jours = [];
@@ -49,7 +57,7 @@ final class PlanningController extends AbstractController
         }
         $alertes = [];
         foreach ($sortiesSemaine as $sortie) {
-            if ($sortie->getEtat() !== EtatSortie::AVERTIE) { continue; }
+            if ($sortie->getType() === null || $sortie->getEtat() !== EtatSortie::AVERTIE) { continue; }
             $notification = $notifications->findOneBy([
                 'sortie' => $sortie,
                 'type' => TypeNotification::AVERTISSEMENT,

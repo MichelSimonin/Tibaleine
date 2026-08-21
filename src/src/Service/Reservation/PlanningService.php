@@ -21,8 +21,18 @@ final class PlanningService
         if ($type === TypeSortie::BALEINE && $this->sorties->findOneBy(['type' => TypeSortie::BALEINE, 'date' => $date, 'heureDepart' => $heure]) !== null) {
             throw new RegleMetierException('Une seule sortie baleine est autorisée sur ce créneau.');
         }
-        $duree = match ($type) { TypeSortie::BALEINE => '02:30', TypeSortie::DAUPHIN => '02:00', TypeSortie::PRIVATISATION => '03:00' };
-        $sortie = (new Sortie())->setType($type)->setDate($date)->setHeureDepart($heure)->setDuree(new \DateTimeImmutable($duree, $heure->getTimezone()))->setBateau($bateau);
+        $creneau = $this->sorties->findOneBy(['date' => $date, 'heureDepart' => $heure, 'bateau' => $bateau]);
+        if ($creneau !== null && $creneau->getType() !== null) {
+            throw new RegleMetierException('Ce bateau est déjà affecté sur ce créneau.');
+        }
+        $sortiesDuCreneau = $this->sorties->findBy(['date' => $date, 'heureDepart' => $heure]);
+        if ($type === TypeSortie::PRIVATISATION && array_filter($sortiesDuCreneau, static fn (Sortie $sortie): bool => $sortie->getType() !== null)) {
+            throw new RegleMetierException('La privatisation est impossible lorsqu’une autre sortie est déjà affectée au créneau.');
+        }
+        if ($type !== TypeSortie::PRIVATISATION && array_filter($sortiesDuCreneau, static fn (Sortie $sortie): bool => $sortie->getType() === TypeSortie::PRIVATISATION)) {
+            throw new RegleMetierException('Ce créneau est déjà réservé à une privatisation.');
+        }
+        $sortie = ($creneau ?? (new Sortie())->setDate($date)->setHeureDepart($heure)->setBateau($bateau))->setType($type);
         $this->em->persist($sortie);
         $this->em->flush();
         return $sortie;

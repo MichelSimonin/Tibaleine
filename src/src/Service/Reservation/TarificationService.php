@@ -16,14 +16,16 @@ final class TarificationService
 
     public function calculer(Sortie $sortie, int $adultes, int $enfants): string
     {
-        if ($sortie->getType() === TypeSortie::PRIVATISATION) {
+        $type = $sortie->getType();
+        if ($type === null) { throw new RegleMetierException('Le type de sortie doit être sélectionné avant le calcul du tarif.'); }
+        if ($type === TypeSortie::PRIVATISATION) {
             $tarif = $this->tarifs->findOneBy(['typeSortie' => TypeSortie::PRIVATISATION, 'bateau' => $sortie->getBateau()]);
             if ($tarif === null) { throw new RegleMetierException('Tarif de privatisation introuvable.'); }
             return $tarif->getMontant();
         }
 
-        $adulte = $this->tarifs->findOneBy(['typeSortie' => $sortie->getType(), 'categorie' => 'adulte']);
-        $enfant = $this->tarifs->findOneBy(['typeSortie' => $sortie->getType(), 'categorie' => 'enfant']);
+        $adulte = $this->tarifs->findOneBy(['typeSortie' => $type, 'categorie' => 'adulte']);
+        $enfant = $this->tarifs->findOneBy(['typeSortie' => $type, 'categorie' => 'enfant']);
         if ($adulte === null || $enfant === null) { throw new RegleMetierException('Tarifs de la sortie introuvables.'); }
 
         $total = Montant::enCentimes($adulte->getMontant()) * $adultes

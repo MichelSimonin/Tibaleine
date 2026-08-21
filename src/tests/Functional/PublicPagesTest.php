@@ -24,4 +24,16 @@ final class PublicPagesTest extends WebTestCase
         $client->request('GET', '/planning/hotel');
         self::assertResponseRedirects('http://localhost/connexion');
     }
+
+    public function test_CASE_BOOK_01_planning_propose_les_types_dynamiquement_par_creneau(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/planning');
+        self::assertResponseIsSuccessful();
+        self::assertSelectorTextContains('.planning-help', 'horaire');
+        self::assertSelectorExists('.slot-group');
+        self::assertSelectorTextContains('.planning-page', 'Baleines');
+        self::assertSelectorTextContains('.planning-page', 'Dauphins');
+        self::assertSelectorTextContains('.planning-page', 'Privatisation');
+    }
 }

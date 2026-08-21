@@ -61,9 +61,11 @@ final class ReservationService
 
             $this->reservationsHotel->valider($utilisateur, $sortie, $places);
             $hotel = $this->reservationsHotel->estHotel($utilisateur);
+            $type = $sortie->getType();
+            if ($type === null) { throw new RegleMetierException('Le type de sortie n’a pas été sélectionné.'); }
 
             $montant = $this->tarification->calculer($sortie, $demande->nbAdultes, $demande->nbEnfants);
-            $acompte = $hotel ? '0.00' : $this->calculAcompte->calculer($montant, $sortie->getType());
+            $acompte = $hotel ? '0.00' : $this->calculAcompte->calculer($montant, $type);
             $reservation = (new Reservation())->setUtilisateur($utilisateur)->setSortie($sortie)
                 ->setNbAdultes($demande->nbAdultes)->setNbEnfants($demande->nbEnfants)
                 ->setMontantInitial($montant)->setMontantCourant($montant)->setAcompte($acompte)

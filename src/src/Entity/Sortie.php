@@ -21,8 +21,8 @@ class Sortie
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(enumType: TypeSortie::class)]
-    private TypeSortie $type;
+    #[ORM\Column(enumType: TypeSortie::class, nullable: true)]
+    private ?TypeSortie $type = null;
 
     #[ORM\Column(type: 'date_immutable')]
     private \DateTimeImmutable $date;
@@ -61,8 +61,19 @@ class Sortie
     }
 
     public function getId(): ?int { return $this->id; }
-    public function getType(): TypeSortie { return $this->type; }
-    public function setType(TypeSortie $type): self { $this->type = $type; return $this; }
+    public function getType(): ?TypeSortie { return $this->type; }
+    public function setType(TypeSortie $type): self
+    {
+        $this->type = $type;
+        $this->duree = new \DateTimeImmutable(match ($type) {
+            TypeSortie::BALEINE => '02:30',
+            TypeSortie::DAUPHIN => '02:00',
+            TypeSortie::PRIVATISATION => '03:00',
+        }, $this->heureDepart->getTimezone());
+        return $this;
+    }
+    public function libererType(): self { $this->type = null; $this->etat = EtatSortie::PLANIFIEE; return $this; }
+    public function estAffectee(): bool { return $this->type !== null; }
     public function getDate(): \DateTimeImmutable { return $this->date; }
     public function setDate(\DateTimeImmutable $date): self { $this->date = $date; return $this; }
     public function getHeureDepart(): \DateTimeImmutable { return $this->heureDepart; }

@@ -31,6 +31,7 @@ use App\Service\Facturation\FacturationHotelService;
 use App\Service\Notification\AlerteMeteoService;
 use App\Service\Paiement\SoldeService;
 use App\Service\Reservation\BlocagePlacesService;
+use App\Service\Reservation\DisponibiliteCreneauService;
 use App\Service\Reservation\EmbarquementService;
 use App\Service\Reservation\ModificationReservationService;
 use App\Service\Reservation\PlanningService;
@@ -91,6 +92,54 @@ final class CorrectifsAuditTest extends KernelTestCase
             self::assertSame('Ce créneau n’est plus disponible à la réservation.', $e->getMessage());
             self::assertStringNotContainsString('places', $e->getMessage());
         }
+    }
+
+    public function test_CASE_BOOK_01_10_types_dynamiques_et_privatisation_exclusive(): void
+    {
+        $maintenant = new \DateTimeImmutable('2030-01-01 10:00', new \DateTimeZone('Indian/Reunion'));
+        [$petit, $grand] = $this->creneauLibre($maintenant->modify('+1 day'));
+        $this->em->flush();
+
+        $disponibilite = self::getContainer()->get(DisponibiliteCreneauService::class);
+        $options = $disponibilite->options([$petit, $grand], $maintenant);
+        self::assertCount(4, $options);
+        self::assertSame(1, count(array_filter($options, static fn (array $option): bool => $option['type'] === TypeSortie::BALEINE)));
+        self::assertSame(1, count(array_filter($options, static fn (array $option): bool => $option['type'] === TypeSortie::DAUPHIN)));
+        self::assertSame(2, count(array_filter($options, static fn (array $option): bool => $option['type'] === TypeSortie::PRIVATISATION)));
+
+        $blocages = self::getContainer()->get(BlocagePlacesService::class);
+        $blocageBaleine = $blocages->demarrerPourCreneau($petit, TypeSortie::BALEINE, null, null, $maintenant);
+        self::assertSame(TypeSortie::BALEINE, $blocageBaleine->getSortie()->getType());
+        self::assertSame(24, $blocageBaleine->getSortie()->getBateau()->getCapacite());
+
+        $optionsApresSelection = $disponibilite->options([$petit, $grand], $maintenant);
+        self::assertNotEmpty(array_filter($optionsApresSelection, static fn (array $option): bool => $option['type'] === TypeSortie::BALEINE));
+        self::assertNotEmpty(array_filter($optionsApresSelection, static fn (array $option): bool => $option['type'] === TypeSortie::DAUPHIN));
+        self::assertEmpty(array_filter($optionsApresSelection, static fn (array $option): bool => $option['type'] === TypeSortie::PRIVATISATION));
+
+        try {
+            $blocages->demarrerPourCreneau($petit, TypeSortie::PRIVATISATION, $petit->getBateau()->getId(), null, $maintenant);
+            self::fail('La privatisation devait être refusée après la sélection d’une sortie standard.');
+        } catch (RegleMetierException $e) {
+            self::assertStringContainsString('une sortie est déjà sélectionnée', $e->getMessage());
+        }
+    }
+
+    public function test_CASE_BOOK_10_privatisation_bloque_tous_les_types_standards(): void
+    {
+        $maintenant = new \DateTimeImmutable('2030-01-01 10:00', new \DateTimeZone('Indian/Reunion'));
+        [$petit, $grand] = $this->creneauLibre($maintenant->modify('+2 days'));
+        $this->em->flush();
+
+        $blocages = self::getContainer()->get(BlocagePlacesService::class);
+        $blocage = $blocages->demarrerPourCreneau($petit, TypeSortie::PRIVATISATION, $petit->getBateau()->getId(), null, $maintenant);
+        self::assertSame(TypeSortie::PRIVATISATION, $blocage->getSortie()->getType());
+        self::assertSame(12, $blocage->getSortie()->getBateau()->getCapacite());
+        self::assertSame([], self::getContainer()->get(DisponibiliteCreneauService::class)->options([$petit, $grand], $maintenant));
+
+        $this->expectException(RegleMetierException::class);
+        $this->expectExceptionMessage('Ce créneau est réservé à une privatisation.');
+        $blocages->demarrerPourCreneau($grand, TypeSortie::DAUPHIN, null, null, $maintenant);
     }
 
     public function test_CASE_ALERT_01_03_et_HOTEL_notifications_ciblees_bilingues(): void
@@ -249,6 +298,22 @@ final class CorrectifsAuditTest extends KernelTestCase
         $this->em->persist($bateau);
         $this->em->persist($sortie);
         return $sortie;
+    }
+
+    /** @return array{Sortie, Sortie} */
+    private function creneauLibre(\DateTimeImmutable $depart): array
+    {
+        $petitBateau = new Bateau('Petit-'.bin2hex(random_bytes(6)), 12);
+        $grandBateau = new Bateau('Grand-'.bin2hex(random_bytes(6)), 24);
+        $petit = (new Sortie())->setDate($depart->setTime(0, 0))
+            ->setHeureDepart(new \DateTimeImmutable($depart->format('H:i'), $depart->getTimezone()))->setBateau($petitBateau);
+        $grand = (new Sortie())->setDate($depart->setTime(0, 0))
+            ->setHeureDepart(new \DateTimeImmutable($depart->format('H:i'), $depart->getTimezone()))->setBateau($grandBateau);
+        $this->em->persist($petitBateau);
+        $this->em->persist($grandBateau);
+        $this->em->persist($petit);
+        $this->em->persist($grand);
+        return [$petit, $grand];
     }
 
     private function reservation(

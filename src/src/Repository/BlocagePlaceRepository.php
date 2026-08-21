@@ -28,4 +28,12 @@ final class BlocagePlaceRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('b')->delete()->andWhere('b.expireLe <= :maintenant')
             ->setParameter('maintenant', $maintenant)->getQuery()->execute();
     }
+
+    /** @return list<BlocagePlace> */
+    public function findExpired(\DateTimeImmutable $maintenant): array
+    {
+        return $this->createQueryBuilder('b')->addSelect('s')->join('b.sortie', 's')
+            ->andWhere('b.expireLe <= :maintenant')->setParameter('maintenant', $maintenant)
+            ->getQuery()->getResult();
+    }
 }

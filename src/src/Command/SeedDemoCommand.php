@@ -35,7 +35,7 @@ final class SeedDemoCommand extends Command
         $sortiesCreees = $this->sorties($bateaux);
         $this->em->flush();
 
-        $output->writeln(sprintf('<info>Données de démonstration prêtes (%d nouvelles sorties).</info>', $sortiesCreees));
+        $output->writeln(sprintf('<info>Données de démonstration prêtes (%d nouvelles disponibilités bateau).</info>', $sortiesCreees));
         $output->writeln('Comptes : client, hotel, employe et admin @tibaleine.test — mot de passe : Test1234!');
 
         return Command::SUCCESS;
@@ -106,20 +106,24 @@ final class SeedDemoCommand extends Command
         $cree = 0;
         for ($jour = 0; $jour < 28; ++$jour) {
             $date = $lundi->modify("+{$jour} days");
-            $definitions = [
-                ['07:00', TypeSortie::BALEINE, 'Grand Bleu', '02:30'],
-                ['10:00', TypeSortie::DAUPHIN, 'Ti Kap', '02:00'],
-                ['14:00', TypeSortie::PRIVATISATION, $jour % 2 === 0 ? 'Ti Kap' : 'Grand Bleu', '03:00'],
-            ];
-            foreach ($definitions as [$heure, $type, $bateauNom, $duree]) {
-                $existe = $repository->findOneBy(['date' => $date, 'heureDepart' => new \DateTimeImmutable($heure, $timezone), 'bateau' => $bateaux[$bateauNom]]);
-                if ($existe !== null) {
-                    continue;
+            foreach (['07:00', '10:00', '14:00'] as $heure) {
+                foreach ($bateaux as $bateau) {
+                    $existe = $repository->findOneBy([
+                        'date' => $date,
+                        'heureDepart' => new \DateTimeImmutable($heure, $timezone),
+                        'bateau' => $bateau,
+                    ]);
+                    if ($existe !== null) {
+                        continue;
+                    }
+                    $sortie = (new Sortie())
+                        ->setDate($date)
+                        ->setHeureDepart(new \DateTimeImmutable($heure, $timezone))
+                        ->setDuree(new \DateTimeImmutable('02:00', $timezone))
+                        ->setBateau($bateau);
+                    $this->em->persist($sortie);
+                    ++$cree;
                 }
-                $sortie = (new Sortie())->setDate($date)->setHeureDepart(new \DateTimeImmutable($heure, $timezone))
-                    ->setDuree(new \DateTimeImmutable($duree, $timezone))->setType($type)->setBateau($bateaux[$bateauNom]);
-                $this->em->persist($sortie);
-                ++$cree;
             }
         }
 

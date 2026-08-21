@@ -9,13 +9,16 @@
 .day-card > header { padding: .85rem; display: flex; justify-content: space-between; border-bottom: 1px solid var(--line); font-size: .77rem; }
 .day-card > header span { color: var(--muted); }
 .slots { padding: .35rem .65rem; }
-.slot { padding: .7rem .15rem; display: grid; grid-template-columns: 3rem 1fr auto; align-items: center; gap: .5rem; border-bottom: 1px solid var(--line); font-size: .73rem; }
-.slot:hover { color: var(--primary); }
-.slot:last-child { border-bottom: 0; }
+.slot-group { padding: .7rem .15rem; border-bottom: 1px solid var(--line); }
+.slot-group:last-child { border-bottom: 0; }
+.slot-group__heading { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-bottom: .45rem; }
 .slot-time { font-variant-numeric: tabular-nums; font-weight: 800; }
+.slot-options { display: grid; gap: .3rem; }
+.slot-option { padding: .42rem .5rem; display: flex; align-items: center; justify-content: space-between; gap: .5rem; border: 1px solid var(--line); border-radius: .35rem; background: #fff; font-size: .73rem; }
+.slot-option:hover { border-color: var(--primary); color: var(--primary); }
 .slot-detail { display: flex; flex-direction: column; }
-.slot-detail small, .slot-places { color: var(--muted); font-size: .65rem; }
-.slot--disabled { opacity: .42; pointer-events: none; }
+.slot-detail small { color: var(--muted); font-size: .65rem; }
+.slot-option--disabled { justify-content: center; color: var(--muted); background: #f8fafc; opacity: .65; }
 .no-slot { padding: 3rem .5rem; color: var(--muted); text-align: center; font-size: .75rem; }
 .planning-help { margin: 1.3rem 0 0; color: var(--muted); font-size: .73rem; text-align: right; }
 @media (max-width: 980px) { .schedule-grid { grid-template-columns: repeat(2, 1fr); } .planning-heading { align-items: flex-start; flex-direction: column; } }

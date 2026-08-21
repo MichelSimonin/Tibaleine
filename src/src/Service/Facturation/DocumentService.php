@@ -23,7 +23,7 @@ final class DocumentService
         $reservations = $document->getReservations()->toArray();
         foreach (array_slice($reservations, 0, 12) as $reservation) {
             $lignes[] = sprintf('Reservation #%d - %s - %s - %s', $reservation->getId(), $reservation->getUtilisateur()->getNomComplet(),
-                $reservation->getSortie()->getType()->label(), $reservation->getSortie()->getDate()->format('d/m/Y'));
+                $reservation->getSortie()->getType()?->label() ?? 'Non affectée', $reservation->getSortie()->getDate()->format('d/m/Y'));
         }
         if (count($reservations) > 12) { $lignes[] = sprintf('+ %d reservation(s) supplementaire(s)', count($reservations) - 12); }
         return $this->pdf->generer($lignes);
