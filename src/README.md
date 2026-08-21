@@ -36,6 +36,9 @@ test, charge quatre semaines de sorties et lance le traitement périodique des
 liens de paiement du solde. Aucune installation locale de PHP, Composer,
 Symfony ou PostgreSQL n'est nécessaire.
 
+Les dépendances Composer sont conservées dans un volume Docker dédié. Elles ne
+dépendent donc pas d'un éventuel dossier `vendor` incomplet présent sur Windows.
+
 ## Comptes de démonstration
 
 Tous les comptes utilisent le mot de passe `Test1234!` :
@@ -103,3 +106,26 @@ code de sortie `127` signale généralement un ancien script en CRLF. Vérifiez
 aussi dans VS Code que `src/.docker/init-project.sh` et
 `src/.docker/run-worker.sh` affichent `LF` en bas à droite, puis relancez la
 reconstruction avec `--no-cache`.
+
+### Erreur « Symfony Runtime is missing »
+
+`symfony/runtime` est déjà déclaré par le projet. Il ne faut pas exécuter
+`composer require symfony/runtime` sur la machine hôte. Cette erreur indique que
+les dépendances du conteneur sont incomplètes. Après avoir récupéré la dernière
+version du projet, relancez l'initialisation :
+
+```powershell
+git pull
+docker compose -f .\src\compose.yaml down
+docker compose -f .\src\compose.yaml build --no-cache
+docker compose -f .\src\compose.yaml up
+```
+
+Si l'erreur persiste, recréez uniquement le volume des dépendances Composer. Le
+volume PostgreSQL et ses données ne seront pas supprimés :
+
+```powershell
+docker compose -f .\src\compose.yaml down
+docker volume rm tibaleine_vendor_data
+docker compose -f .\src\compose.yaml up --build
+```

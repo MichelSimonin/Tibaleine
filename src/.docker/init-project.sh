@@ -4,6 +4,18 @@ set -eu
 
 project_dir=/var/www/html
 
+# Un volume Docker neuf appartient à root. Corrige ses droits, puis reprends
+# l'initialisation avec l'utilisateur applicatif pour conserver des fichiers
+# modifiables aussi bien depuis Linux que depuis Docker Desktop sous Windows.
+if [ "$(id -u)" -eq 0 ]; then
+    chown -R "${APP_UID:-1000}:${APP_GID:-1000}" "${project_dir}/vendor"
+    exec setpriv \
+        --reuid="${APP_UID:-1000}" \
+        --regid="${APP_GID:-1000}" \
+        --init-groups \
+        /usr/local/bin/init-project "$@"
+fi
+
 if [ ! -f "${project_dir}/composer.json" ]; then
     temporary_dir="$(mktemp -d)"
     trap 'rm -rf "${temporary_dir}"' EXIT HUP INT TERM

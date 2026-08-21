@@ -25,9 +25,10 @@ services:
       args:
         APP_UID: ${APP_UID:-1000}
         APP_GID: ${APP_GID:-1000}
-    user: "${APP_UID:-1000}:${APP_GID:-1000}"
     environment:
       APP_ENV: dev
+      APP_UID: ${APP_UID:-1000}
+      APP_GID: ${APP_GID:-1000}
       TZ: Indian/Reunion
       COMPOSER_HOME: /tmp/composer
       DATABASE_URL: "postgresql://${POSTGRES_USER:-tibaleine}:${POSTGRES_PASSWORD:-tibaleine_dev}@database:5432/${POSTGRES_DB:-tibaleine}?serverVersion=17&charset=utf8"
@@ -36,6 +37,7 @@ services:
         condition: service_healthy
     volumes:
       - .:/var/www/html
+      - vendor_data:/var/www/html/vendor
     command: ["init-project"]
     restart: "no"
 
@@ -59,6 +61,7 @@ services:
       - "${APP_PORT:-8026}:80"
     volumes:
       - .:/var/www/html
+      - vendor_data:/var/www/html/vendor
 
   worker:
     build:
@@ -78,7 +81,9 @@ services:
         condition: service_completed_successfully
     volumes:
       - .:/var/www/html
+      - vendor_data:/var/www/html/vendor
     command: ["run-tibaleine-worker"]
 
 volumes:
   postgres_data:
+  vendor_data:
