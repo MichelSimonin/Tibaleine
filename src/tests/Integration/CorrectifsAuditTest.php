@@ -78,6 +78,21 @@ final class CorrectifsAuditTest extends KernelTestCase
         }
     }
 
+    public function test_CASE_DISP_01_un_creneau_passe_affiche_un_message_de_disponibilite_pas_de_capacite(): void
+    {
+        $maintenant = new \DateTimeImmutable('2030-01-02 10:00', new \DateTimeZone('Indian/Reunion'));
+        $sortiePassee = $this->sortie($maintenant->modify('-1 day'), 12);
+        $this->em->flush();
+
+        try {
+            self::getContainer()->get(BlocagePlacesService::class)->demarrer($sortiePassee, null, $maintenant);
+            self::fail('Le créneau passé devait être refusé.');
+        } catch (RegleMetierException $e) {
+            self::assertSame('Ce créneau n’est plus disponible à la réservation.', $e->getMessage());
+            self::assertStringNotContainsString('places', $e->getMessage());
+        }
+    }
+
     public function test_CASE_ALERT_01_03_et_HOTEL_notifications_ciblees_bilingues(): void
     {
         $instant = new \DateTimeImmutable('2030-02-10 18:00', new \DateTimeZone('Indian/Reunion'));

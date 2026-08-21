@@ -34,7 +34,7 @@
                 <div class="slots">
                     {% for creneau in jour.creneaux %}
                         {% set sortie = creneau.sortie %}
-                        {% set indisponible = creneau.places < 2 or sortie.etat.value == 'annulee' or (hotel and sortie.type.value == 'privatisation') %}
+                        {% set indisponible = not creneau.reservable or (hotel and sortie.type.value == 'privatisation') %}
                         <a class="slot {{ indisponible ? 'slot--disabled' : '' }}" {% if not indisponible %}href="{{ path('app_reservation', {id: sortie.id, canal: hotel ? 'hotel' : 'client'}) }}"{% else %}aria-disabled="true"{% endif %}>
                             <span class="slot-time">{{ sortie.heureDepart|date('H:i') }}</span>
                             <span class="slot-detail"><strong>{{ sortie.type.label }}</strong><small>{{ sortie.bateau.nom }}</small></span>

@@ -7,6 +7,7 @@ namespace App\Service\Reservation;
 use App\Entity\BlocagePlace;
 use App\Entity\Sortie;
 use App\Enum\PhaseBlocage;
+use App\Enum\EtatSortie;
 use App\Exception\RegleMetierException;
 use App\Repository\BlocagePlaceRepository;
 use Doctrine\DBAL\LockMode;
@@ -31,7 +32,10 @@ final class BlocagePlacesService
         try {
             $this->em->lock($sortie, LockMode::PESSIMISTIC_WRITE);
             $this->blocages->deleteExpired($maintenant);
-            if (!$this->disponibilite->estReservable($sortie, 2, $maintenant)) {
+            if ($sortie->getEtat() === EtatSortie::ANNULEE || $sortie->getDepart() <= $maintenant->modify('+2 hours')) {
+                throw new RegleMetierException('Ce créneau n’est plus disponible à la réservation.');
+            }
+            if ($this->disponibilite->placesRestantes($sortie, $maintenant) < 2) {
                 throw new RegleMetierException('Ce créneau ne dispose plus de deux places pendant la saisie.');
             }
             $blocage = (new BlocagePlace())->setSortie($sortie)->setNombrePlaces(2)->setExpireLe($maintenant->modify('+15 minutes'));

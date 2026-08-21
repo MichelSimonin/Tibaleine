@@ -35,7 +35,11 @@ final class PlanningController extends AbstractController
         $sortiesSemaine = $sorties->findForWeek($start);
         foreach ($sortiesSemaine as $sortie) {
             $key = $sortie->getDate()->format('Y-m-d');
-            $parDate[$key][] = ['sortie' => $sortie, 'places' => $disponibilite->placesRestantes($sortie)];
+            $parDate[$key][] = [
+                'sortie' => $sortie,
+                'places' => $disponibilite->placesRestantes($sortie),
+                'reservable' => $disponibilite->estReservable($sortie, 2),
+            ];
         }
         $jours = [];
         $nomsJours = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
