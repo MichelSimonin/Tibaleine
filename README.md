@@ -87,6 +87,12 @@ bash tools/run-tests.sh
 composer test
 ```
 
+Sous Windows (PowerShell ou Invite de commandes) :
+
+```powershell
+php .\tools\test-runner.php
+```
+
 Chaque exécution complète crée aussi une trace horodatée dans
 `docs/test-reports/rapport-tests-AAAA-MM-JJ_HH-MM-SS.md`. Utilisez
 `--no-report` pour ne pas générer de fichier. Une exécution avec `--filter`
