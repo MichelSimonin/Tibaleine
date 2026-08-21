@@ -1,0 +1,11 @@
+label { display: block; margin-bottom: .38rem; font-size: .78rem; font-weight: 750; }
+input, select, textarea { width: 100%; min-height: 2.7rem; padding: .7rem .8rem; border: 1px solid #d7dce5; border-radius: var(--radius-sm); color: var(--ink); background: white; }
+textarea { min-height: 6rem; resize: vertical; }
+input:focus, select:focus, textarea:focus { outline: 3px solid rgb(21 94 239 / 14%); border-color: var(--primary); }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.15rem; }
+.form-grid > div > div { color: var(--danger); font-size: .75rem; }
+.form-wide { grid-column: 1 / -1; }
+.form-wide small, .help-text { display: block; margin-top: .35rem; color: var(--muted); font-size: .73rem; }
+.stacked-form { display: grid; gap: .55rem; }
+.stacked-form .button { margin-top: .8rem; }
+@media (max-width: 620px) { .form-grid { grid-template-columns: 1fr; } .form-wide { grid-column: auto; } }

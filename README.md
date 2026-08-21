@@ -93,6 +93,13 @@ Sous Windows (PowerShell ou Invite de commandes) :
 php .\tools\test-runner.php
 ```
 
+Les tests de l'application Symfony s'exécutent également sans installation PHP
+locale, depuis la racine du dépôt :
+
+```powershell
+docker compose -f .\src\compose.yaml exec app vendor/bin/phpunit
+```
+
 Chaque exécution complète crée aussi une trace horodatée dans
 `docs/test-reports/rapport-tests-AAAA-MM-JJ_HH-MM-SS.md`. Utilisez
 `--no-report` pour ne pas générer de fichier. Une exécution avec `--filter`

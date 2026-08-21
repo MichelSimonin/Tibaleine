@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des réservations — Ti Baleine{% endblock %}
+{% block page_styles %}<link rel="stylesheet" href="{{ asset('styles/pages/account.css') }}">{% endblock %}
+
+{% block body %}
+<section class="admin-page page-section">
+    <header class="page-heading"><p class="eyebrow">Équipe Ti Baleine</p><h1>Gestion des réservations</h1><p>{{ reservations|length }} réservation{{ reservations|length > 1 ? 's' : '' }} enregistrée{{ reservations|length > 1 ? 's' : '' }}.</p></header>
+    <section class="outing-management">
+        <h2>Prochaines sorties</h2>
+        <div class="outing-grid">
+            {% for sortie in sorties %}
+                <article>
+                    <div><strong>{{ sortie.date|date('d/m') }} · {{ sortie.heureDepart|date('H:i') }}</strong><span>{{ sortie.type.label }} — {{ sortie.bateau.nom }}</span></div>
+                    <span class="status status--{{ sortie.etat.value }}">{{ sortie.etat.value }}</span>
+                    {% if is_granted('ROLE_ADMIN') and sortie.etat.value != 'annulee' %}
+                        <details><summary>Gérer</summary>
+                            {% if sortie.etat.value == 'planifiee' %}<form method="post" action="{{ path('app_admin_avertir_sortie', {id: sortie.id}) }}"><label>Message météo FR / EN</label><textarea name="message" placeholder="Météo incertaine…"></textarea><input type="hidden" name="_token" value="{{ csrf_token('admin-avertir-' ~ sortie.id) }}"><button class="button button--outline button--tiny">Avertir</button></form>{% endif %}
+                            <form method="post" action="{{ path('app_admin_annuler_sortie', {id: sortie.id}) }}"><label>Motif d’annulation</label><input name="motif" required><input type="hidden" name="_token" value="{{ csrf_token('admin-annuler-sortie-' ~ sortie.id) }}"><button class="button button--danger button--tiny">Annuler le créneau</button></form>
+                        </details>
+                    {% endif %}
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+    <h2>Toutes les réservations</h2>
+    <div class="table-wrap">
+        <table class="admin-table">
+            <thead><tr><th>N°</th><th>Client</th><th>Sortie</th><th>Personnes</th><th>État</th><th>Paiement</th><th>Actions</th></tr></thead>
+            <tbody>
+            {% for reservation in reservations %}
+                <tr>
+                    <td>#{{ reservation.id }}</td>
+                    <td><strong>{{ reservation.utilisateur.nomComplet }}</strong><small>{{ reservation.utilisateur.email }}</small></td>
+                    <td>{{ reservation.sortie.type.label }}<small>{{ reservation.sortie.date|date('d/m/Y') }} à {{ reservation.sortie.heureDepart|date('H:i') }}</small></td>
+                    <td>{{ reservation.nombreParticipants }}</td>
+                    <td><span class="status status--{{ reservation.etat.value }}">{{ reservation.etat.label }}</span>{% if reservation.motifAnnulation %}<small>Demande : {{ reservation.motifAnnulation }}</small>{% endif %}</td>
+                    <td>{{ reservation.statutPaiement.label }}<small>Solde : {{ reservation.solde|number_format(2, ',', ' ') }} €</small></td>
+                    <td class="table-actions">
+                        {% if is_granted('ROLE_ADMIN') and reservation.etat.value == 'reservee' %}
+                            {% if reservation.solde > 0 %}<form method="post" action="{{ path('app_admin_solde', {id: reservation.id}) }}"><input type="hidden" name="_token" value="{{ csrf_token('admin-solde-' ~ reservation.id) }}"><button class="button button--primary button--tiny">Solde payé</button></form>{% endif %}
+                            <form method="post" action="{{ path('app_admin_annuler', {id: reservation.id}) }}"><input type="hidden" name="_token" value="{{ csrf_token('admin-annuler-' ~ reservation.id) }}"><button class="button button--danger button--tiny">Annuler</button></form>
+                        {% else %}<span>Consultation</span>{% endif %}
+                    </td>
+                </tr>
+            {% else %}<tr><td colspan="7">Aucune réservation.</td></tr>{% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

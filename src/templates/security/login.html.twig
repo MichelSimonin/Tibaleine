@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion — Ti Baleine{% endblock %}
+{% block page_styles %}<link rel="stylesheet" href="{{ asset('styles/pages/account.css') }}">{% endblock %}
+
+{% block body %}
+<section class="auth-card">
+    <p class="eyebrow">Votre espace</p>
+    <h1>Se connecter</h1>
+    {% if error %}<div class="flash flash--error">Identifiants incorrects.</div>{% endif %}
+    <form method="post" class="stacked-form">
+        <label for="username">Adresse email</label>
+        <input id="username" name="_username" type="email" value="{{ last_username }}" autocomplete="email" required autofocus>
+        <label for="password">Mot de passe</label>
+        <input id="password" name="_password" type="password" autocomplete="current-password" required>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        <button class="button button--primary button--block" type="submit">Connexion</button>
+    </form>
+    <p class="auth-note">Un compte est créé lors de votre première réservation si vous choisissez un mot de passe.</p>
+</section>
+{% endblock %}

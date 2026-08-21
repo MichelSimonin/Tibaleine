@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block title %}Informations — Ti Baleine{% endblock %}
+{% block page_styles %}<link rel="stylesheet" href="{{ asset('styles/pages/content.css') }}">{% endblock %}
+{% block body %}
+<section class="info-page page-section">
+    <header class="page-heading"><p class="eyebrow">Préparer votre sortie</p><h1>Informations pratiques</h1></header>
+    <div class="info-grid">
+        <article><span>01</span><h2>Horaires</h2><p>Les départs habituels ont lieu à 7 h, 10 h et 14 h. Une sortie baleines dure 2 h 30 et une sortie dauphins 2 h.</p></article>
+        <article><span>02</span><h2>Conditions de remboursement</h2><p>Remboursement intégral à plus de 7 jours, puis 75 % entre 7 jours et 48 heures. À moins de 48 heures, les frais sont de 50 % du montant initial.</p></article>
+        <article><span>03</span><h2>Enfants et embarquement</h2><p>Les sorties sont accessibles à partir de 4 ans. Le tarif enfant s’applique de 4 à 11 ans. Une réservation concerne au minimum deux personnes.</p></article>
+        <article><span>04</span><h2>Météo</h2><p>Une alerte peut être publiée la veille à 18 h. En cas d’annulation par l’entreprise, vous choisissez entre remboursement intégral et report.</p></article>
+    </div>
+</section>
+{% endblock %}

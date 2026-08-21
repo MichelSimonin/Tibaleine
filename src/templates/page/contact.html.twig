@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block title %}Contact — Ti Baleine{% endblock %}
+{% block page_styles %}<link rel="stylesheet" href="{{ asset('styles/pages/content.css') }}">{% endblock %}
+{% block body %}
+<section class="contact-page page-section">
+    <header class="page-heading"><p class="eyebrow">Une question ?</p><h1>Contact</h1><p>Notre équipe vous accompagne avant et après votre réservation.</p></header>
+    <div class="contact-grid">
+        <a class="contact-card" href="tel:+262692000000"><span class="contact-icon contact-icon--coral">☎</span><div><small>Téléphone</small><strong>+262 692 00 00 00</strong></div></a>
+        <a class="contact-card" href="mailto:contact@tibaleine.test"><span class="contact-icon contact-icon--blue">@</span><div><small>Email</small><strong>contact@tibaleine.test</strong></div></a>
+        <a class="contact-card" href="https://www.instagram.com/" rel="noopener noreferrer"><span class="contact-icon contact-icon--green">◎</span><div><small>Réseaux</small><strong>Instagram & Facebook</strong></div></a>
+    </div>
+</section>
+{% endblock %}

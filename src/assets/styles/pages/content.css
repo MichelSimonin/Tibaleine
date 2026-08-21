@@ -1,0 +1,13 @@
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 6vw, 5rem); }
+.info-grid article { padding-top: 1.5rem; position: relative; border-top: 1px solid var(--line); }
+.info-grid article > span { position: absolute; top: -1rem; right: 0; color: #edf0f5; font-size: 4rem; font-weight: 900; }
+.info-grid h2 { position: relative; font-size: 1.05rem; }
+.info-grid p { color: var(--ink-soft); font-size: .9rem; }
+.contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.contact-card { min-height: 170px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 8px 24px rgb(17 24 39 / 6%); }
+.contact-card:hover { border-color: #aab8d3; transform: translateY(-2px); }
+.contact-card div { display: flex; flex-direction: column; }
+.contact-card small { color: var(--muted); }
+.contact-icon { width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: .5rem; }
+.contact-icon--coral { color: #c4320a; background: #fff4ed; }.contact-icon--blue { color: #3538cd; background: #eef4ff; }.contact-icon--green { color: #067647; background: #ecfdf3; }
+@media (max-width: 700px) { .info-grid, .contact-grid { grid-template-columns: 1fr; } }

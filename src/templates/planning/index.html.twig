@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Planning des sorties — Ti Baleine{% endblock %}
+{% block page_styles %}<link rel="stylesheet" href="{{ asset('styles/pages/planning.css') }}">{% endblock %}
+
+{% block body %}
+<section class="planning-page">
+    <header class="planning-heading">
+        <div>
+            <p class="eyebrow">{{ hotel ? 'Espace partenaire' : 'Réservation en ligne' }}</p>
+            <h1>Réservation de la semaine</h1>
+        </div>
+        <nav class="week-nav" aria-label="Changer de semaine">
+            <a class="button button--outline button--small" href="{{ path(hotel ? 'app_planning_hotel' : 'app_planning', {semaine: precedent|date('Y-m-d')}) }}">← Précédente</a>
+            <span>Du {{ debut|date('d/m') }} au {{ debut|date_modify('+6 days')|date('d/m/Y') }}</span>
+            <a class="button button--outline button--small" href="{{ path(hotel ? 'app_planning_hotel' : 'app_planning', {semaine: suivant|date('Y-m-d')}) }}">Suivante →</a>
+        </nav>
+    </header>
+
+    {% if hotel %}
+        <div class="partner-notice">Les réservations hôtel sont limitées à 6 personnes, sans acompte et hors privatisation.</div>
+    {% endif %}
+    {% if alertes %}
+        <div class="weather-alert" role="alert"><strong>Alerte météo</strong> Des conditions incertaines concernent {{ alertes|length }} sortie{{ alertes|length > 1 ? 's' : '' }} cette semaine. Les créneaux restent maintenus et peuvent être annulés sans frais.</div>
+    {% endif %}
+
+    <div class="schedule-grid">
+        {% for jour in jours %}
+            <article class="day-card">
+                <header><strong>{{ jour.libelle|capitalize }}</strong><span>{{ jour.date|date('d/m') }}</span></header>
+                <div class="slots">
+                    {% for creneau in jour.creneaux %}
+                        {% set sortie = creneau.sortie %}
+                        {% set indisponible = creneau.places < 2 or sortie.etat.value != 'planifiee' or (hotel and sortie.type.value == 'privatisation') %}
+                        <a class="slot {{ indisponible ? 'slot--disabled' : '' }}" {% if not indisponible %}href="{{ path('app_reservation', {id: sortie.id, canal: hotel ? 'hotel' : 'client'}) }}"{% else %}aria-disabled="true"{% endif %}>
+                            <span class="slot-time">{{ sortie.heureDepart|date('H:i') }}</span>
+                            <span class="slot-detail"><strong>{{ sortie.type.label }}</strong><small>{{ sortie.bateau.nom }}</small></span>
+                            <span class="slot-places">{{ creneau.places }} place{{ creneau.places > 1 ? 's' : '' }}</span>
+                        </a>
+                    {% else %}
+                        <p class="no-slot">Aucune sortie</p>
+                    {% endfor %}
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+    <p class="planning-help">Sélectionnez un créneau disponible pour poursuivre votre réservation.</p>
+</section>
+{% endblock %}

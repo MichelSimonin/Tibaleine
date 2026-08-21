@@ -1,0 +1,7 @@
+.site-header { width: min(calc(100% - 3rem), var(--content)); margin: 0 auto; padding: 1.6rem 0; display: flex; align-items: center; justify-content: space-between; gap: 2rem; border-bottom: 1px solid var(--line); }
+.brand { font-size: clamp(1.25rem, 2vw, 1.65rem); font-weight: 900; letter-spacing: -.055em; }
+.main-nav { display: flex; align-items: center; gap: clamp(1rem, 3vw, 2.2rem); font-size: .78rem; }
+.main-nav a { padding: .35rem 0; color: var(--ink-soft); }
+.main-nav a:hover, .main-nav a[aria-current="page"] { color: var(--primary); }
+.main-nav .nav-strong { color: var(--ink); font-weight: 800; }
+@media (max-width: 620px) { .site-header { width: calc(100% - 2rem); align-items: flex-start; } .main-nav { max-width: 65%; flex-wrap: wrap; justify-content: flex-end; gap: .5rem 1rem; } }

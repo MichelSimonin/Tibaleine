@@ -34,7 +34,9 @@ RUN apt-get update \
 
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 COPY .docker/apache-vhost.conf /etc/apache2/sites-available/000-default.conf
+COPY .docker/php.ini /usr/local/etc/php/conf.d/tibaleine.ini
 COPY --chmod=0755 .docker/init-project.sh /usr/local/bin/init-project
+COPY --chmod=0755 .docker/run-worker.sh /usr/local/bin/run-tibaleine-worker
 
 WORKDIR /var/www/html
 

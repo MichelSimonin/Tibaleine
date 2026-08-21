@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réserver une sortie — Ti Baleine{% endblock %}
+{% block page_styles %}<link rel="stylesheet" href="{{ asset('styles/pages/reservation.css') }}">{% endblock %}
+
+{% block body %}
+<section class="booking-page">
+    <header class="booking-heading">
+        <p class="eyebrow">Encore une étape</p>
+        <h1>Réserver pour le {{ sortie.date|date('d/m/Y') }} à {{ sortie.heureDepart|date('H:i') }}</h1>
+        <p>{{ sortie.type.label }} · {{ sortie.bateau.nom }} · {{ places }} places restantes</p>
+    </header>
+
+    {{ form_start(form, {attr: {class: 'booking-form'}}) }}
+        <div class="form-grid">
+            {{ form_row(form.prenom) }}
+            {{ form_row(form.nom) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.telephone) }}
+            {{ form_row(form.nbAdultes) }}
+            {{ form_row(form.nbEnfants) }}
+            <div class="form-wide">{{ form_row(form.motDePasse) }}</div>
+        </div>
+        <div class="booking-summary">
+            <div><span>Tarif indicatif pour 2 adultes</span><strong>{{ prix_exemple ? prix_exemple|number_format(2, ',', ' ') ~ ' €' : 'Calculé à la validation' }}</strong></div>
+            <p>Le montant exact et l’acompte éventuel sont calculés avant confirmation. Les paiements de cette V1 sont simulés et tracés.</p>
+        </div>
+        <button class="button button--primary button--block" type="submit">Valider et simuler le paiement</button>
+    {{ form_end(form) }}
+</section>
+{% endblock %}

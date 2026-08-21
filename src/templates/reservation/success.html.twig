@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réservation confirmée — Ti Baleine{% endblock %}
+{% block page_styles %}<link rel="stylesheet" href="{{ asset('styles/pages/reservation.css') }}">{% endblock %}
+
+{% block body %}
+<section class="success-card">
+    <span class="success-mark" aria-hidden="true">✓</span>
+    <p class="eyebrow">Réservation confirmée</p>
+    <h1>À bientôt sur l’océan !</h1>
+    <p>Votre réservation <strong>n° {{ reservation.id }}</strong> pour la sortie {{ reservation.sortie.type.label|lower }} du {{ reservation.sortie.date|date('d/m/Y') }} à {{ reservation.sortie.heureDepart|date('H:i') }} est enregistrée.</p>
+    <dl class="success-details">
+        <div><dt>Participants</dt><dd>{{ reservation.nombreParticipants }}</dd></div>
+        <div><dt>Total</dt><dd>{{ reservation.montantInitial|number_format(2, ',', ' ') }} €</dd></div>
+        <div><dt>Acompte payé</dt><dd>{{ reservation.acompte|number_format(2, ',', ' ') }} €</dd></div>
+        <div><dt>Solde sur place</dt><dd>{{ reservation.solde|number_format(2, ',', ' ') }} €</dd></div>
+    </dl>
+    <div class="hero-actions">
+        {% if app.user %}<a class="button button--primary" href="{{ path('app_compte') }}">Voir mon compte</a>{% endif %}
+        <a class="button button--outline" href="{{ path('app_planning') }}">Retour au planning</a>
+    </div>
+</section>
+{% endblock %}
