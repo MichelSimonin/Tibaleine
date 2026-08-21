@@ -51,7 +51,7 @@ décoratif : c'est ce qui permet de distinguer un arbitrage d'un acquiescement.
 
 ## J1 — 10/08/2026
 
-**Présents.**
+**Présents.** Kery, Michel, Emie, Maxime
 
 **Décisions.**
 
@@ -73,9 +73,10 @@ décoratif : c'est ce qui permet de distinguer un arbitrage d'un acquiescement.
 
 ## **Questions ouvertes pour le client.**
 
+
 ## J2 — 11/08/2026
 
-**Présents.**
+**Présents.**Kery, Michel, Emie, Maxime
 
 **Décisions.**
 
@@ -95,9 +96,10 @@ décoratif : c'est ce qui permet de distinguer un arbitrage d'un acquiescement.
 
 ## **Questions ouvertes pour le client.**
 
+
 ## J3 — 12/08/2026
 
-**Présents.**
+**Présents.**Kery, Michel, Emie, Maxime
 
 **Décisions.**
 
@@ -119,9 +121,10 @@ décoratif : c'est ce qui permet de distinguer un arbitrage d'un acquiescement.
 
 ## **Questions ouvertes pour le client.**
 
+
 ## J4 — 13/08/2026
 
-**Présents.**
+**Présents.**Kery, Michel, Emie, Maxime
 
 **Décisions.**
 
@@ -143,9 +146,10 @@ décoratif : c'est ce qui permet de distinguer un arbitrage d'un acquiescement.
 
 ## **Questions ouvertes pour le client.**
 
+
 ## J5 — 14/08/2026
 
-**Présents.**
+**Présents.**Kery, Michel, Emie, Maxime
 
 **Décisions.**
 
@@ -167,9 +171,10 @@ décoratif : c'est ce qui permet de distinguer un arbitrage d'un acquiescement.
 
 ## **Questions ouvertes pour le client.**
 
+
 ## J6 — 17/08/2026
 
-**Présents.**
+**Présents.**Kery, Michel, Emie, Maxime
 
 **Décisions.**
 
@@ -193,7 +198,82 @@ décoratif : c'est ce qui permet de distinguer un arbitrage d'un acquiescement.
 
 ## J8 — 18/08/2026
 
-**Présents.**
+**Présents.**Kery, Michel, Emie, Maxime
+
+**Décisions.**
+
+**Critiques de l'IA acceptées.**
+
+- propositions et reformulation de certaines délégations acceptées.
+
+**Critiques de l'IA refusées, et pourquoi.**
+
+- Certains délégations crés en entier refusé, car incorrect.
+
+**Erreurs produites par l'IA et détectées.**
+
+- Sans objet.
+
+**Ce qui a été généré aujourd'hui.**
+
+- Fichier de délégation
+
+## **Questions ouvertes pour le client.**
+
+
+## J9 — 19/08/2026
+
+**Présents.**Kery, Michel, Emie, Maxime
+
+**Décisions.**
+
+**Critiques de l'IA acceptées.**
+
+- propositions et reformulation de certaines délégations acceptées.
+
+**Critiques de l'IA refusées, et pourquoi.**
+
+- Certains délégations crés en entier refusé, car incorrect.
+
+**Erreurs produites par l'IA et détectées.**
+
+- Sans objet.
+
+**Ce qui a été généré aujourd'hui.**
+
+- Fichier de délégation
+
+## **Questions ouvertes pour le client.**
+
+
+## J10 — 20/08/2026
+
+**Présents.**Kery, Michel, Emie, Maxime
+
+**Décisions.**
+
+**Critiques de l'IA acceptées.**
+
+- propositions et reformulation de certaines délégations acceptées.
+
+**Critiques de l'IA refusées, et pourquoi.**
+
+- Certains délégations crés en entier refusé, car incorrect.
+
+**Erreurs produites par l'IA et détectées.**
+
+- Sans objet.
+
+**Ce qui a été généré aujourd'hui.**
+
+- Fichier de délégation
+
+## **Questions ouvertes pour le client.**
+
+
+## J11 — 21/08/2026
+
+**Présents.**Kery, Michel, Emie, Maxime
 
 **Décisions.**
 
