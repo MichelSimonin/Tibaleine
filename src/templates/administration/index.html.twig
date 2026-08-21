@@ -23,6 +23,28 @@
             {% endfor %}
         </div>
     </section>
+    {% if is_granted('ROLE_ADMIN') and hotels %}
+        <section class="hotel-billing"><h2>Facturation hôtels</h2><div class="outing-grid">
+            {% for hotel in hotels %}<article><div><strong>{{ hotel.nomComplet }}</strong><span>{{ hotel.email }}</span></div><form method="post" action="{{ path('app_admin_facture_hotel', {id: hotel.id}) }}"><label>Mois</label><input type="month" name="mois" value="{{ 'now'|date('Y-m') }}" required><input type="hidden" name="_token" value="{{ csrf_token('admin-facture-hotel-' ~ hotel.id) }}"><button class="button button--primary button--tiny">Générer avec remise 15 %</button></form></article>{% endfor %}
+        </div></section>
+    {% endif %}
+    {% if is_granted('ROLE_ADMIN') and factures_hotel %}
+        <section class="hotel-billing"><h2>Factures hôtels émises</h2><div class="outing-grid">
+            {% for facture in factures_hotel %}
+                <article>
+                    <div><strong>{{ facture.reference }}</strong><span>{{ facture.montant|number_format(2, ',', ' ') }} € · {{ facture.dateEmission|date('d/m/Y') }}</span><a href="{{ path('app_document_pdf', {id: facture.id}) }}">Télécharger le PDF</a></div>
+                    {% if facture.regle %}
+                        <span class="status status--realisee">Réglée</span>
+                    {% else %}
+                        <form method="post" action="{{ path('app_admin_reglement_facture', {id: facture.id}) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('admin-regler-facture-' ~ facture.id) }}">
+                            <button class="button button--primary button--tiny">Enregistrer le règlement</button>
+                        </form>
+                    {% endif %}
+                </article>
+            {% endfor %}
+        </div></section>
+    {% endif %}
     <h2>Toutes les réservations</h2>
     <div class="table-wrap">
         <table class="admin-table">
@@ -40,6 +62,8 @@
                         {% if is_granted('ROLE_ADMIN') and reservation.etat.value == 'reservee' %}
                             {% if reservation.solde > 0 %}<form method="post" action="{{ path('app_admin_solde', {id: reservation.id}) }}"><input type="hidden" name="_token" value="{{ csrf_token('admin-solde-' ~ reservation.id) }}"><button class="button button--primary button--tiny">Solde payé</button></form>{% endif %}
                             <form method="post" action="{{ path('app_admin_annuler', {id: reservation.id}) }}"><input type="hidden" name="_token" value="{{ csrf_token('admin-annuler-' ~ reservation.id) }}"><button class="button button--danger button--tiny">Annuler</button></form>
+                            <details><summary>Participants</summary><form method="post" action="{{ path('app_admin_modifier', {id: reservation.id}) }}"><input type="number" name="adultes" min="0" value="{{ reservation.nbAdultes }}"><input type="number" name="enfants" min="0" value="{{ reservation.nbEnfants }}"><input type="hidden" name="_token" value="{{ csrf_token('admin-modifier-' ~ reservation.id) }}"><button class="button button--outline button--tiny">Modifier</button></form></details>
+                            <form method="post" action="{{ path('app_admin_embarquement', {id: reservation.id}) }}"><input type="hidden" name="_token" value="{{ csrf_token('admin-embarquement-' ~ reservation.id) }}"><button class="button button--outline button--tiny">Embarquement</button></form>
                         {% else %}<span>Consultation</span>{% endif %}
                     </td>
                 </tr>

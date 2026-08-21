@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Enum\UserRole;
+use App\Enum\Langue;
 use App\Repository\UtilisateurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -41,6 +42,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(enumType: UserRole::class)]
     private UserRole $role = UserRole::CLIENT;
 
+    #[ORM\Column(enumType: Langue::class)]
+    private Langue $langue = Langue::FR;
+
     /** @var Collection<int, Reservation> */
     #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Reservation::class)]
     private Collection $reservations;
@@ -61,6 +65,8 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setTelephone(?string $telephone): self { $this->telephone = $telephone ? trim($telephone) : null; return $this; }
     public function getRoleMetier(): UserRole { return $this->role; }
     public function setRoleMetier(UserRole $role): self { $this->role = $role; return $this; }
+    public function getLangue(): Langue { return $this->langue; }
+    public function setLangue(Langue $langue): self { $this->langue = $langue; return $this; }
     public function getPassword(): ?string { return $this->motDePasse; }
     public function setPassword(?string $password): self { $this->motDePasse = $password; return $this; }
     public function getUserIdentifier(): string { return $this->email; }
@@ -68,5 +74,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function eraseCredentials(): void {}
     /** @return Collection<int, Reservation> */
     public function getReservations(): Collection { return $this->reservations; }
+    public function addReservation(Reservation $reservation): self { if (!$this->reservations->contains($reservation)) { $this->reservations->add($reservation); } return $this; }
     public function getNomComplet(): string { return trim($this->prenom.' '.$this->nom); }
 }

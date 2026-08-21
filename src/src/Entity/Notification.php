@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Enum\CanalNotification;
 use App\Enum\TypeNotification;
+use App\Enum\StatutNotification;
 use App\Repository\NotificationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -29,6 +30,12 @@ class Notification
     #[ORM\Column(length: 1000, nullable: true)]
     private ?string $contenu = null;
 
+    #[ORM\Column(enumType: StatutNotification::class)]
+    private StatutNotification $statut = StatutNotification::EN_ATTENTE;
+
+    #[ORM\Column(length: 500, nullable: true)]
+    private ?string $erreur = null;
+
     #[ORM\ManyToOne]
     private ?Utilisateur $utilisateur = null;
 
@@ -45,8 +52,13 @@ class Notification
     public function getCanal(): CanalNotification { return $this->canal; }
     public function setCanal(CanalNotification $canal): self { $this->canal = $canal; return $this; }
     public function getDateEnvoi(): \DateTimeImmutable { return $this->dateEnvoi; }
+    public function setDateEnvoi(\DateTimeImmutable $date): self { $this->dateEnvoi = $date; return $this; }
     public function getContenu(): ?string { return $this->contenu; }
     public function setContenu(?string $contenu): self { $this->contenu = $contenu; return $this; }
+    public function getStatut(): StatutNotification { return $this->statut; }
+    public function marquerEnvoyee(): self { $this->statut = StatutNotification::ENVOYEE; $this->erreur = null; return $this; }
+    public function marquerEchec(string $erreur): self { $this->statut = StatutNotification::ECHEC; $this->erreur = $erreur; return $this; }
+    public function getErreur(): ?string { return $this->erreur; }
     public function getUtilisateur(): ?Utilisateur { return $this->utilisateur; }
     public function setUtilisateur(?Utilisateur $utilisateur): self { $this->utilisateur = $utilisateur; return $this; }
     public function getReservation(): ?Reservation { return $this->reservation; }

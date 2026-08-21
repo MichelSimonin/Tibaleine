@@ -23,4 +23,22 @@ final class SecurityAccessTest extends WebTestCase
         self::assertSelectorTextNotContains('body', 'Annuler le créneau');
         self::assertSelectorTextNotContains('body', 'Solde payé');
     }
+
+    public function test_CASE_AUTH_08_redirection_selon_le_role(): void
+    {
+        $client = static::createClient();
+        $em = static::getContainer()->get(EntityManagerInterface::class);
+        foreach ([
+            'client@tibaleine.test' => '/mon-compte',
+            'hotel@tibaleine.test' => '/planning/hotel',
+            'employe@tibaleine.test' => '/administration',
+            'admin@tibaleine.test' => '/administration',
+        ] as $email => $destination) {
+            $utilisateur = $em->getRepository(Utilisateur::class)->findOneBy(['email' => $email]);
+            self::assertNotNull($utilisateur);
+            $client->loginUser($utilisateur);
+            $client->request('GET', '/connexion');
+            self::assertResponseRedirects($destination);
+        }
+    }
 }

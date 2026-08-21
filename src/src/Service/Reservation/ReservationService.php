@@ -13,7 +13,6 @@ use App\Enum\CanalPaiement;
 use App\Enum\StatutPaiement;
 use App\Enum\TypeDocument;
 use App\Enum\TypePaiement;
-use App\Enum\TypeSortie;
 use App\Enum\UserRole;
 use App\Exception\RegleMetierException;
 use App\Model\ReservationRequest;
@@ -30,11 +29,12 @@ final class ReservationService
     public function __construct(
         private readonly EntityManagerInterface $em,
         private readonly UtilisateurRepository $utilisateurs,
-        private readonly DisponibiliteService $disponibilite,
         private readonly TarificationService $tarification,
         private readonly CalculAcompte $calculAcompte,
         private readonly NotificationService $notifications,
         private readonly UserPasswordHasherInterface $hasher,
+        private readonly BlocagePlacesService $blocages,
+        private readonly ReservationHotelService $reservationsHotel,
     ) {}
 
     public function reserver(Sortie $sortie, ReservationRequest $demande, ?Utilisateur $connecte = null): Reservation
@@ -43,22 +43,24 @@ final class ReservationService
         $this->em->getConnection()->beginTransaction();
         try {
             $this->em->lock($sortie, LockMode::PESSIMISTIC_WRITE);
-            if (!$this->disponibilite->estReservable($sortie, $places)) {
-                throw new RegleMetierException('Ce créneau ne dispose plus du nombre de places demandé ou le départ est trop proche.');
-            }
+            $maintenant = new \DateTimeImmutable('now', new \DateTimeZone('Indian/Reunion'));
+            $blocage = $this->blocages->preparerPaiement($demande->blocageToken, $sortie, $places, $maintenant);
 
-            $utilisateur = $connecte ?? $this->utilisateurs->findOneBy(['email' => mb_strtolower($demande->email)]);
+            $utilisateur = $connecte;
             if ($utilisateur === null) {
+                $compteExistant = $this->utilisateurs->findOneBy(['email' => mb_strtolower($demande->email)]);
+                if ($compteExistant !== null) {
+                    throw new RegleMetierException('Cette adresse est déjà liée à un compte. Connectez-vous pour réserver.');
+                }
                 $utilisateur = (new Utilisateur())->setPrenom($demande->prenom)->setNom($demande->nom)
-                    ->setEmail($demande->email)->setTelephone($demande->telephone);
+                    ->setEmail($demande->email)->setTelephone($demande->telephone)->setLangue($demande->langue);
                 if ($demande->motDePasse) { $utilisateur->setPassword($this->hasher->hashPassword($utilisateur, $demande->motDePasse)); }
                 $this->em->persist($utilisateur);
             }
+            $utilisateur->setLangue($demande->langue);
 
-            $hotel = $utilisateur->getRoleMetier() === UserRole::HOTEL;
-            if ($hotel && ($places > 6 || $sortie->getType() === TypeSortie::PRIVATISATION)) {
-                throw new RegleMetierException('Un hôtel réserve au maximum 6 places et ne peut pas privatiser un bateau.');
-            }
+            $this->reservationsHotel->valider($utilisateur, $sortie, $places);
+            $hotel = $this->reservationsHotel->estHotel($utilisateur);
 
             $montant = $this->tarification->calculer($sortie, $demande->nbAdultes, $demande->nbEnfants);
             $acompte = $hotel ? '0.00' : $this->calculAcompte->calculer($montant, $sortie->getType());
@@ -67,6 +69,7 @@ final class ReservationService
                 ->setMontantInitial($montant)->setMontantCourant($montant)->setAcompte($acompte)
                 ->setSolde($hotel ? $montant : Montant::depuisCentimes(Montant::enCentimes($montant) - Montant::enCentimes($acompte)))
                 ->setStatutPaiement($hotel ? StatutPaiement::EN_ATTENTE : StatutPaiement::ACOMPTE_PAYE);
+            $sortie->setNouvellePlaceDisponible(false);
             $this->em->persist($reservation);
 
             if (!$hotel) {
@@ -74,7 +77,7 @@ final class ReservationService
                     ->setMontant($acompte)->setReferenceExterne('test_acompte_'.bin2hex(random_bytes(8)))->confirmer();
                 $reservation->addPaiement($paiement);
                 $document = (new Document())->setType(TypeDocument::JUSTIFICATIF_ACOMPTE)
-                    ->setReference('JUS-'.strtoupper(bin2hex(random_bytes(5))));
+                    ->setReference('JUS-'.strtoupper(bin2hex(random_bytes(5))))->setMontant($acompte);
                 $reservation->setDocument($document);
                 $this->em->persist($document);
             }
@@ -82,6 +85,7 @@ final class ReservationService
             $this->em->flush();
             $patron = $this->utilisateurs->findOneBy(['role' => UserRole::ADMIN]);
             $this->notifications->tracerConfirmation($reservation, $patron);
+            $this->blocages->consommer($blocage);
             $this->em->flush();
             $this->em->getConnection()->commit();
             return $reservation;

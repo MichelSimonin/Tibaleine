@@ -111,6 +111,10 @@ Sous Windows (PowerShell ou Invite de commandes) :
 php .\tools\test-runner.php
 ```
 
+Cette commande lance les anciens CASE de conception présents dans `tests/`.
+Ils restent utiles pour la traçabilité, mais ne chargent pas l'application Symfony.
+La recette réelle du code se trouve dans `src/tests/` et se lance avec Docker :
+
 Les tests de l'application Symfony s'exécutent également sans installation PHP
 locale, depuis la racine du dépôt :
 

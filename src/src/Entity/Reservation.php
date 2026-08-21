@@ -6,6 +6,8 @@ namespace App\Entity;
 
 use App\Enum\EtatReservation;
 use App\Enum\StatutPaiement;
+use App\Enum\ChoixAnnulation;
+use App\Enum\OrigineAnnulation;
 use App\Repository\ReservationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -28,6 +30,12 @@ class Reservation
 
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $motifAnnulation = null;
+
+    #[ORM\Column(enumType: OrigineAnnulation::class, nullable: true)]
+    private ?OrigineAnnulation $origineAnnulation = null;
+
+    #[ORM\Column(enumType: ChoixAnnulation::class, nullable: true)]
+    private ?ChoixAnnulation $choixAnnulation = null;
 
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
     private string $montantInitial = '0.00';
@@ -55,8 +63,10 @@ class Reservation
     #[ORM\JoinColumn(nullable: false)]
     private Sortie $sortie;
 
-    #[ORM\ManyToOne(inversedBy: 'reservations')]
-    private ?Document $document = null;
+    /** @var Collection<int, Document> */
+    #[ORM\ManyToMany(targetEntity: Document::class, inversedBy: 'reservations', cascade: ['persist'])]
+    #[ORM\JoinTable(name: 'reservation_document')]
+    private Collection $documents;
 
     /** @var Collection<int, Paiement> */
     #[ORM\OneToMany(mappedBy: 'reservation', targetEntity: Paiement::class, cascade: ['persist'])]
@@ -66,6 +76,7 @@ class Reservation
     public function __construct()
     {
         $this->paiements = new ArrayCollection();
+        $this->documents = new ArrayCollection();
     }
 
     public function getId(): ?int { return $this->id; }
@@ -75,6 +86,10 @@ class Reservation
     public function setStatutPaiement(StatutPaiement $statut): self { $this->statutPaiement = $statut; return $this; }
     public function getMotifAnnulation(): ?string { return $this->motifAnnulation; }
     public function setMotifAnnulation(?string $motif): self { $this->motifAnnulation = $motif; return $this; }
+    public function getOrigineAnnulation(): ?OrigineAnnulation { return $this->origineAnnulation; }
+    public function setOrigineAnnulation(?OrigineAnnulation $origine): self { $this->origineAnnulation = $origine; return $this; }
+    public function getChoixAnnulation(): ?ChoixAnnulation { return $this->choixAnnulation; }
+    public function setChoixAnnulation(?ChoixAnnulation $choix): self { $this->choixAnnulation = $choix; return $this; }
     public function getMontantInitial(): string { return $this->montantInitial; }
     public function setMontantInitial(string $montant): self { $this->montantInitial = $montant; return $this; }
     public function getMontantCourant(): string { return $this->montantCourant; }
@@ -89,11 +104,14 @@ class Reservation
     public function setNbEnfants(int $nombre): self { $this->nbEnfants = $nombre; return $this; }
     public function getNombreParticipants(): int { return $this->nbAdultes + $this->nbEnfants; }
     public function getUtilisateur(): Utilisateur { return $this->utilisateur; }
-    public function setUtilisateur(Utilisateur $utilisateur): self { $this->utilisateur = $utilisateur; return $this; }
+    public function setUtilisateur(Utilisateur $utilisateur): self { $this->utilisateur = $utilisateur; $utilisateur->addReservation($this); return $this; }
     public function getSortie(): Sortie { return $this->sortie; }
-    public function setSortie(Sortie $sortie): self { $this->sortie = $sortie; return $this; }
-    public function getDocument(): ?Document { return $this->document; }
-    public function setDocument(?Document $document): self { $this->document = $document; return $this; }
+    public function setSortie(Sortie $sortie): self { if (isset($this->sortie) && $this->sortie !== $sortie) { $this->sortie->removeReservation($this); } $this->sortie = $sortie; $sortie->addReservation($this); return $this; }
+    /** @return Collection<int, Document> */
+    public function getDocuments(): Collection { return $this->documents; }
+    public function getDocument(): ?Document { $dernier = $this->documents->last(); return $dernier === false ? null : $dernier; }
+    public function setDocument(?Document $document): self { if ($document !== null) { $this->addDocument($document); } return $this; }
+    public function addDocument(Document $document): self { if (!$this->documents->contains($document)) { $this->documents->add($document); $document->addReservation($this); } return $this; }
     /** @return Collection<int, Paiement> */
     public function getPaiements(): Collection { return $this->paiements; }
     public function addPaiement(Paiement $paiement): self { if (!$this->paiements->contains($paiement)) { $this->paiements->add($paiement); $paiement->setReservation($this); } return $this; }
