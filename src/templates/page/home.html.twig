@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{% block title %}Bienvenue — Ti Baleine{% endblock %}
+{% block shell_class %}landing-shell{% endblock %}
+{% block header %}{% endblock %}
+{% block page_styles %}<link rel="stylesheet" href="{{ asset('styles/pages/home.css') }}">{% endblock %}
+{% block body %}
+<section class="hero">
+    <p class="eyebrow">Sorties en mer à La Réunion</p>
+    <h1>Bienvenue sur Ti Baleine App</h1>
+    <p class="hero-copy">Observez baleines et dauphins dans le respect de l’océan, ou privatisez un bateau pour votre sortie.</p>
+    <div class="hero-actions">
+        <a class="button button--dark" href="{{ path('app_planning') }}">Accès particulier</a>
+        <a class="button button--dark" href="{{ path('app_planning_hotel') }}">Accès professionnel</a>
+        <a class="button button--outline" href="{{ path('app_informations') }}">Plus d’info</a>
+    </div>
+    <div class="hero-visual" role="img" aria-label="Reflets colorés de l’océan au lever du jour">
+        <span class="hero-whale" aria-hidden="true">〰</span>
+        <div><strong>Deux bateaux</strong><span>12 et 24 places</span></div>
+        <div><strong>Trois expériences</strong><span>Baleines, dauphins, privatisation</span></div>
+        <div><strong>Réservation simple</strong><span>Acompte sécurisé en ligne</span></div>
+    </div>
+</section>
+{% endblock %}

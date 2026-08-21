@@ -1,0 +1,14 @@
+.auth-card { width: min(calc(100% - 2rem), 440px); margin: clamp(3rem, 8vw, 7rem) auto; padding: clamp(1.5rem, 5vw, 2.5rem); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+.auth-card h1 { font-size: 2.3rem; }
+.auth-note { margin: 1.25rem 0 0; color: var(--muted); font-size: .75rem; text-align: center; }
+.reservation-list { display: grid; gap: 1rem; }
+.reservation-card { padding: 1.3rem; display: grid; grid-template-columns: 1.5fr 1fr auto; align-items: center; gap: 2rem; border: 1px solid var(--line); border-radius: var(--radius); }
+.reservation-main h2 { margin: .45rem 0 .25rem; }.reservation-main p { margin: 0; color: var(--ink-soft); font-size: .82rem; }
+.reservation-meta { margin: 0; display: flex; gap: 1.5rem; }.reservation-meta dt { color: var(--muted); font-size: .65rem; }.reservation-meta dd { margin: 0; font-size: .8rem; font-weight: 750; }
+.status { display: inline-flex; padding: .25rem .5rem; border-radius: 999px; color: #175cd3; background: #eff8ff; font-size: .65rem; font-weight: 750; }.status--annulee { color: var(--danger); background: #fff1f0; }.status--realisee { color: var(--success); background: #ecfdf3; }
+.cancel-request { font-size: .72rem; }.cancel-request form { width: 260px; padding-top: .7rem; }.cancel-request textarea { margin-bottom: .5rem; }
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); }
+.admin-table { width: 100%; border-collapse: collapse; font-size: .75rem; }.admin-table th { color: var(--muted); background: var(--surface-soft); text-align: left; }.admin-table th, .admin-table td { padding: .8rem; border-bottom: 1px solid var(--line); vertical-align: top; }.admin-table small { margin-top: .2rem; display: block; color: var(--muted); }.table-actions { display: flex; gap: .4rem; }
+.outing-management { margin-bottom: 3rem; }.outing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .7rem; max-height: 470px; overflow: auto; }.outing-grid article { padding: .8rem; display: grid; grid-template-columns: 1fr auto; gap: .65rem; border: 1px solid var(--line); border-radius: var(--radius-sm); font-size: .72rem; }.outing-grid article > div { display: flex; flex-direction: column; }.outing-grid article > details { grid-column: 1 / -1; }.outing-grid details form { margin-top: .7rem; }.outing-grid textarea { min-height: 4rem; }.status--avertie { color: #93370d; background: #fffaeb; }.status--annulee { color: var(--danger); background: #fff1f0; }
+@media (max-width: 850px) { .reservation-card { grid-template-columns: 1fr; gap: 1rem; } .cancel-request form { width: 100%; } }
+@media (max-width: 850px) { .outing-grid { grid-template-columns: 1fr; } }

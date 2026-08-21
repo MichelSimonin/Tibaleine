@@ -1,0 +1,14 @@
+.booking-page { width: min(calc(100% - 2rem), 700px); margin: 0 auto; padding: clamp(3rem, 7vw, 5rem) 0; }
+.booking-heading { margin-bottom: 2rem; text-align: center; }
+.booking-heading h1 { font-size: clamp(1.6rem, 3vw, 2.5rem); }
+.booking-heading > p:last-child { color: var(--muted); }
+.booking-form { padding: clamp(1.2rem, 4vw, 2.25rem); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+.booking-summary { margin: 1.5rem 0; padding: 1rem; border-radius: var(--radius-sm); background: var(--surface-soft); }
+.booking-summary div { display: flex; justify-content: space-between; gap: 1rem; }
+.booking-summary p { margin: .6rem 0 0; color: var(--muted); font-size: .7rem; }
+.success-card { width: min(calc(100% - 2rem), 760px); margin: clamp(3rem, 8vw, 7rem) auto; padding: clamp(2rem, 6vw, 4rem); text-align: center; border: 1px solid var(--line); border-radius: var(--radius-lg); box-shadow: var(--shadow); }
+.success-mark { width: 3.3rem; height: 3.3rem; margin: 0 auto 1.2rem; display: grid; place-items: center; border-radius: 50%; color: white; background: var(--success); font-size: 1.5rem; }
+.success-details { margin: 2rem 0; display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); border-radius: var(--radius-sm); }
+.success-details div { padding: 1rem .5rem; border-right: 1px solid var(--line); }.success-details div:last-child { border-right: 0; }
+.success-details dt { color: var(--muted); font-size: .67rem; }.success-details dd { margin: .25rem 0 0; font-weight: 800; }
+@media (max-width: 620px) { .success-details { grid-template-columns: 1fr 1fr; } .success-details div:nth-child(2) { border-right: 0; } .success-details div:nth-child(-n+2) { border-bottom: 1px solid var(--line); } }

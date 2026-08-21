@@ -28,6 +28,7 @@ services:
     user: "${APP_UID:-1000}:${APP_GID:-1000}"
     environment:
       APP_ENV: dev
+      TZ: Indian/Reunion
       COMPOSER_HOME: /tmp/composer
       DATABASE_URL: "postgresql://${POSTGRES_USER:-tibaleine}:${POSTGRES_PASSWORD:-tibaleine_dev}@database:5432/${POSTGRES_DB:-tibaleine}?serverVersion=17&charset=utf8"
     depends_on:
@@ -47,6 +48,7 @@ services:
     restart: unless-stopped
     environment:
       APP_ENV: dev
+      TZ: Indian/Reunion
       DATABASE_URL: "postgresql://${POSTGRES_USER:-tibaleine}:${POSTGRES_PASSWORD:-tibaleine_dev}@database:5432/${POSTGRES_DB:-tibaleine}?serverVersion=17&charset=utf8"
     depends_on:
       database:
@@ -58,6 +60,25 @@ services:
     volumes:
       - .:/var/www/html
 
+  worker:
+    build:
+      context: .
+      args:
+        APP_UID: ${APP_UID:-1000}
+        APP_GID: ${APP_GID:-1000}
+    restart: unless-stopped
+    environment:
+      APP_ENV: dev
+      TZ: Indian/Reunion
+      DATABASE_URL: "postgresql://${POSTGRES_USER:-tibaleine}:${POSTGRES_PASSWORD:-tibaleine_dev}@database:5432/${POSTGRES_DB:-tibaleine}?serverVersion=17&charset=utf8"
+    depends_on:
+      database:
+        condition: service_healthy
+      init:
+        condition: service_completed_successfully
+    volumes:
+      - .:/var/www/html
+    command: ["run-tibaleine-worker"]
+
 volumes:
   postgres_data:
-

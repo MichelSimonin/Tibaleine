@@ -1,0 +1,13 @@
+<header class="site-header">
+    <a class="brand" href="{{ path('app_home') }}">Ti Baleine App</a>
+    <nav class="main-nav" aria-label="Navigation principale">
+        <a href="{{ path('app_contact') }}" {% if app.request.attributes.get('_route') == 'app_contact' %}aria-current="page"{% endif %}>Contact</a>
+        <a href="{{ path('app_informations') }}" {% if app.request.attributes.get('_route') == 'app_informations' %}aria-current="page"{% endif %}>Informations</a>
+        {% if app.user %}
+            {% if is_granted('ROLE_EMPLOYEE') %}<a href="{{ path('app_admin') }}">Gestion</a>{% else %}<a href="{{ path('app_compte') }}">Mon compte</a>{% endif %}
+            <a class="nav-strong" href="{{ path('app_logout') }}">Se déconnecter</a>
+        {% else %}
+            <a class="nav-strong" href="{{ path('app_login') }}">Se connecter</a>
+        {% endif %}
+    </nav>
+</header>

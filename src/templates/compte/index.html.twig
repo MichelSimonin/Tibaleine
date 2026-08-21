@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte — Ti Baleine{% endblock %}
+{% block page_styles %}<link rel="stylesheet" href="{{ asset('styles/pages/account.css') }}">{% endblock %}
+
+{% block body %}
+<section class="account-page page-section">
+    <header class="page-heading"><p class="eyebrow">Bonjour {{ app.user.prenom }}</p><h1>Mes réservations</h1></header>
+    <div class="reservation-list">
+        {% for reservation in reservations %}
+            <article class="reservation-card">
+                <div class="reservation-main">
+                    <div><span class="status status--{{ reservation.etat.value }}">{{ reservation.etat.label }}</span><h2>{{ reservation.sortie.type.label }}</h2></div>
+                    <p>Le {{ reservation.sortie.date|date('d/m/Y') }} à {{ reservation.sortie.heureDepart|date('H:i') }} · {{ reservation.sortie.bateau.nom }}</p>
+                </div>
+                <dl class="reservation-meta">
+                    <div><dt>Participants</dt><dd>{{ reservation.nombreParticipants }}</dd></div>
+                    <div><dt>Total</dt><dd>{{ reservation.montantInitial|number_format(2, ',', ' ') }} €</dd></div>
+                    <div><dt>Paiement</dt><dd>{{ reservation.statutPaiement.label }}</dd></div>
+                </dl>
+                {% if paiement_solde_ouvert[reservation.id] ?? false %}
+                    <form method="post" action="{{ path('app_payer_solde', {id: reservation.id}) }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token('payer-solde-' ~ reservation.id) }}">
+                        <button class="button button--primary button--small" type="submit">Payer le solde en ligne</button>
+                    </form>
+                {% endif %}
+                {% if reservation.etat.value == 'reservee' and reservation.sortie.depart > date() %}
+                    <details class="cancel-request">
+                        <summary>Demander une annulation</summary>
+                        <form method="post" action="{{ path('app_demande_annulation', {id: reservation.id}) }}">
+                            <label for="motif-{{ reservation.id }}">Motif</label>
+                            <textarea id="motif-{{ reservation.id }}" name="motif" required>{{ reservation.motifAnnulation }}</textarea>
+                            <input type="hidden" name="_token" value="{{ csrf_token('annulation-' ~ reservation.id) }}">
+                            <button class="button button--danger button--small" type="submit">Envoyer la demande</button>
+                        </form>
+                    </details>
+                {% endif %}
+            </article>
+        {% else %}
+            <div class="empty-state"><h2>Aucune réservation</h2><p>Votre prochaine aventure commence dans le planning.</p><a class="button button--primary" href="{{ path('app_planning') }}">Voir les sorties</a></div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
