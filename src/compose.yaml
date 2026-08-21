@@ -1,0 +1,63 @@
+name: tibaleine
+
+services:
+  database:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-tibaleine}
+      POSTGRES_USER: ${POSTGRES_USER:-tibaleine}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-tibaleine_dev}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    ports:
+      - "${POSTGRES_PORT:-5433}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  init:
+    build:
+      context: .
+      args:
+        APP_UID: ${APP_UID:-1000}
+        APP_GID: ${APP_GID:-1000}
+    user: "${APP_UID:-1000}:${APP_GID:-1000}"
+    environment:
+      APP_ENV: dev
+      COMPOSER_HOME: /tmp/composer
+      DATABASE_URL: "postgresql://${POSTGRES_USER:-tibaleine}:${POSTGRES_PASSWORD:-tibaleine_dev}@database:5432/${POSTGRES_DB:-tibaleine}?serverVersion=17&charset=utf8"
+    depends_on:
+      database:
+        condition: service_healthy
+    volumes:
+      - .:/var/www/html
+    command: ["init-project"]
+    restart: "no"
+
+  app:
+    build:
+      context: .
+      args:
+        APP_UID: ${APP_UID:-1000}
+        APP_GID: ${APP_GID:-1000}
+    restart: unless-stopped
+    environment:
+      APP_ENV: dev
+      DATABASE_URL: "postgresql://${POSTGRES_USER:-tibaleine}:${POSTGRES_PASSWORD:-tibaleine_dev}@database:5432/${POSTGRES_DB:-tibaleine}?serverVersion=17&charset=utf8"
+    depends_on:
+      database:
+        condition: service_healthy
+      init:
+        condition: service_completed_successfully
+    ports:
+      - "${APP_PORT:-8000}:80"
+    volumes:
+      - .:/var/www/html
+
+volumes:
+  postgres_data:
+
