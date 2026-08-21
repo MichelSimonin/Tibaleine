@@ -39,7 +39,10 @@ La conception courante distingue quatre rôles métier :
 | Patron | Gère les réservations, paiements sur place, annulations et opérations de l'entreprise. |
 
 Références : [cahier V5](cahiers_des_charges/Cahier_des_charges_200ping_V5.md),
-[MCD V3](mcd/mcd-V3.md) et [architecture](architecture.md).
+[MCD V3](mcd/mcd-V3.md), [architecture](architecture.md),
+[ADR-007](adr/ADR-007-cycle-de-vie-reservation-etat-statut.md) (état et statut
+de paiement séparés) et [ADR-008](adr/ADR-008-idempotence-paiements.md)
+(idempotence des paiements en ligne).
 
 ## 3. Diagramme de cas d'utilisation
 
@@ -227,7 +230,12 @@ erDiagram
 - une réservation appartient à un utilisateur et concerne une sortie ;
 - une sortie utilise un bateau disposant d'une capacité ;
 - une réservation peut donner lieu à plusieurs opérations financières ;
-- l'état de la réservation est séparé du statut du paiement ;
+- l'état de la réservation est séparé du statut du paiement — décision
+  documentée dans [ADR-007](adr/ADR-007-cycle-de-vie-reservation-etat-statut.md),
+  qui remplace `ADR-003` ;
+- chaque paiement porte une référence externe unique pour éviter un double
+  encaissement — décision documentée dans
+  [ADR-008](adr/ADR-008-idempotence-paiements.md) ;
 - un document peut couvrir plusieurs réservations dans le cas d'une facture
   mensuelle d'hôtel.
 
@@ -319,6 +327,12 @@ flowchart LR
 
 > Cette architecture est une cible de conception. L'application Symfony n'est
 > pas encore implémentée dans `src/`.
+
+Les services applicatifs de paiement devront respecter l'idempotence décrite
+dans [ADR-008](adr/ADR-008-idempotence-paiements.md) : toute confirmation de
+paiement (webhook Stripe ou saisie du patron) doit être vérifiée avant
+encaissement pour éviter un double paiement ou une double décrémentation des
+places.
 
 ## 10. Validation de la conception par les tests
 
